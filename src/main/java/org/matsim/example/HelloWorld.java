@@ -32,20 +32,22 @@ import org.matsim.core.scenario.ScenarioUtils;
 public class HelloWorld {
 // a comment
 
-	public static void main(String[] args) {
+	public static void helloWorld() {
 		
 		// This creates a default matsim config:
 		Config config = ConfigUtils.createConfig();
-		
-		config.controler().setLastIteration(1);
+
+		//modify configuration parameters
+		config.controler().setLastIteration(5);
 		config.controler().setOverwriteFileSetting( OverwriteFileSetting.deleteDirectoryIfExists );
 
 		// This creates a default matsim scenario (which is empty):
 		Scenario scenario = ScenarioUtils.createScenario(config) ;
 
+		//create the controller
 		Controler controler = new Controler( scenario ) ;
 
-		// This indeed runs iterations, but based on an empty scenario:
+		// This runs iterations:
 		controler.run();
 
 	}
