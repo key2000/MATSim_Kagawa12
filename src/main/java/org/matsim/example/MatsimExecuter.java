@@ -44,7 +44,7 @@ public class MatsimExecuter {
         ArrayList<Location> smallLocationList = new ArrayList<>();
 
         for (Location location : locationList){
-            if (location.getId()<401){
+            if (location.getId()<1000){
                 smallLocationList.add(location);
             }
         }
