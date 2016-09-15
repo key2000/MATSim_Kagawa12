@@ -8,6 +8,7 @@ public class Location {
     private int id;
     private double x;
     private double y;
+    private double accessibility;
 
     public Location(int id, double x, double y) {
         this.id = id;
@@ -25,5 +26,13 @@ public class Location {
 
     public double getY() {
         return y;
+    }
+
+    public void setAccessibility(double accessibility) {
+        this.accessibility = accessibility;
+    }
+
+    public double getAccessibility() {
+        return accessibility;
     }
 }

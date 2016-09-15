@@ -48,6 +48,11 @@
 			<artifactId>otfvis</artifactId>
 			<version>0.8.0</version>
 		</dependency>
+		<dependency>
+			<groupId>org.matsim</groupId>
+			<artifactId>matsim-example-project</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<build>

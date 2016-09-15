@@ -108,7 +108,7 @@ public class Zone2ZoneTravelTimeListener implements IterationEndsListener {
 //                }
             }
 
-
+            int counter =0;
             for (Location originZone : locationList) { // going over all origin zones
 
                 //for (Node originNode : zoneCalculationNodesMap.get(originZoneId)) { // several points in a given origin zone
@@ -139,6 +139,10 @@ public class Zone2ZoneTravelTimeListener implements IterationEndsListener {
 							//LeastCostPathCalculator.Path path = dijkstra.calcLeastCostPath(originLink.getFromNode(), destinationNode, timeOfDay, null, null);
                             float previousSumTravelTimeMin = travelTimesMap.get(originDestinationRelation);
                             travelTimesMap.put(originDestinationRelation, previousSumTravelTimeMin + congestedTravelTimeMin);
+                            counter++;
+                            if (counter % 10000 ==0){
+                                System.out.println("pairs already calculated = " +  counter);
+                            }
 //							System.out.println("previousSumTravelTimeMin = " + previousSumTravelTimeMin);
                         //}
                     //}
