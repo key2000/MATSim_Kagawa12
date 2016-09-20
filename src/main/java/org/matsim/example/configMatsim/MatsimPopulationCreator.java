@@ -145,7 +145,6 @@ public class MatsimPopulationCreator {
                         Coord workCoordinates = new Coord (destLoc.getX(),destLoc.getY());
 //    		Activity activity2 = matsimPopulationFactory.createActivityFromCoord("work", ct.transform(workCoordinates));
                         Activity activity2 = matsimPopulationFactory.createActivityFromCoord("work", workCoordinates);
-                        //activity2.setEndTime(time);
                         matsimPlan.addActivity(activity2);
                         //matsimPlan.addLeg(matsimPopulationFactory.createLeg(TransportMode.car));
 

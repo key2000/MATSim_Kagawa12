@@ -191,11 +191,13 @@ public class createPlanXmlDom {
         int id;
         double x;
         double y;
+        long pop;
         String[] splitData = csvLine.split("\\s*,\\s*");
         id = Integer.parseInt(splitData[0]);
         x =Double.parseDouble(splitData[1]);
         y =Double.parseDouble(splitData[2]);
-        Location location = new Location(id,x,y);
+        pop = Long.parseLong(splitData[3]);
+        Location location = new Location(id,x,y,pop);
         return location;
     }
 

@@ -1,6 +1,8 @@
 package org.matsim.example;
 
 
+
+
 import org.matsim.example.Accessibility;
 import org.matsim.api.core.v01.population.Population;
 import org.matsim.core.utils.collections.Tuple;
@@ -11,6 +13,8 @@ import org.matsim.example.configMatsim.Zone2ZoneTravelTimeListener;
 import org.matsim.example.planCreation.CentroidsToLocations;
 import org.matsim.example.planCreation.Location;
 import org.matsim.example.outputCreation.travelTimeMatrix;
+
+import org.matsim.contrib.networkEditor.run.RunNetworkEditor;
 
 
 import java.util.ArrayList;
@@ -28,17 +32,20 @@ public class MatsimExecuter {
 
     public static void main (String[] args){
 
+        //create network from OSM file
+        //CreateNetwork.createNetwork();
 
-        //read centroids
+
+        //read centroids and get list of locations
         ArrayList<Location> locationList = CentroidsToLocations.readCentroidList();
 
         //create population
-        /*Population matsimPopulation = MatsimPopulationCreator.createMatsimPopulation(locationList, 2013, true);
+        Population matsimPopulation = MatsimPopulationCreator.createMatsimPopulation(locationList, 2013, true);
 
         //create an empty map to store travel times
-        Map<Tuple<Integer, Integer>,Float> travelTimeMap = new HashMap<Tuple<Integer, Integer>, Float>();
+        Map<Tuple<Integer, Integer>,Float> travelTimeMap = new HashMap<>();
 
-        //make a subset of locations to test the calculation of travel times
+        //make a subset of locations to test the calculation of travel times (ONLY FOR TESTING)
         ArrayList<Location> smallLocationList = new ArrayList<>();
 
         for (Location location : locationList){
@@ -47,19 +54,20 @@ public class MatsimExecuter {
             }
         }
 
+
+
         //get travel times
-        travelTimeMap = MatsimRunFromJava.runMatsimToCreateTravelTimes(travelTimeMap, 1 , 1, "./input/merged_network_DHDN_GK4.xml", matsimPopulation, 2013, TransformationFactory.WGS84, 1, "travelTime", "./output", 2, 2, smallLocationList);
+        travelTimeMap = MatsimRunFromJava.runMatsimToCreateTravelTimes(travelTimeMap, 1 , 1, "./input/studyNetwork.xml", matsimPopulation, 2013, TransformationFactory.WGS84, 1, "travelTimeCap10", "./output", 10, 2, smallLocationList);
 
         //store the map in omx file
-        travelTimeMatrix.createOmxSkimMatrix(travelTimeMap,smallLocationList);*/
+        travelTimeMatrix.createOmxSkimMatrix(travelTimeMap,smallLocationList);
 
         //read omx files and calculate accessibility
-        Accessibility.calculateAccessibility(locationList);
+        Accessibility.calculateAccessibility(smallLocationList);
+        Accessibility.calculateTravelTimesToZone(smallLocationList, 10);
+        Accessibility.printAccessibility(smallLocationList);
 
-
-
-
-        //run MATSim
+        //run MATSim from file configs
         //matsimRunFromFile();
 
 

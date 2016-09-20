@@ -22,7 +22,7 @@ public class CreateNetwork {
 		/*
 		 * The input file name.
 		 */
-        String osm = "./input/merged-network.osm";
+        String osm = "./input/studyArea.osm";
 
 
 		/*
@@ -32,9 +32,11 @@ public class CreateNetwork {
 		 * UTM 33N is one such possibility (for parts of Europe, at least).
 		 *
 		 */
-        CoordinateTransformation ct =
-                TransformationFactory.getCoordinateTransformation(TransformationFactory.WGS84, "EPSG:25832");
+        /*CoordinateTransformation ct =
+                TransformationFactory.getCoordinateTransformation(TransformationFactory.WGS84, "EPSG:25832");*/
 
+        CoordinateTransformation ct =
+                TransformationFactory.getCoordinateTransformation(TransformationFactory.WGS84, "EPSG:31468");
 		/*
 		 * First, create a new Config and a new Scenario. One always has to do this when working with the MATSim
 		 * data containers.
@@ -60,7 +62,10 @@ public class CreateNetwork {
 		/*
 		 * Write the Network to a MATSim network file.
 		 */
-        new NetworkWriter(network).write("./input/network.xml");
+        new NetworkWriter(network).write("./input/studyNetwork.xml");
+
+        System.out.println("MATSIM network created");
+
 
     }
 

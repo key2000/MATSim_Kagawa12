@@ -8,12 +8,15 @@ public class Location {
     private int id;
     private double x;
     private double y;
+    private long population;
     private double accessibility;
+    private double travelTime;
 
-    public Location(int id, double x, double y) {
+    public Location(int id, double x, double y, long population) {
         this.id = id;
         this.x = x;
         this.y = y;
+        this.population = population;
     }
 
     public int getId() {
@@ -28,6 +31,10 @@ public class Location {
         return y;
     }
 
+    public long getPopulation() {
+        return population;
+    }
+
     public void setAccessibility(double accessibility) {
         this.accessibility = accessibility;
     }
@@ -35,4 +42,13 @@ public class Location {
     public double getAccessibility() {
         return accessibility;
     }
+
+    public double getTravelTime() {
+        return travelTime;
+    }
+
+    public void setTravelTime(double travelTime) {
+        this.travelTime = travelTime;
+    }
 }
+

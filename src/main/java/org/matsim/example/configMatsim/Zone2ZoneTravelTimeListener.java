@@ -9,7 +9,9 @@ import java.io.FileWriter;
 import java.util.*;
 
 import org.apache.log4j.Logger;
+import org.matsim.analysis.TravelDistanceStats;
 import org.matsim.api.core.v01.Coord;
+import org.matsim.api.core.v01.Id;
 import org.matsim.api.core.v01.network.Link;
 import org.matsim.api.core.v01.network.Network;
 import org.matsim.api.core.v01.network.Node;
@@ -26,6 +28,7 @@ import org.matsim.core.controler.OutputDirectoryHierarchy;
 import org.matsim.core.controler.events.IterationEndsEvent;
 import org.matsim.core.controler.listener.IterationEndsListener;
 import org.matsim.core.network.NetworkUtils;
+import org.matsim.core.router.Dijkstra;
 import org.matsim.core.router.util.LeastCostPathCalculator;
 import org.matsim.core.router.util.TravelDisutility;
 import org.matsim.core.router.util.TravelTime;
@@ -34,9 +37,9 @@ import org.matsim.core.scenario.ScenarioUtils;
 import org.matsim.core.utils.collections.Tuple;
 import org.matsim.example.planCreation.Location;
 import org.matsim.utils.leastcostpathtree.LeastCostPathTree;
+import org.matsim.utils.leastcostpathtree.LeastCostPathTree.NodeData;
 import org.matsim.vehicles.Vehicle;
 import org.opengis.feature.simple.SimpleFeature;
-
 
 
 /**
@@ -78,10 +81,13 @@ public class Zone2ZoneTravelTimeListener implements IterationEndsListener {
             log.info("Starting to calculate average zone-to-zone travel times based on MATSim.");
 
             TravelTime travelTime = controler.getLinkTravelTimes();
+
             TravelDisutility travelDisutility = controler.getTravelDisutilityFactory().createTravelDisutility(travelTime);
-//			TravelDisutility travelTimeAsTravelDisutility = new MyTravelTimeDisutility(controler.getLinkTravelTimes());
+			//FOR PATH
+//            TravelDisutility travelTimeAsTravelDisutility = new MyTravelTimeDisutility(controler.getLinkTravelTimes());
 
             LeastCostPathTree leastCoastPathTree = new LeastCostPathTree(travelTime, travelDisutility);
+//FOR PATH
 //			Dijkstra dijkstra = new Dijkstra(network, travelTimeAsTravelDisutility, travelTime);
 
             //Map<Integer, List<Node>> zoneCalculationNodesMap = new HashMap<>();
@@ -90,83 +96,109 @@ public class Zone2ZoneTravelTimeListener implements IterationEndsListener {
 
             //get the nodes of each location
             //for (int zoneId : zoneFeatureMap.keySet()) {
-            for (Location loc : locationList){
+            for (Location loc : locationList) {
 //                for (int i = 0; i < numberOfCalcPoints; i++) { // several points in a given origin zone
-                    //SimpleFeature originFeature = zoneFeatureMap.get(zoneId);
+                //SimpleFeature originFeature = zoneFeatureMap.get(zoneId);
 //					Coord originCoord = ct.transform(SiloMatsimUtils.getRandomCoordinateInGeometry(originFeature));
-                    //Coord originCoord = SiloMatsimUtils.getRandomCoordinateInGeometry(originFeature);
-                    Coord originCoord = new Coord(loc.getX(), loc.getY());
-                    Link originLink = NetworkUtils.getNearestLink(network, originCoord);
-                    Node originNode = originLink.getFromNode();
+                //Coord originCoord = SiloMatsimUtils.getRandomCoordinateInGeometry(originFeature);
+                Coord originCoord = new Coord(loc.getX(), loc.getY());
+                Link originLink = NetworkUtils.getNearestLink(network, originCoord);
+                Node originNode = originLink.getFromNode();
 
-                    //if (!zoneCalculationNodesMap.containsKey(zoneId)) {
+
+                //if (!zoneCalculationNodesMap.containsKey(zoneId)) {
 //                        zoneCalculationNodesMap.put(zoneId, new LinkedList<Node>());
 //                zoneCalculationNodesMap.put(loc.getId(), new LinkedList<Node>());
-                zoneCalculationNodesMap.put(loc.getId(),originNode);
-                    //}
+                zoneCalculationNodesMap.put(loc.getId(), originNode);
+                //}
                 //zoneCalculationNodesMap.get(loc.getId()).add(originNode);
 //                }
             }
 
-            int counter =0;
+            int counter = 0;
             for (Location originZone : locationList) { // going over all origin zones
 
                 //for (Node originNode : zoneCalculationNodesMap.get(originZoneId)) { // several points in a given origin zone
-                    // Run Dijkstra for originNode
-                    Node originNode = zoneCalculationNodesMap.get(originZone.getId());
-                    leastCoastPathTree.calculate(network, originNode, departureTime);
+                // Run Dijkstra for originNode
+                Node originNode = zoneCalculationNodesMap.get(originZone.getId());
+                //FOR PATH
+//                leastCoastPathTree.calculate(network, originNode, departureTime);
 
-                    for (Location destinationZone : locationList) { // going over all destination zones
+                for (Location destinationZone : locationList) { // going over all destination zones
 
-                        Tuple<Integer, Integer> originDestinationRelation = new Tuple<Integer, Integer>(originZone.getId(), destinationZone.getId());
+                    Tuple<Integer, Integer> originDestinationRelation = new Tuple<>(originZone.getId(), destinationZone.getId());
 
-                        if (!travelTimesMap.containsKey(originDestinationRelation)) {
-                            travelTimesMap.put(originDestinationRelation, 0.f);
-                        }
+                    if (!travelTimesMap.containsKey(originDestinationRelation)) {
+                        travelTimesMap.put(originDestinationRelation, 0.f);
+                    }
 
-                        //for (Node destinationNode : zoneCalculationNodesMap.get(destinationZoneId)) {// several points in a given destination zone
+                    //for (Node destinationNode : zoneCalculationNodesMap.get(destinationZoneId)) {// several points in a given destination zone
 
-                            double arrivalTime = leastCoastPathTree.getTree().get(zoneCalculationNodesMap.get(destinationZone.getId()).getId()).getTime();
-                            // congested car travel times in minutes
-                            float congestedTravelTimeMin = (float) ((arrivalTime - departureTime) / 60.);
+                    double arrivalTime = leastCoastPathTree.getTree().get(zoneCalculationNodesMap.get(destinationZone.getId()).getId()).getTime();
+
+// Carlos test to get the list of links - discontinued
+                    /*Id firstNodeId = zoneCalculationNodesMap.get(destinationZone.getId()).getId();
+                    ArrayList<Id> nodeIdList = new ArrayList<>();
+                    nodeIdList.add(firstNodeId);
+                    while (!firstNodeId.equals(originNode.getId())) {
+                        Id prevNodeId = leastCoastPathTree.getTree().get(destinationZone.getId()).getPrevNodeId();
+                        nodeIdList.add(prevNodeId);
+                        firstNodeId = prevNodeId;
+                    }
+                    Node firstNode = originNode;
+                    double routeLength = 0;
+                    for (Id id : nodeIdList){
+                        Node secondNode =
+                        routeLength += NetworkUtils.getConnectingLink(firstNode,secondNode).getLength();
+
+                    }*/
+
+
+                    // congested car travel times in minutes
+                    float congestedTravelTimeMin = (float) ((arrivalTime - departureTime) / 60.);
 //							System.out.println("congestedTravelTimeMin = " + congestedTravelTimeMin);
 
-                            // following lines form kai/thomas, see Zone2ZoneImpedancesControlerListener
+                    // following lines form kai/thomas, see Zone2ZoneImpedancesControlerListener
 //							// we guess that any value less than 1.2 leads to errors on the UrbanSim side
 //							// since ln(0) is not defined or ln(1) = 0 causes trouble as a denominator ...
 //							if(congestedTravelTimeMin < 1.2)
 //								congestedTravelTimeMin = (float) 1.2;
-							//LeastCostPathCalculator.Path path = dijkstra.calcLeastCostPath(originLink.getFromNode(), destinationNode, timeOfDay, null, null);
-                            float previousSumTravelTimeMin = travelTimesMap.get(originDestinationRelation);
-                            travelTimesMap.put(originDestinationRelation, previousSumTravelTimeMin + congestedTravelTimeMin);
-                            counter++;
-                            if (counter % 10000 ==0){
-                                System.out.println("pairs already calculated = " +  counter);
-                            }
+                    //LeastCostPathCalculator.Path path = dijkstra.calcLeastCostPath(originLink.getFromNode(), destinationNode, timeOfDay, null, null);
+                    //for path
+//                    LeastCostPathCalculator.Path path = dijkstra.calcLeastCostPath(zoneCalculationNodesMap.get(destinationZone.getId()),
+//                            zoneCalculationNodesMap.get(destinationZone.getId()),
+//                            departureTime, null, null);
+                    //this is 0 in the current status of
+                    float previousSumTravelTimeMin = travelTimesMap.get(originDestinationRelation);
+
+                    travelTimesMap.put(originDestinationRelation, previousSumTravelTimeMin + congestedTravelTimeMin);
+                    counter++;
+                    if (counter % 10000 == 0) {
+                        log.info("pairs already calculated = " + counter);
+                    }
 //							System.out.println("previousSumTravelTimeMin = " + previousSumTravelTimeMin);
-                        //}
+                    //}
                     //}
                 }
             }
 
 
-
 //            If only one node, this is not needed
-            for (Tuple<Integer, Integer> originDestinationRelation : travelTimesMap.keySet()) {
-                float sumTravelTimeMin = travelTimesMap.get(originDestinationRelation);
-                float averageTravelTimeMin = sumTravelTimeMin / numberOfCalcPoints / numberOfCalcPoints;
-                travelTimesMap.put(originDestinationRelation, averageTravelTimeMin);
+//            for (Tuple<Integer, Integer> originDestinationRelation : travelTimesMap.keySet()) {
+//                float sumTravelTimeMin = travelTimesMap.get(originDestinationRelation);
+//                float averageTravelTimeMin = sumTravelTimeMin / numberOfCalcPoints / numberOfCalcPoints;
+//                travelTimesMap.put(originDestinationRelation, averageTravelTimeMin);
 
 //				log.info(fipsPuma5Tuple + " -- travel time = " + averageTravelTimeMin);
-            }
+//            }
         }
     }
-
 
 
     // inner class to use travel time as travel disutility
     class MyTravelTimeDisutility implements TravelDisutility {
         TravelTime travelTime;
+
         public MyTravelTimeDisutility(TravelTime travelTime) {
             this.travelTime = travelTime;
         }
