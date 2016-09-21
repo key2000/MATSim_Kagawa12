@@ -22,7 +22,7 @@ public class CreateNetwork {
 		/*
 		 * The input file name.
 		 */
-        String osm = "./input/studyArea.osm";
+        String osm = "./input/studyAreaV3.osm";
 
 
 		/*
@@ -62,7 +62,7 @@ public class CreateNetwork {
 		/*
 		 * Write the Network to a MATSim network file.
 		 */
-        new NetworkWriter(network).write("./input/studyNetwork.xml");
+        new NetworkWriter(network).write("./input/studyNetworkV3.xml");
 
         System.out.println("MATSIM network created");
 

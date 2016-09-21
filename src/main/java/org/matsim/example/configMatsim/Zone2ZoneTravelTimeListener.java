@@ -8,6 +8,7 @@ import java.io.FileWriter;
 
 import java.util.*;
 
+import com.pb.common.matrix.Matrix;
 import org.apache.log4j.Logger;
 import org.matsim.analysis.TravelDistanceStats;
 import org.matsim.api.core.v01.Coord;
@@ -56,12 +57,15 @@ public class Zone2ZoneTravelTimeListener implements IterationEndsListener {
     private int departureTime;
     private int numberOfCalcPoints;
     //	private CoordinateTransformation ct;
-    private Map<Tuple<Integer, Integer>, Float> travelTimesMap;
+    private Matrix autoTravelTime;
 
 
-    public Zone2ZoneTravelTimeListener(Controler controler, Network network, int finalIteration, /*Map<Integer, SimpleFeature> zoneFeatureMap*/ ArrayList<Location> locationList,
-                                       int timeOfDay, int numberOfCalcPoints, //CoordinateTransformation ct,
-                                       Map<Tuple<Integer, Integer>, Float> travelTimesMap) {
+    public Zone2ZoneTravelTimeListener(Controler controler, Network network,
+                                       int finalIteration, /*Map<Integer, SimpleFeature> zoneFeatureMap*/
+                                       ArrayList<Location> locationList,
+                                       int timeOfDay,
+                                       int numberOfCalcPoints, //CoordinateTransformation ct,
+                                       Matrix autoTravelTime) {
         this.controler = controler;
         this.network = network;
         this.finalIteration = finalIteration;
@@ -70,7 +74,7 @@ public class Zone2ZoneTravelTimeListener implements IterationEndsListener {
         this.departureTime = timeOfDay;
         this.numberOfCalcPoints = numberOfCalcPoints;
 //		this.ct = ct;
-        this.travelTimesMap = travelTimesMap;
+        this.autoTravelTime = autoTravelTime;
     }
 
 
@@ -97,6 +101,7 @@ public class Zone2ZoneTravelTimeListener implements IterationEndsListener {
             //get the nodes of each location
             //for (int zoneId : zoneFeatureMap.keySet()) {
             for (Location loc : locationList) {
+                //TODO come back to multiple points when implementing together with SILO
 //                for (int i = 0; i < numberOfCalcPoints; i++) { // several points in a given origin zone
                 //SimpleFeature originFeature = zoneFeatureMap.get(zoneId);
 //					Coord originCoord = ct.transform(SiloMatsimUtils.getRandomCoordinateInGeometry(originFeature));
@@ -104,7 +109,8 @@ public class Zone2ZoneTravelTimeListener implements IterationEndsListener {
                 Coord originCoord = new Coord(loc.getX(), loc.getY());
                 Link originLink = NetworkUtils.getNearestLink(network, originCoord);
                 Node originNode = originLink.getFromNode();
-
+//                Double dist = NetworkUtils.getEuclideanDistance(originCoord, originNode.getCoord());
+//                log.info("Zone: " + loc.getId() + " Distance to nearest node: " + dist);
 
                 //if (!zoneCalculationNodesMap.containsKey(zoneId)) {
 //                        zoneCalculationNodesMap.put(zoneId, new LinkedList<Node>());
@@ -121,16 +127,16 @@ public class Zone2ZoneTravelTimeListener implements IterationEndsListener {
                 //for (Node originNode : zoneCalculationNodesMap.get(originZoneId)) { // several points in a given origin zone
                 // Run Dijkstra for originNode
                 Node originNode = zoneCalculationNodesMap.get(originZone.getId());
-                //FOR PATH
-//                leastCoastPathTree.calculate(network, originNode, departureTime);
+
+                leastCoastPathTree.calculate(network, originNode, departureTime);
 
                 for (Location destinationZone : locationList) { // going over all destination zones
 
                     Tuple<Integer, Integer> originDestinationRelation = new Tuple<>(originZone.getId(), destinationZone.getId());
 
-                    if (!travelTimesMap.containsKey(originDestinationRelation)) {
-                        travelTimesMap.put(originDestinationRelation, 0.f);
-                    }
+//                    if (!travelTimesMap.containsKey(originDestinationRelation)) {
+//                        travelTimesMap.put(originDestinationRelation, 0.f);
+//                    }
 
                     //for (Node destinationNode : zoneCalculationNodesMap.get(destinationZoneId)) {// several points in a given destination zone
 
@@ -169,9 +175,10 @@ public class Zone2ZoneTravelTimeListener implements IterationEndsListener {
 //                            zoneCalculationNodesMap.get(destinationZone.getId()),
 //                            departureTime, null, null);
                     //this is 0 in the current status of
-                    float previousSumTravelTimeMin = travelTimesMap.get(originDestinationRelation);
+                    //float previousSumTravelTimeMin = travelTimesMap.get(originDestinationRelation);
 
-                    travelTimesMap.put(originDestinationRelation, previousSumTravelTimeMin + congestedTravelTimeMin);
+                    //travelTimesMap.put(originDestinationRelation, previousSumTravelTimeMin + congestedTravelTimeMin);
+                    autoTravelTime.setValueAt(originDestinationRelation.getFirst()-1, originDestinationRelation.getSecond()-1,congestedTravelTimeMin);
                     counter++;
                     if (counter % 10000 == 0) {
                         log.info("pairs already calculated = " + counter);

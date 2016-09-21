@@ -21,7 +21,7 @@ import java.util.Set;
 public class travelTimeMatrix {
 
 
-    public static void createOmxSkimMatrix(Map<Tuple<Integer, Integer>, Float> travelTimesMap, ArrayList<Location> locationList){
+    public static void createOmxSkimMatrix(Matrix autoTravelTime, ArrayList<Location> locationList){
 
         String f = "./data/travelTimes.omx";
         try (OmxFile omxFile = new OmxFile(f)) {
@@ -32,18 +32,18 @@ public class travelTimeMatrix {
             int[] shape = {dim0,dim1};
 
             float mat1NA = -1;
-            Matrix autoTravelTime;
-            autoTravelTime = new Matrix(dim0,dim1);
+            //Matrix autoTravelTime;
+            //autoTravelTime = new Matrix(dim0,dim1);
 
 
 
             //double[][] mat1Data = new double[dim0][dim1];
-            for (int i = 0; i < dim0; i++)
-                for (int j = 0; j < dim1; j++) {
-                    Tuple<Integer, Integer> tuple = new Tuple<>(i+1,j+1);
-                    //mat1Data[i][j] = travelTimesMap.get(tuple);
-                    autoTravelTime.setValueAt(i,j,travelTimesMap.get(tuple));
-                }
+//            for (int i = 0; i < dim0; i++)
+//                for (int j = 0; j < dim1; j++) {
+//                    Tuple<Integer, Integer> tuple = new Tuple<>(i+1,j+1);
+//                    //mat1Data[i][j] = travelTimesMap.get(tuple);
+//                    autoTravelTime.setValueAt(i,j,travelTimesMap.get(tuple));
+//                }
 
             OmxMatrix.OmxFloatMatrix mat1 = new OmxMatrix.OmxFloatMatrix("mat1",autoTravelTime.getValues(),mat1NA);
             mat1.setAttribute(OmxConstants.OmxNames.OMX_DATASET_TITLE_KEY.getKey(),"travelTimes");

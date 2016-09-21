@@ -1,5 +1,6 @@
 package org.matsim.example.configMatsim;
 
+import com.pb.common.matrix.Matrix;
 import org.matsim.api.core.v01.population.Population;
 import org.matsim.core.config.Config;
 import org.matsim.core.config.ConfigUtils;
@@ -24,12 +25,12 @@ import java.util.Map;
  */
 public class MatsimRunFromJava {
 
-    public static Map<Tuple<Integer, Integer>, Float> runMatsimToCreateTravelTimes(Map<Tuple<Integer, Integer>, Float> travelTimesMap,
+    public static Matrix runMatsimToCreateTravelTimes(Matrix autoTravelTime,
                                                                                    int timeOfDay, int numberOfCalcPoints /*, Map<Integer,SimpleFeature> zoneFeatureMap*/, //CoordinateTransformation ct,
                                                                                    String inputNetworkFile,
                                                                                    Population population, int year,
                                                                                    String crs, int numberOfIterations, String siloRunId, String outputDirectoryRoot,
-                                                                                   double flowCapacityFactor, double storageCapacityFactor,
+                                                                                   //double flowCapacityFactor, double storageCapacityFactor,
                                                                                    ArrayList<Location> locationList
                                                                                    ) {
         //			String populationFile, int year, String crs, int numberOfIterations) {
@@ -46,7 +47,7 @@ public class MatsimRunFromJava {
 
         // Simulation
         //		config.qsim().setFlowCapFactor(0.01);
-        config.qsim().setFlowCapFactor(flowCapacityFactor);
+        //config.qsim().setFlowCapFactor(flowCapacityFactor);
         //		config.qsim().setStorageCapFactor(0.018);
         //        config.qsim().setStorageCapFactor(storageCapacityFactor);
         config.qsim().setRemoveStuckVehicles(false);
@@ -110,17 +111,17 @@ public class MatsimRunFromJava {
         final Controler controler = new Controler(scenario);
 
         //      Add controller listener
-        Zone2ZoneTravelTimeListener zone2zoneTravelTimeListener = new Zone2ZoneTravelTimeListener(
-                controler, scenario.getNetwork(), config.controler().getLastIteration(),
-                locationList, timeOfDay, numberOfCalcPoints, //ct,
-                travelTimesMap);
-        controler.addControlerListener(zone2zoneTravelTimeListener);
+//        Zone2ZoneTravelTimeListener zone2zoneTravelTimeListener = new Zone2ZoneTravelTimeListener(
+//                controler, scenario.getNetwork(), config.controler().getLastIteration(),
+//                locationList, timeOfDay, numberOfCalcPoints, //ct,
+//                autoTravelTime);
+//        controler.addControlerListener(zone2zoneTravelTimeListener);
         // yyyyyy feedback will not work without the above, will it?  kai, apr'16
 
         // Run controller
         controler.run();
 
         // Return collected travel times
-        return travelTimesMap;
+        return autoTravelTime;
     }
 }

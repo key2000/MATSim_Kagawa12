@@ -1,5 +1,6 @@
 package org.matsim.example;
 
+import com.pb.common.matrix.Matrix;
 import omx.OmxFile;
 import omx.OmxLookup;
 import omx.OmxMatrix;
@@ -23,25 +24,27 @@ import static java.lang.System.exit;
  */
 public class Accessibility {
 
-    public static void calculateTravelTimesToZone(ArrayList<Location> locationList, int destinationId) {
+    private Matrix autoTravelTime;
 
-        double travelTimeArray[][] = readSkim();
+    public void calculateTravelTimesToZone(ArrayList<Location> locationList, int destinationId) {
+
+        readSkim();
         for (Location orig : locationList){
-            double travelTime = getAutoTravelTime(orig.getId(), destinationId, travelTimeArray);
+            double travelTime = getAutoTravelTime(orig.getId(), destinationId, autoTravelTime);
             orig.setTravelTime(travelTime);
         }
 
     }
 
 
-    public static void calculateAccessibility(ArrayList<Location> locationList){
+    public void calculateAccessibility(ArrayList<Location> locationList){
 
-        double travelTimeArray[][] = readSkim();
+        readSkim();
 
         for (Location orig : locationList){
-            double accessibility = 0;
+            float accessibility = 0;
             for (Location dest: locationList){
-                accessibility += Math.pow(dest.getPopulation(),1.25) * Math.exp(-0.1*getAutoTravelTime(orig.getId(), dest.getId(), travelTimeArray));
+                accessibility += Math.pow(dest.getPopulation(),1.25) * Math.exp(-0.1*getAutoTravelTime(orig.getId(), dest.getId(), autoTravelTime));
             }
             orig.setAccessibility(accessibility);
         }
@@ -66,25 +69,56 @@ public class Accessibility {
         }
     }
 
-    public static double[][] readSkim() {
+    public void readSkim() {
         // read skim file
 
         OmxFile hSkim = new OmxFile("./data/travelTimes.omx");
         hSkim.openReadOnly();
         OmxMatrix timeOmxSkimAutos = hSkim.getMatrix("mat1");
 
-        double autoTravelTime[][] = (double[][]) timeOmxSkimAutos.getData();
+        autoTravelTime = convertOmxToMatrix(timeOmxSkimAutos);
 
 //        OmxLookup omxLookUp = hSkim.getLookup("lookup1");
 //        int[] externalNumbers = (int[]) omxLookUp.getLookup();
+
+    }
+
+    public double getAutoTravelTime(int orig, int dest, Matrix autoTravelTime){
+        return autoTravelTime.getValueAt(orig-1,dest-1);
+    }
+
+    public static Matrix convertOmxToMatrix (OmxMatrix omxMatrix) {
+        // convert OMX matrix into java matrix
+
+        OmxHdf5Datatype.OmxJavaType type = omxMatrix.getOmxJavaType();
+        String name = omxMatrix.getName();
+        int[] dimensions = omxMatrix.getShape();
+
+        if (type.equals(OmxHdf5Datatype.OmxJavaType.FLOAT)) {
+            float[][] fArray = (float[][]) omxMatrix.getData();
+            Matrix mat = new Matrix(name, name, dimensions[0], dimensions[1]);
+            for (int i = 0; i < dimensions[0]; i++)
+                for (int j = 0; j < dimensions[1]; j++)
+                    mat.setValueAt(i + 1, j + 1, fArray[i][j]);
+            return mat;
+        } else if (type.equals(OmxHdf5Datatype.OmxJavaType.DOUBLE)) {
+            double[][] dArray = (double[][]) omxMatrix.getData();
+            Matrix mat = new Matrix(name, name, dimensions[0], dimensions[1]);
+            for (int i = 0; i < dimensions[0]; i++)
+                for (int j = 0; j < dimensions[1]; j++)
+                    mat.setValueAt(i + 1, j + 1, (float) dArray[i][j]);
+            return mat;
+        } else {
+            System.out.println("OMX Matrix type " + type.toString() + " not yet implemented. Program exits.");
+            exit(1);
+            return null;
+        }
+    }
+
+    public Matrix getAutoTravelTimeMatrix() {
         return autoTravelTime;
     }
-
-    public static double getAutoTravelTime(int orig, int dest, double[][] travelTimeArray){
-        return travelTimeArray[orig-1][dest-1];
-    }
-
- }
+}
 
 
 

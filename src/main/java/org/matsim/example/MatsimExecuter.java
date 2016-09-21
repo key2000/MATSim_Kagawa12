@@ -3,6 +3,7 @@ package org.matsim.example;
 
 
 
+import com.pb.common.matrix.Matrix;
 import org.matsim.example.Accessibility;
 import org.matsim.api.core.v01.population.Population;
 import org.matsim.core.utils.collections.Tuple;
@@ -43,29 +44,33 @@ public class MatsimExecuter {
         Population matsimPopulation = MatsimPopulationCreator.createMatsimPopulation(locationList, 2013, true);
 
         //create an empty map to store travel times
-        Map<Tuple<Integer, Integer>,Float> travelTimeMap = new HashMap<>();
+        Matrix autoTravelTime = new Matrix(locationList.size(), locationList.size());
 
         //make a subset of locations to test the calculation of travel times (ONLY FOR TESTING)
-        ArrayList<Location> smallLocationList = new ArrayList<>();
+        /*ArrayList<Location> smallLocationList = new ArrayList<>();
 
         for (Location location : locationList){
             if (location.getId()<5429){
                 smallLocationList.add(location);
             }
-        }
+        }*/
 
-
-
-        //get travel times
-        travelTimeMap = MatsimRunFromJava.runMatsimToCreateTravelTimes(travelTimeMap, 1 , 1, "./input/studyNetwork.xml", matsimPopulation, 2013, TransformationFactory.WGS84, 1, "travelTimeCap10", "./output", 10, 2, smallLocationList);
+        //get travel times nad/or run Matsim
+        autoTravelTime = MatsimRunFromJava.runMatsimToCreateTravelTimes(autoTravelTime, 1 , 1,
+                                                                    "./input/studyNetwork.xml", matsimPopulation, 2013,
+                                                                    TransformationFactory.WGS84, 10, "travelTime",
+                                                                    "./output", /*1, 2,*/ locationList);
 
         //store the map in omx file
-        travelTimeMatrix.createOmxSkimMatrix(travelTimeMap,smallLocationList);
+        //travelTimeMatrix.createOmxSkimMatrix(autoTravelTime,locationList);
+
+        //System.out.println("travel time matrix written");
 
         //read omx files and calculate accessibility
-        Accessibility.calculateAccessibility(smallLocationList);
-        Accessibility.calculateTravelTimesToZone(smallLocationList, 10);
-        Accessibility.printAccessibility(smallLocationList);
+//        Accessibility acc = new Accessibility();
+//        acc.calculateAccessibility(locationList);
+//        acc.calculateTravelTimesToZone(locationList, 1989);
+//        acc.printAccessibility(locationList);
 
         //run MATSim from file configs
         //matsimRunFromFile();
