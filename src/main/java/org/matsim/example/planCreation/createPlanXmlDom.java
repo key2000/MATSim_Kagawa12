@@ -18,6 +18,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Scanner;
 
+import static org.matsim.example.planCreation.CentroidsToLocations.CSVtoLocation;
+
 /**
  * Created by carlloga on 9/12/2016.
  */
@@ -42,7 +44,7 @@ public class createPlanXmlDom {
             // How to read file in java line by line?
 
             while ((line = bufferReader.readLine()) != null ) {
-                Location location = CSVtoLocation(line);
+                Location location = CentroidsToLocations.CSVtoLocation(line);
                 locationList.add(location);
             }
 
@@ -187,19 +189,7 @@ public class createPlanXmlDom {
         }
 
     }
-    private static Location CSVtoLocation(String csvLine) {
-        int id;
-        double x;
-        double y;
-        long pop;
-        String[] splitData = csvLine.split("\\s*,\\s*");
-        id = Integer.parseInt(splitData[0]);
-        x =Double.parseDouble(splitData[1]);
-        y =Double.parseDouble(splitData[2]);
-        pop = Long.parseLong(splitData[3]);
-        Location location = new Location(id,x,y,pop);
-        return location;
-    }
+
 
 
 }

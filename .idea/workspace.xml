@@ -2,14 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a15e1a17-0473-40da-a7d8-a5224804c518" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/MATSim.iml" afterPath="$PROJECT_DIR$/.idea/MATSim.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/example/Accessibility.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/example/Accessibility.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/example/CreateNetwork.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/example/CreateNetwork.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/example/MatsimExecuter.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/example/MatsimExecuter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/example/configMatsim/MatsimPopulationCreator.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/example/configMatsim/MatsimPopulationCreator.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/example/configMatsim/MatsimRunFromJava.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/example/configMatsim/MatsimRunFromJava.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/example/configMatsim/Zone2ZoneTravelTimeListener.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/example/configMatsim/Zone2ZoneTravelTimeListener.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/example/outputCreation/travelTimeMatrix.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/example/outputCreation/travelTimeMatrix.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/example/planCreation/CentroidsToLocations.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/example/planCreation/CentroidsToLocations.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/example/planCreation/CreatePlanXmlStAX.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/example/planCreation/CreatePlanXmlStAX.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/example/planCreation/Location.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/example/planCreation/Location.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/example/planCreation/createPlanXmlDom.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/example/planCreation/createPlanXmlDom.java" />
     </list>
     <ignored path="MATSim.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -22,6 +25,9 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
+  <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/MATSim$OTFVis.coverage" NAME="OTFVis Coverage Results" MODIFIED="1474528020392" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+  </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
   </component>
@@ -1718,11 +1724,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="MatsimExecuter.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="MatsimExecuter.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/matsim/example/MatsimExecuter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="527">
-              <caret line="61" column="97" selection-start-line="61" selection-start-column="97" selection-end-line="61" selection-end-column="97" />
+            <state relative-caret-position="384">
+              <caret line="92" column="62" selection-start-line="92" selection-start-column="62" selection-end-line="92" selection-end-column="62" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -1730,31 +1736,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CentroidsToLocations.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/matsim/example/planCreation/CentroidsToLocations.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="884">
-              <caret line="65" column="44" selection-start-line="65" selection-start-column="44" selection-end-line="65" selection-end-column="44" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="MatsimRunFromJava.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/matsim/example/configMatsim/MatsimRunFromJava.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="242">
-              <caret line="49" column="10" selection-start-line="49" selection-start-column="10" selection-end-line="49" selection-end-column="10" />
+            <state relative-caret-position="612">
+              <caret line="125" column="0" selection-start-line="125" selection-start-column="0" selection-end-line="125" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MatsimPopulationCreator.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="MatsimPopulationCreator.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/matsim/example/configMatsim/MatsimPopulationCreator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="175" column="81" selection-start-line="175" selection-start-column="81" selection-end-line="175" selection-end-column="81" />
+            <state relative-caret-position="350">
+              <caret line="128" column="32" selection-start-line="128" selection-start-column="32" selection-end-line="128" selection-end-column="32" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -1765,8 +1761,8 @@
       <file leaf-file-name="travelTimeMatrix.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/matsim/example/outputCreation/travelTimeMatrix.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-50">
-              <caret line="55" column="58" selection-start-line="55" selection-start-column="58" selection-end-line="55" selection-end-column="58" />
+            <state relative-caret-position="-258">
+              <caret line="26" column="44" selection-start-line="26" selection-start-column="44" selection-end-line="26" selection-end-column="44" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -1774,16 +1770,25 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="Zone2ZoneTravelTimeListener.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/matsim/example/configMatsim/Zone2ZoneTravelTimeListener.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="391">
+              <caret line="92" column="45" selection-start-line="92" selection-start-column="45" selection-end-line="92" selection-end-column="45" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="Accessibility.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/matsim/example/Accessibility.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="528">
-              <caret line="119" column="5" selection-start-line="119" selection-start-column="5" selection-end-line="119" selection-end-column="5" />
+            <state relative-caret-position="-595">
+              <caret line="30" column="41" selection-start-line="30" selection-start-column="41" selection-end-line="30" selection-end-column="41" />
               <folding>
-                <element signature="imports" expanded="true" />
                 <element signature="method#convertOmxToMatrix#0;class#Accessibility#0" expanded="false" />
-                <element signature="e#3834#3835#0" expanded="true" />
-                <element signature="e#3871#3872#0" expanded="true" />
+                <element signature="e#3867#3868#0" expanded="true" />
+                <element signature="e#3904#3905#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -1832,16 +1837,16 @@
         <option value="$PROJECT_DIR$/src/main/java/org/matsim/example/MatSimRunFromCode.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/matsim/example/MatsimRunFromFile.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/matsim/example/MatsimRunFromJava.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/matsim/example/CreateNetwork.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/matsim/example/configMatsim/Zone2ZoneTravelTimeListener.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/matsim/example/planCreation/Location.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/matsim/example/configMatsim/MatsimRunFromJava.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/matsim/example/planCreation/CentroidsToLocations.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/matsim/example/planCreation/createPlanXmlDom.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/matsim/example/planCreation/CreatePlanXmlStAX.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/matsim/example/outputCreation/travelTimeMatrix.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/matsim/example/CreateNetwork.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/matsim/example/configMatsim/Zone2ZoneTravelTimeListener.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/matsim/example/Accessibility.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/matsim/example/configMatsim/MatsimRunFromJava.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/matsim/example/MatsimExecuter.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/matsim/example/Accessibility.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/matsim/example/configMatsim/MatsimPopulationCreator.java" />
       </list>
     </option>
@@ -1900,7 +1905,7 @@
     </treeState>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-8" />
+    <option name="x" value="1912" />
     <option name="y" value="-8" />
     <option name="width" value="1936" />
     <option name="height" value="1056" />
@@ -2515,13 +2520,29 @@
       <envs />
       <method />
     </configuration>
-    <list size="6">
+    <configuration default="false" name="OTFVis" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" value="org.matsim.contrib.otfvis.OTFVisGUI" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="java -cp MATSim.jar;otfvis/otfvis.jar org.matsim.contrib.otfvis.OTFVis -convert output/travelTime_2013.output_events.xml.gz output/travelTime_2013.output_network.xml.gz output/visualization.mvi" />
+      <option name="WORKING_DIRECTORY" value="file://C:/Models/AmberImplementation" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="MATSim" />
+      <envs />
+      <method />
+    </configuration>
+    <list size="7">
       <item index="0" class="java.lang.String" itemvalue="Application.MunichNetwork" />
       <item index="1" class="java.lang.String" itemvalue="Application.StudyArea" />
       <item index="2" class="java.lang.String" itemvalue="Application.BayernBigRoads" />
       <item index="3" class="java.lang.String" itemvalue="Application.MergeNetworks" />
       <item index="4" class="java.lang.String" itemvalue="Application.NetworkEditor" />
-      <item index="5" class="java.lang.String" itemvalue="Application.MatsimExecuter" />
+      <item index="5" class="java.lang.String" itemvalue="Application.OTFVis" />
+      <item index="6" class="java.lang.String" itemvalue="Application.MatsimExecuter" />
     </list>
     <recent_temporary>
       <list size="1">
@@ -2592,7 +2613,14 @@
       <option name="project" value="LOCAL" />
       <updated>1474375613343</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="matrix times when creating omx files&#10;create artificial plans">
+      <created>1474453440535</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1474453440535</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TodoView">
@@ -2605,7 +2633,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="1912" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -2613,14 +2641,15 @@
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32998884" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28539577" sideWeight="0.5042644" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18443497" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29431438" sideWeight="0.5042644" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18443497" sideWeight="0.49317408" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32887402" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.483835" sideWeight="0.49573562" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29431438" sideWeight="0.49573562" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18443497" sideWeight="0.5068259" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32887402" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1945629" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27292112" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32998884" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -2649,7 +2678,8 @@
     <MESSAGE value="commit test" />
     <MESSAGE value="accessibility and omx matrixes" />
     <MESSAGE value="matrix to store travel times when creating omx files" />
-    <option name="LAST_COMMIT_MESSAGE" value="matrix to store travel times when creating omx files" />
+    <MESSAGE value="matrix times when creating omx files&#10;create artificial plans" />
+    <option name="LAST_COMMIT_MESSAGE" value="matrix times when creating omx files&#10;create artificial plans" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2662,24 +2692,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/matsim/example/planCreation/CentroidsToLocations.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="697">
-          <caret line="54" column="9" selection-start-line="54" selection-start-column="9" selection-end-line="54" selection-end-column="9" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/matsim/example/configMatsim/Zone2ZoneTravelTimeListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1785">
-          <caret line="139" column="51" selection-start-line="139" selection-start-column="51" selection-end-line="139" selection-end-column="51" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/matsim/example/configMatsim/MatsimRunFromJava.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
@@ -2693,7 +2705,7 @@
         <state relative-caret-position="765">
           <caret line="61" column="13" selection-start-line="61" selection-start-column="13" selection-end-line="61" selection-end-column="13" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2853,33 +2865,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/matsim/example/planCreation/createPlanXmlDom.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3230">
-          <caret line="205" column="0" selection-start-line="205" selection-start-column="0" selection-end-line="205" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/matsim/example/planCreation/CreatePlanXmlStAX.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2584">
-          <caret line="166" column="43" selection-start-line="166" selection-start-column="43" selection-end-line="166" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/matsim/example/planCreation/Location.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="579">
-          <caret line="48" column="0" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
-          <folding>
-            <element signature="e#468#469#0" expanded="false" />
-            <element signature="e#493#494#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/org/matsim/matsim/0.8.0/matsim-0.8.0.jar!/org/matsim/core/network/algorithms/NetworkCleaner.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1607">
@@ -2987,67 +2972,109 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/matsim/example/configMatsim/Zone2ZoneTravelTimeListener.java">
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_92/src.zip!/java/lang/Math.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="307">
-          <caret line="119" column="75" selection-start-line="119" selection-start-column="75" selection-end-line="119" selection-end-column="75" />
+        <state relative-caret-position="247">
+          <caret line="642" column="25" selection-start-line="642" selection-start-column="25" selection-end-line="642" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/matsim/example/planCreation/createPlanXmlDom.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="388">
+          <caret line="191" column="0" selection-start-line="191" selection-start-column="0" selection-end-line="191" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/matsim/example/planCreation/CreatePlanXmlStAX.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1703">
+          <caret line="34" column="61" selection-start-line="34" selection-start-column="61" selection-end-line="34" selection-end-column="61" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/matsim/example/planCreation/Location.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="371">
+          <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/matsim/example/planCreation/CentroidsToLocations.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="884">
-          <caret line="65" column="44" selection-start-line="65" selection-start-column="44" selection-end-line="65" selection-end-column="44" />
+        <state relative-caret-position="456">
+          <caret line="77" column="0" selection-start-line="77" selection-start-column="0" selection-end-line="77" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/matsim/example/outputCreation/travelTimeMatrix.java">
+    <entry file="jar://$MAVEN_REPOSITORY$/org/matsim/contrib/otfvis/0.8.0/otfvis-0.8.0.jar!/org/matsim/contrib/otfvis/OTFVis.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-50">
-          <caret line="55" column="58" selection-start-line="55" selection-start-column="58" selection-end-line="55" selection-end-column="58" />
+        <state relative-caret-position="400">
+          <caret line="178" column="63" selection-start-line="178" selection-start-column="63" selection-end-line="178" selection-end-column="63" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#6592#6593#0" expanded="true" />
+            <element signature="e#6639#6640#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/matsim/example/Accessibility.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="528">
-          <caret line="119" column="5" selection-start-line="119" selection-start-column="5" selection-end-line="119" selection-end-column="5" />
+        <state relative-caret-position="-595">
+          <caret line="30" column="41" selection-start-line="30" selection-start-column="41" selection-end-line="30" selection-end-column="41" />
           <folding>
-            <element signature="imports" expanded="true" />
             <element signature="method#convertOmxToMatrix#0;class#Accessibility#0" expanded="false" />
-            <element signature="e#3834#3835#0" expanded="true" />
-            <element signature="e#3871#3872#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/matsim/example/MatsimExecuter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="61" column="97" selection-start-line="61" selection-start-column="97" selection-end-line="61" selection-end-column="97" />
-          <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#3867#3868#0" expanded="true" />
+            <element signature="e#3904#3905#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/matsim/example/configMatsim/MatsimRunFromJava.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="49" column="10" selection-start-line="49" selection-start-column="10" selection-end-line="49" selection-end-column="10" />
+        <state relative-caret-position="612">
+          <caret line="125" column="0" selection-start-line="125" selection-start-column="0" selection-end-line="125" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/matsim/example/configMatsim/MatsimPopulationCreator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="175" column="81" selection-start-line="175" selection-start-column="81" selection-end-line="175" selection-end-column="81" />
+        <state relative-caret-position="350">
+          <caret line="128" column="32" selection-start-line="128" selection-start-column="32" selection-end-line="128" selection-end-column="32" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/matsim/example/outputCreation/travelTimeMatrix.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-258">
+          <caret line="26" column="44" selection-start-line="26" selection-start-column="44" selection-end-line="26" selection-end-column="44" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/matsim/example/configMatsim/Zone2ZoneTravelTimeListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="92" column="45" selection-start-line="92" selection-start-column="45" selection-end-line="92" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/matsim/example/MatsimExecuter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="384">
+          <caret line="92" column="62" selection-start-line="92" selection-start-column="62" selection-end-line="92" selection-end-column="62" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

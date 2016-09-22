@@ -28,7 +28,7 @@ public class Accessibility {
 
     public void calculateTravelTimesToZone(ArrayList<Location> locationList, int destinationId) {
 
-        readSkim();
+        readSkim("./data/travelTimes.omx");
         for (Location orig : locationList){
             double travelTime = getAutoTravelTime(orig.getId(), destinationId, autoTravelTime);
             orig.setTravelTime(travelTime);
@@ -39,7 +39,7 @@ public class Accessibility {
 
     public void calculateAccessibility(ArrayList<Location> locationList){
 
-        readSkim();
+        readSkim("./data/travelTimes.omx");
 
         for (Location orig : locationList){
             float accessibility = 0;
@@ -69,10 +69,10 @@ public class Accessibility {
         }
     }
 
-    public void readSkim() {
+    public void readSkim(String f) {
         // read skim file
 
-        OmxFile hSkim = new OmxFile("./data/travelTimes.omx");
+        OmxFile hSkim = new OmxFile(f);
         hSkim.openReadOnly();
         OmxMatrix timeOmxSkimAutos = hSkim.getMatrix("mat1");
 

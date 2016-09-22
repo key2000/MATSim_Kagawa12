@@ -116,9 +116,10 @@ public class MatsimPopulationCreator {
 
 
         Accessibility acc = new Accessibility();
-        acc.readSkim();
+        acc.readSkim("./data/travelTimesOriginal.omx");
         Matrix autoTravelTime = acc.getAutoTravelTimeMatrix();
 
+        Random rnd = new Random();
 
         for (Location destLoc: destList) {
             destCount++;
@@ -129,24 +130,22 @@ public class MatsimPopulationCreator {
                     if (origCount < maxOrig) {
 
                         long origPop = origLoc.getPopulation();
-                        long destPop = destLoc.getPopulation();
+                        long destEmp = destLoc.getEmployment();
 
+                        double alpha = 1.5;
+                        double g = (float) 0.000015;
 
-                        double alpha = 2;
-                        double g = (float) 0.000005;
-
-// apply gravity model and generatwe trips between the zones (intra zonal trips = pop * g)
+// apply gravity model and generate trips between the zones (intra zonal trips = 0)
                         int trips;
                         double travelTime = acc.getAutoTravelTime(origLoc.getId(),destLoc.getId(), autoTravelTime);
-                        if (travelTime ==0){
-                            trips = (int) (g*origLoc.getPopulation());
+                        if (travelTime < 5){
+                            trips = 0;
                         }else {
-                            trips = (int) (origPop*destPop*g/Math.pow(travelTime,alpha));
+                            trips = (int) (origPop*destEmp*g/Math.pow(travelTime,alpha));
                         }
 
-
-
                         for (int i=0; i < trips; i++){
+
 
                             org.matsim.api.core.v01.population.Person matsimPerson =
                                     matsimPopulationFactory.createPerson(Id.create(personId, org.matsim.api.core.v01.population.Person.class));
@@ -159,11 +158,11 @@ public class MatsimPopulationCreator {
                             //SimpleFeature homeFeature = zoneFeatureMap.get(origLoc.getId());
                             Coord homeCoordinates = new Coord (origLoc.getX()+200*(Math.random()-0.5),origLoc.getY()+200*(Math.random()-0.5));
 
-
 //    		Activity activity1 = matsimPopulationFactory.createActivityFromCoord("home", ct.transform(homeCoordinates));
                             Activity activity1 = matsimPopulationFactory.createActivityFromCoord("home", homeCoordinates);
                             //randomly between 7 and 9 AM
-                            activity1.setEndTime(6*60*60+Math.random()*4*60*60);
+                            double time = 8*60*60+rnd.nextGaussian()*60*60;
+                            activity1.setEndTime(Math.max(4*60*60,Math.min(time,12*60*60)));
                             matsimPlan.addActivity(activity1);
                             matsimPlan.addLeg(matsimPopulationFactory.createLeg(TransportMode.car));
 
@@ -173,7 +172,9 @@ public class MatsimPopulationCreator {
 //    		Activity activity2 = matsimPopulationFactory.createActivityFromCoord("work", ct.transform(workCoordinates));
                             Activity activity2 = matsimPopulationFactory.createActivityFromCoord("work", workCoordinates);
                             //randomly between 4 and 8 PM
-                            activity2.setEndTime(15*60*60+Math.random()*6*60*60);
+
+                            time = 17*60*60+rnd.nextGaussian()*60*60;
+                            activity2.setEndTime(Math.max(14*60*60,Math.min(time,22*60*60)));
                             matsimPlan.addActivity(activity2);
                             matsimPlan.addLeg(matsimPopulationFactory.createLeg(TransportMode.car));
 

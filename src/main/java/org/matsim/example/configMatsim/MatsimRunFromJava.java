@@ -14,6 +14,7 @@ import org.matsim.core.scenario.MutableScenario;
 import org.matsim.core.scenario.ScenarioUtils;
 import org.matsim.core.utils.collections.Tuple;
 import org.matsim.example.planCreation.Location;
+import org.matsim.pt.counts.PtCountControlerListener;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -73,12 +74,12 @@ public class MatsimRunFromJava {
         // Strategy
         StrategyConfigGroup.StrategySettings strategySettings1 = new StrategyConfigGroup.StrategySettings();
         strategySettings1.setStrategyName("ChangeExpBeta");
-        strategySettings1.setWeight(0.8);
+        strategySettings1.setWeight(0.2); //originally 0.8
         config.strategy().addStrategySettings(strategySettings1);
 
         StrategyConfigGroup.StrategySettings strategySettings2 = new StrategyConfigGroup.StrategySettings();
         strategySettings2.setStrategyName("ReRoute");
-        strategySettings2.setWeight(0.2);
+        strategySettings2.setWeight(0.8);//originally 0.2
         strategySettings2.setDisableAfter((int) (numberOfIterations * 0.7));
         config.strategy().addStrategySettings(strategySettings2);
 
@@ -111,12 +112,14 @@ public class MatsimRunFromJava {
         final Controler controler = new Controler(scenario);
 
         //      Add controller listener
-//        Zone2ZoneTravelTimeListener zone2zoneTravelTimeListener = new Zone2ZoneTravelTimeListener(
-//                controler, scenario.getNetwork(), config.controler().getLastIteration(),
-//                locationList, timeOfDay, numberOfCalcPoints, //ct,
-//                autoTravelTime);
-//        controler.addControlerListener(zone2zoneTravelTimeListener);
+        Zone2ZoneTravelTimeListener zone2zoneTravelTimeListener = new Zone2ZoneTravelTimeListener(
+                controler, scenario.getNetwork(), config.controler().getLastIteration(),
+                locationList, timeOfDay, numberOfCalcPoints, //ct,
+                autoTravelTime);
+        controler.addControlerListener(zone2zoneTravelTimeListener);
         // yyyyyy feedback will not work without the above, will it?  kai, apr'16
+
+
 
         // Run controller
         controler.run();

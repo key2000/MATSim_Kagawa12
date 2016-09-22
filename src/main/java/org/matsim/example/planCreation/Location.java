@@ -11,12 +11,14 @@ public class Location {
     private long population;
     private double accessibility;
     private double travelTime;
+    private long employment;
 
-    public Location(int id, double x, double y, long population) {
+    public Location(int id, double x, double y, long population, long employment) {
         this.id = id;
         this.x = x;
         this.y = y;
         this.population = population;
+        this.employment = employment;
     }
 
     public int getId() {
@@ -49,6 +51,10 @@ public class Location {
 
     public void setTravelTime(double travelTime) {
         this.travelTime = travelTime;
+    }
+
+    public long getEmployment() {
+        return employment;
     }
 }
 

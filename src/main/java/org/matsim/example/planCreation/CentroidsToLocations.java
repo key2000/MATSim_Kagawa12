@@ -57,17 +57,19 @@ public class CentroidsToLocations {
         return locationList;
 
     }
-    private static Location CSVtoLocation(String csvLine) {
+    public static Location CSVtoLocation(String csvLine) {
         int id;
         double x;
         double y;
         long pop;
+        long emp;
         String[] splitData = csvLine.split("\\s*,\\s*");
         id = Integer.parseInt(splitData[0]);
         x =Double.parseDouble(splitData[1]);
         y =Double.parseDouble(splitData[2]);
         pop =Long.parseLong(splitData[3]);
-        Location location = new Location(id,x,y, pop);
+        emp = Long.parseLong(splitData[4]);
+        Location location = new Location(id,x,y, pop,emp);
         return location;
     }
 

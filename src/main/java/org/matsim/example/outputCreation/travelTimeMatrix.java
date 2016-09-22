@@ -66,6 +66,8 @@ public class travelTimeMatrix {
             omxFile.save();
             System.out.println(omxFile.summary());
 
+            System.out.println("travel time matrix written");
+
         }
 // clean the matrix if not needed ?
 //        try (OmxFile omxFile = new OmxFile(f)) {

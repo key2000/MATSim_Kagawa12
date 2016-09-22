@@ -47,33 +47,52 @@ public class MatsimExecuter {
         Matrix autoTravelTime = new Matrix(locationList.size(), locationList.size());
 
         //make a subset of locations to test the calculation of travel times (ONLY FOR TESTING)
-        /*ArrayList<Location> smallLocationList = new ArrayList<>();
+        ArrayList<Location> smallLocationList = new ArrayList<>();
 
         for (Location location : locationList){
-            if (location.getId()<5429){
+            if (location.getId()<100){
                 smallLocationList.add(location);
             }
-        }*/
+        }
 
-        //get travel times nad/or run Matsim
+        locationList = smallLocationList;
+
+        //get travel times and run Matsim
         autoTravelTime = MatsimRunFromJava.runMatsimToCreateTravelTimes(autoTravelTime, 1 , 1,
                                                                     "./input/studyNetwork.xml", matsimPopulation, 2013,
-                                                                    TransformationFactory.WGS84, 10, "travelTime",
-                                                                    "./output", /*1, 2,*/ locationList);
+                                                                    TransformationFactory.WGS84, 5, "travelTime",
+                                                                    "./output" /*,1, 2*/, locationList);
+
+
+
+
 
         //store the map in omx file
-        //travelTimeMatrix.createOmxSkimMatrix(autoTravelTime,locationList);
+        travelTimeMatrix.createOmxSkimMatrix(autoTravelTime,locationList);
 
-        //System.out.println("travel time matrix written");
+
 
         //read omx files and calculate accessibility
-//        Accessibility acc = new Accessibility();
-//        acc.calculateAccessibility(locationList);
-//        acc.calculateTravelTimesToZone(locationList, 1989);
-//        acc.printAccessibility(locationList);
+        Accessibility acc = new Accessibility();
+        acc.calculateAccessibility(locationList);
+        acc.calculateTravelTimesToZone(locationList, 1989);
+        acc.printAccessibility(locationList);
 
         //run MATSim from file configs
         //matsimRunFromFile();
+
+
+        //generate an animation using the OTFVIS extension
+        //program arguments
+        String arguments[] = new String[5];
+        arguments[1]="C:/Models/AmberImplementation/output/travelTime_2013.output_events.xml.gz";
+        arguments[2]="C:/Models/AmberImplementation/output/travelTime_2013.output_network.xml.gz";
+        arguments[3]="C:/Models/AmberImplementation/visualization.mvi";
+        arguments[4]="300";
+        //run the conversion
+        //org.matsim.contrib.otfvis.OTFVis.convert(arguments);
+        //run the visualization
+        //org.matsim.contrib.otfvis.OTFVis.playMVI(arguments[3]);
 
 
     }
