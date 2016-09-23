@@ -1,7 +1,7 @@
 package org.matsim.example.configMatsim;
 
 /**
- * Created by carlloga on 9/14/2016.
+ * Created by carlloga on 9/14/2016. copyed from siloMatsim package in github silo
  */
 
 import java.io.FileWriter;
@@ -87,10 +87,11 @@ public class Zone2ZoneTravelTimeListener implements IterationEndsListener {
             TravelTime travelTime = controler.getLinkTravelTimes();
 
             TravelDisutility travelDisutility = controler.getTravelDisutilityFactory().createTravelDisutility(travelTime);
-			//FOR PATH
+			//TODO change to get travel times in the current situation?
 //            TravelDisutility travelTimeAsTravelDisutility = new MyTravelTimeDisutility(controler.getLinkTravelTimes());
-
-            LeastCostPathTree leastCoastPathTree = new LeastCostPathTree(travelTime, travelDisutility);
+// PICK ONE OF THE TWO ALTERNATIVE LINES
+          LeastCostPathTree leastCoastPathTree = new LeastCostPathTree(travelTime, travelDisutility);
+//            LeastCostPathTree leastCoastPathTree = new LeastCostPathTree(travelTime, travelTimeAsTravelDisutility);
 //FOR PATH
 //			Dijkstra dijkstra = new Dijkstra(network, travelTimeAsTravelDisutility, travelTime);
 

@@ -120,7 +120,6 @@ public class MatsimRunFromJava {
         // yyyyyy feedback will not work without the above, will it?  kai, apr'16
 
 
-
         // Run controller
         controler.run();
 

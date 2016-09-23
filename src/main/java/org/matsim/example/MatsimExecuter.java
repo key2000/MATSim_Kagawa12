@@ -36,41 +36,36 @@ public class MatsimExecuter {
         //create network from OSM file
         //CreateNetwork.createNetwork();
 
-
         //read centroids and get list of locations
         ArrayList<Location> locationList = CentroidsToLocations.readCentroidList();
 
         //create population
         Population matsimPopulation = MatsimPopulationCreator.createMatsimPopulation(locationList, 2013, true);
 
-        //create an empty map to store travel times
-        Matrix autoTravelTime = new Matrix(locationList.size(), locationList.size());
+
 
         //make a subset of locations to test the calculation of travel times (ONLY FOR TESTING)
         ArrayList<Location> smallLocationList = new ArrayList<>();
+//
+//        for (Location location : locationList){
+//            if (location.getId()<100){
+//                smallLocationList.add(location);
+//            }
+//        }
+//
+//        locationList = smallLocationList;
 
-        for (Location location : locationList){
-            if (location.getId()<100){
-                smallLocationList.add(location);
-            }
-        }
-
-        locationList = smallLocationList;
+        //create an empty map to store travel times
+        Matrix autoTravelTime = new Matrix(locationList.size(), locationList.size());
 
         //get travel times and run Matsim
-        autoTravelTime = MatsimRunFromJava.runMatsimToCreateTravelTimes(autoTravelTime, 1 , 1,
+        autoTravelTime = MatsimRunFromJava.runMatsimToCreateTravelTimes(autoTravelTime, 8*60*60 , 1,
                                                                     "./input/studyNetwork.xml", matsimPopulation, 2013,
                                                                     TransformationFactory.WGS84, 5, "travelTime",
                                                                     "./output" /*,1, 2*/, locationList);
 
-
-
-
-
         //store the map in omx file
         travelTimeMatrix.createOmxSkimMatrix(autoTravelTime,locationList);
-
-
 
         //read omx files and calculate accessibility
         Accessibility acc = new Accessibility();
@@ -79,8 +74,7 @@ public class MatsimExecuter {
         acc.printAccessibility(locationList);
 
         //run MATSim from file configs
-        //matsimRunFromFile();
-
+//        matsimRunFromFile();
 
         //generate an animation using the OTFVIS extension
         //program arguments
@@ -90,10 +84,9 @@ public class MatsimExecuter {
         arguments[3]="C:/Models/AmberImplementation/visualization.mvi";
         arguments[4]="300";
         //run the conversion
-        //org.matsim.contrib.otfvis.OTFVis.convert(arguments);
+//        org.matsim.contrib.otfvis.OTFVis.convert(arguments);
         //run the visualization
-        //org.matsim.contrib.otfvis.OTFVis.playMVI(arguments[3]);
-
+//        org.matsim.contrib.otfvis.OTFVis.playMVI(arguments[3]);
 
     }
 }

@@ -33,7 +33,7 @@ public class travelTimeMatrix {
 
             float mat1NA = -1;
             //Matrix autoTravelTime;
-            //autoTravelTime = new Matrix(dim0,dim1);
+//            autoTravelTime = new Matrix(dim0,dim1);
 
 
 
