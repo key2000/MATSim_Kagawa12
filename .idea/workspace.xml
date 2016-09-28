@@ -2,15 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a15e1a17-0473-40da-a7d8-a5224804c518" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/MATSim.iml" afterPath="$PROJECT_DIR$/.idea/MATSim.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/example/Accessibility.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/example/Accessibility.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/example/CreateNetwork.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/example/CreateNetwork.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/example/MatsimExecuter.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/example/MatsimExecuter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/example/configMatsim/MatsimPopulationCreator.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/example/configMatsim/MatsimPopulationCreator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/example/configMatsim/MatsimRunFromJava.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/example/configMatsim/MatsimRunFromJava.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/example/configMatsim/Zone2ZoneTravelTimeListener.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/example/configMatsim/Zone2ZoneTravelTimeListener.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/example/planCreation/CentroidsToLocations.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/example/planCreation/CentroidsToLocations.java" />
     </list>
     <ignored path="MATSim.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -2627,7 +2619,14 @@
       <option name="project" value="LOCAL" />
       <updated>1474627702678</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="added properties and modified working directory">
+      <created>1475073333963</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1475073333963</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TodoView">
@@ -2687,7 +2686,8 @@
     <MESSAGE value="matrix to store travel times when creating omx files" />
     <MESSAGE value="matrix times when creating omx files&#10;create artificial plans" />
     <MESSAGE value="added visualization in OTFVis" />
-    <option name="LAST_COMMIT_MESSAGE" value="added visualization in OTFVis" />
+    <MESSAGE value="added properties and modified working directory" />
+    <option name="LAST_COMMIT_MESSAGE" value="added properties and modified working directory" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
