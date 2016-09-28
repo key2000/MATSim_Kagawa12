@@ -23,7 +23,7 @@ import org.matsim.example.planCreation.Location;
 import org.opengis.feature.simple.SimpleFeature;
 import com.pb.common.matrix.Matrix;
 
-
+import static org.matsim.example.MatsimExecuter.munich;
 
 
 /**
@@ -116,7 +116,7 @@ public class MatsimPopulationCreator {
 
 
         Accessibility acc = new Accessibility();
-        acc.readSkim("./data/travelTimesOriginal.omx");
+        acc.readSkim(munich.getString("base.skim.file"));
         Matrix autoTravelTime = acc.getAutoTravelTimeMatrix();
 
         Random rnd = new Random();
@@ -133,7 +133,7 @@ public class MatsimPopulationCreator {
                         long destEmp = destLoc.getEmployment();
 
                         double alpha = 1.5;
-                        double g = (float) 0.000015;
+                        double g = (float) 0.00002;
 
 // apply gravity model and generate trips between the zones (intra zonal trips = 0)
                         int trips;

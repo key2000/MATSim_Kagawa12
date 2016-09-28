@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.ArrayList;
 
 import static java.lang.System.exit;
+import static org.matsim.example.MatsimExecuter.munich;
 
 /**
  * Created by carlloga on 9/15/2016.
@@ -25,10 +26,11 @@ import static java.lang.System.exit;
 public class Accessibility {
 
     private Matrix autoTravelTime;
+    private String skimFileName = munich.getString("output.skim.file");
 
     public void calculateTravelTimesToZone(ArrayList<Location> locationList, int destinationId) {
 
-        readSkim("./data/travelTimes.omx");
+        readSkim(skimFileName);
         for (Location orig : locationList){
             double travelTime = getAutoTravelTime(orig.getId(), destinationId, autoTravelTime);
             orig.setTravelTime(travelTime);
@@ -39,7 +41,7 @@ public class Accessibility {
 
     public void calculateAccessibility(ArrayList<Location> locationList){
 
-        readSkim("./data/travelTimes.omx");
+        readSkim(skimFileName);
 
         for (Location orig : locationList){
             float accessibility = 0;
@@ -55,7 +57,7 @@ public class Accessibility {
     }
 
     public static void printAccessibility(ArrayList<Location> locationList) {
-        BufferedWriter bw = IOUtils.getBufferedWriter("./output/accessibility.csv");
+        BufferedWriter bw = IOUtils.getBufferedWriter(munich.getString("output.accessibility.file"));
         try {
             bw.write("ID, X, Y, access, timeToZone");
             bw.newLine();
@@ -74,7 +76,7 @@ public class Accessibility {
 
         OmxFile hSkim = new OmxFile(f);
         hSkim.openReadOnly();
-        OmxMatrix timeOmxSkimAutos = hSkim.getMatrix("mat1");
+        OmxMatrix timeOmxSkimAutos = hSkim.getMatrix(munich.getString("output.skim.matrix"));
 
         autoTravelTime = convertOmxToMatrix(timeOmxSkimAutos);
 

@@ -32,7 +32,7 @@ public class MatsimRunFromJava {
                                                                                    Population population, int year,
                                                                                    String crs, int numberOfIterations, String siloRunId, String outputDirectoryRoot,
                                                                                    //double flowCapacityFactor, double storageCapacityFactor,
-                                                                                   ArrayList<Location> locationList
+                                                                                   ArrayList<Location> locationList, boolean getTravelTimes
                                                                                    ) {
         //			String populationFile, int year, String crs, int numberOfIterations) {
         final Config config = ConfigUtils.createConfig();
@@ -74,12 +74,12 @@ public class MatsimRunFromJava {
         // Strategy
         StrategyConfigGroup.StrategySettings strategySettings1 = new StrategyConfigGroup.StrategySettings();
         strategySettings1.setStrategyName("ChangeExpBeta");
-        strategySettings1.setWeight(0.2); //originally 0.8
+        strategySettings1.setWeight(0.8); //originally 0.8
         config.strategy().addStrategySettings(strategySettings1);
 
         StrategyConfigGroup.StrategySettings strategySettings2 = new StrategyConfigGroup.StrategySettings();
         strategySettings2.setStrategyName("ReRoute");
-        strategySettings2.setWeight(0.8);//originally 0.2
+        strategySettings2.setWeight(0.2);//originally 0.2
         strategySettings2.setDisableAfter((int) (numberOfIterations * 0.7));
         config.strategy().addStrategySettings(strategySettings2);
 
@@ -92,6 +92,7 @@ public class MatsimRunFromJava {
 
         PlanCalcScoreConfigGroup.ActivityParams workActivity = new PlanCalcScoreConfigGroup.ActivityParams("work");
         workActivity.setTypicalDuration(8 * 60 * 60);
+        workActivity.setOpeningTime(4*60*60);
         config.planCalcScore().addActivityParams(workActivity);
 
         config.qsim().setNumberOfThreads(16);
@@ -112,13 +113,14 @@ public class MatsimRunFromJava {
         final Controler controler = new Controler(scenario);
 
         //      Add controller listener
-        Zone2ZoneTravelTimeListener zone2zoneTravelTimeListener = new Zone2ZoneTravelTimeListener(
-                controler, scenario.getNetwork(), config.controler().getLastIteration(),
-                locationList, timeOfDay, numberOfCalcPoints, //ct,
-                autoTravelTime);
-        controler.addControlerListener(zone2zoneTravelTimeListener);
-        // yyyyyy feedback will not work without the above, will it?  kai, apr'16
-
+        if (getTravelTimes) {
+            Zone2ZoneTravelTimeListener zone2zoneTravelTimeListener = new Zone2ZoneTravelTimeListener(
+                    controler, scenario.getNetwork(), config.controler().getLastIteration(),
+                    locationList, timeOfDay, numberOfCalcPoints, //ct,
+                    autoTravelTime);
+            controler.addControlerListener(zone2zoneTravelTimeListener);
+            // yyyyyy feedback will not work without the above, will it?  kai, apr'16
+        }
 
         // Run controller
         controler.run();

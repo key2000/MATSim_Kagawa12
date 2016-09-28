@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import static org.matsim.example.MatsimExecuter.munich;
+
 /**
  * Created by carlloga on 9/12/2016.
  */
@@ -27,15 +29,15 @@ public class CentroidsToLocations {
 
 
         //read the centroid list
-        String workDirectory = "C:/Models/AmberImplementation/input/plans/";
-        String fileName = "centroids_test_id_no_header.csv";
+        String workDirectory = munich.getString("location.list.folder");
+        String fileName = workDirectory + munich.getString("location.list.file");
 
         BufferedReader bufferReader = null;
         ArrayList<Location> locationList = new ArrayList<>();
 
         try {
             String line;
-            bufferReader = new BufferedReader(new FileReader(workDirectory + fileName));
+            bufferReader = new BufferedReader(new FileReader(fileName));
 
             // How to read file in java line by line?
 

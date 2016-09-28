@@ -87,7 +87,7 @@ public class Zone2ZoneTravelTimeListener implements IterationEndsListener {
             TravelTime travelTime = controler.getLinkTravelTimes();
 
             TravelDisutility travelDisutility = controler.getTravelDisutilityFactory().createTravelDisutility(travelTime);
-			//TODO change to get travel times in the current situation?
+
 //            TravelDisutility travelTimeAsTravelDisutility = new MyTravelTimeDisutility(controler.getLinkTravelTimes());
 // PICK ONE OF THE TWO ALTERNATIVE LINES
           LeastCostPathTree leastCoastPathTree = new LeastCostPathTree(travelTime, travelDisutility);
@@ -133,7 +133,7 @@ public class Zone2ZoneTravelTimeListener implements IterationEndsListener {
 
                 for (Location destinationZone : locationList) { // going over all destination zones
 
-                    Tuple<Integer, Integer> originDestinationRelation = new Tuple<>(originZone.getId(), destinationZone.getId());
+                    //Tuple<Integer, Integer> originDestinationRelation = new Tuple<>(originZone.getId(), destinationZone.getId());
 
 //                    if (!travelTimesMap.containsKey(originDestinationRelation)) {
 //                        travelTimesMap.put(originDestinationRelation, 0.f);
@@ -179,7 +179,7 @@ public class Zone2ZoneTravelTimeListener implements IterationEndsListener {
                     //float previousSumTravelTimeMin = travelTimesMap.get(originDestinationRelation);
 
                     //travelTimesMap.put(originDestinationRelation, previousSumTravelTimeMin + congestedTravelTimeMin);
-                    autoTravelTime.setValueAt(originDestinationRelation.getFirst()-1, originDestinationRelation.getSecond()-1,congestedTravelTimeMin);
+                    autoTravelTime.setValueAt(originZone.getId(), destinationZone.getId(),congestedTravelTimeMin);
                     counter++;
                     if (counter % 10000 == 0) {
                         log.info("pairs already calculated = " + counter);

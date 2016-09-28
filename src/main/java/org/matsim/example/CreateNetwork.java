@@ -11,6 +11,8 @@ import org.matsim.core.utils.geometry.CoordinateTransformation;
 import org.matsim.core.utils.geometry.transformations.TransformationFactory;
 import org.matsim.core.utils.io.OsmNetworkReader;
 
+import static org.matsim.example.MatsimExecuter.munich;
+
 
 /**
  * "P" has to do with "Potsdam" and "Z" with "Zurich", but P and Z are mostly used to show which classes belong together.
@@ -22,7 +24,8 @@ public class CreateNetwork {
 		/*
 		 * The input file name.
 		 */
-        String osm = "./input/studyAreaV3.osm";
+        String networkFolder = munich.getString("network.folder");
+        String osm = networkFolder + munich.getString("osm.input.file");
 
 
 		/*
@@ -62,7 +65,7 @@ public class CreateNetwork {
 		/*
 		 * Write the Network to a MATSim network file.
 		 */
-        new NetworkWriter(network).write("./input/studyNetworkV3.xml");
+        new NetworkWriter(network).write(munich.getString(networkFolder + "xml.network.file"));
 
         System.out.println("MATSIM network created");
 

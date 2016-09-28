@@ -4,6 +4,7 @@ package org.matsim.example;
 
 
 import com.pb.common.matrix.Matrix;
+import com.pb.common.util.ResourceUtil;
 import org.matsim.example.Accessibility;
 import org.matsim.api.core.v01.population.Population;
 import org.matsim.core.utils.collections.Tuple;
@@ -18,11 +19,10 @@ import org.matsim.example.outputCreation.travelTimeMatrix;
 import org.matsim.contrib.networkEditor.run.RunNetworkEditor;
 
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.File;
+import java.util.*;
 
+import static java.lang.Integer.highestOneBit;
 import static java.lang.Integer.valueOf;
 
 
@@ -31,22 +31,28 @@ import static java.lang.Integer.valueOf;
  */
 public class MatsimExecuter {
 
+    public static ResourceBundle munich;
+
     public static void main (String[] args){
 
+        File propFile = new File("munich.properties");
+        munich = ResourceUtil.getPropertyBundle(propFile);
+
+        boolean createNetwork = ResourceUtil.getBooleanProperty(munich,"create.network");
+        boolean runMatsim = ResourceUtil.getBooleanProperty(munich,"run.matsim");
+        boolean getTravelTimes = ResourceUtil.getBooleanProperty(munich,"get.travel.times");
+        boolean analyzeAccessibility = ResourceUtil.getBooleanProperty(munich,"analyze.accessibility");
+        boolean visualize = ResourceUtil.getBooleanProperty(munich,"run.oftvis");
+
         //create network from OSM file
-        //CreateNetwork.createNetwork();
+        if (createNetwork) CreateNetwork.createNetwork();
+
 
         //read centroids and get list of locations
         ArrayList<Location> locationList = CentroidsToLocations.readCentroidList();
 
-        //create population
-        Population matsimPopulation = MatsimPopulationCreator.createMatsimPopulation(locationList, 2013, true);
-
-
-
         //make a subset of locations to test the calculation of travel times (ONLY FOR TESTING)
-        ArrayList<Location> smallLocationList = new ArrayList<>();
-//
+//        ArrayList<Location> smallLocationList = new ArrayList<>();
 //        for (Location location : locationList){
 //            if (location.getId()<100){
 //                smallLocationList.add(location);
@@ -55,38 +61,56 @@ public class MatsimExecuter {
 //
 //        locationList = smallLocationList;
 
-        //create an empty map to store travel times
-        Matrix autoTravelTime = new Matrix(locationList.size(), locationList.size());
+        int iterations = Integer.parseInt(munich.getString("last.iteration"));
+        int year = Integer.parseInt(munich.getString("simulation.year"));
+        int hourOfDay = Integer.parseInt(munich.getString("hour.of.day"));
+        String networkFile = munich.getString("network.folder")+munich.getString("xml.network.file");
+        String simulationName = munich.getString("simulation.name");
+        String outputFolder = munich.getString("output.folder");
+        if (runMatsim) {
 
-        //get travel times and run Matsim
-        autoTravelTime = MatsimRunFromJava.runMatsimToCreateTravelTimes(autoTravelTime, 8*60*60 , 1,
-                                                                    "./input/studyNetwork.xml", matsimPopulation, 2013,
-                                                                    TransformationFactory.WGS84, 5, "travelTime",
-                                                                    "./output" /*,1, 2*/, locationList);
 
-        //store the map in omx file
-        travelTimeMatrix.createOmxSkimMatrix(autoTravelTime,locationList);
+
+            //create population
+            Population matsimPopulation = MatsimPopulationCreator.createMatsimPopulation(locationList, 2013, true);
+            //create an empty map to store travel times
+            Matrix autoTravelTime = new Matrix(locationList.size(), locationList.size());
+
+
+            //get travel times and run Matsim
+            autoTravelTime = MatsimRunFromJava.runMatsimToCreateTravelTimes(autoTravelTime, hourOfDay * 60 * 60, 1,
+                    networkFile, matsimPopulation, year,
+                    TransformationFactory.WGS84, iterations, simulationName,
+                    outputFolder /*,1, 2*/, locationList,getTravelTimes);
+
+            //store the map in omx file
+            travelTimeMatrix.createOmxSkimMatrix(autoTravelTime, locationList);
+        }
 
         //read omx files and calculate accessibility
-        Accessibility acc = new Accessibility();
-        acc.calculateAccessibility(locationList);
-        acc.calculateTravelTimesToZone(locationList, 1989);
-        acc.printAccessibility(locationList);
+        if (analyzeAccessibility) {
+            Accessibility acc = new Accessibility();
+            acc.calculateAccessibility(locationList);
+            acc.calculateTravelTimesToZone(locationList, 1989);
+            acc.printAccessibility(locationList);
+        }
 
         //run MATSim from file configs
 //        matsimRunFromFile();
 
         //generate an animation using the OTFVIS extension
-        //program arguments
-        String arguments[] = new String[5];
-        arguments[1]="C:/Models/AmberImplementation/output/travelTime_2013.output_events.xml.gz";
-        arguments[2]="C:/Models/AmberImplementation/output/travelTime_2013.output_network.xml.gz";
-        arguments[3]="C:/Models/AmberImplementation/visualization.mvi";
-        arguments[4]="300";
-        //run the conversion
-//        org.matsim.contrib.otfvis.OTFVis.convert(arguments);
-        //run the visualization
-//        org.matsim.contrib.otfvis.OTFVis.playMVI(arguments[3]);
 
+        if (visualize) {
+            //program arguments
+            String arguments[] = new String[5];
+            arguments[1] = outputFolder + simulationName + "_" + year + ".output_events.xml.gz";
+            arguments[2] = outputFolder + simulationName + "_" + year + ".output_network.xml.gz";
+            arguments[3] = munich.getString("output.mvi.file");
+            arguments[4] = munich.getString("seconds.frame");
+            //run the conversion
+            org.matsim.contrib.otfvis.OTFVis.convert(arguments);
+            //run the visualization
+            org.matsim.contrib.otfvis.OTFVis.playMVI(arguments[3]);
+        }
     }
 }
