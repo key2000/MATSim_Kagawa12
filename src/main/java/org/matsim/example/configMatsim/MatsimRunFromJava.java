@@ -17,6 +17,7 @@ import org.matsim.example.planCreation.Location;
 import org.matsim.pt.counts.PtCountControlerListener;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Map;
 
 
@@ -65,8 +66,19 @@ public class MatsimRunFromJava {
         config.controler().setWritePlansInterval(numberOfIterations);
         config.controler().setWriteEventsInterval(numberOfIterations);
 
+
+
+        Collection<String> snapshot = new ArrayList<>();
+        snapshot.add("googleearth");
+        config.controler().setWriteSnapshotsInterval(numberOfIterations);
+
+        config.controler().setSnapshotFormat(snapshot);
+
         config.controler().setOverwriteFileSetting(OutputDirectoryHierarchy.OverwriteFileSetting.deleteDirectoryIfExists);
 
+        //linkstats
+        config.linkStats().setWriteLinkStatsInterval(1);
+        config.linkStats().setAverageLinkStatsOverIterations(0);
         // QSim and other
         config.qsim().setTrafficDynamics(QSimConfigGroup.TrafficDynamics.withHoles);
         config.vspExperimental().setWritingOutputEvents(true); // writes final events into toplevel directory
@@ -74,7 +86,7 @@ public class MatsimRunFromJava {
         // Strategy
         StrategyConfigGroup.StrategySettings strategySettings1 = new StrategyConfigGroup.StrategySettings();
         strategySettings1.setStrategyName("ChangeExpBeta");
-        strategySettings1.setWeight(0.8); //originally 0.8
+        strategySettings1.setWeight(0.3); //originally 0.8
         config.strategy().addStrategySettings(strategySettings1);
 
         StrategyConfigGroup.StrategySettings strategySettings2 = new StrategyConfigGroup.StrategySettings();
@@ -82,6 +94,11 @@ public class MatsimRunFromJava {
         strategySettings2.setWeight(0.2);//originally 0.2
         strategySettings2.setDisableAfter((int) (numberOfIterations * 0.7));
         config.strategy().addStrategySettings(strategySettings2);
+
+        StrategyConfigGroup.StrategySettings strategySettings3 = new StrategyConfigGroup.StrategySettings();
+        strategySettings3.setStrategyName("TimeAllocationMutator");
+        strategySettings3.setWeight(0.5); //originally 0
+        config.strategy().addStrategySettings(strategySettings3);
 
         config.strategy().setMaxAgentPlanMemorySize(4);
 
@@ -94,6 +111,11 @@ public class MatsimRunFromJava {
         workActivity.setTypicalDuration(8 * 60 * 60);
         workActivity.setOpeningTime(4*60*60);
         config.planCalcScore().addActivityParams(workActivity);
+
+        PlanCalcScoreConfigGroup.ActivityParams newActivity = new PlanCalcScoreConfigGroup.ActivityParams("airport");
+        newActivity.setTypicalDuration(3 * 60 * 60);
+        newActivity.setOpeningTime(4*60*60);
+        config.planCalcScore().addActivityParams(newActivity);
 
         config.qsim().setNumberOfThreads(16);
         config.global().setNumberOfThreads(16);

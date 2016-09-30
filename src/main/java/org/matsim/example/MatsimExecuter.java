@@ -84,7 +84,7 @@ public class MatsimExecuter {
                     outputFolder /*,1, 2*/, locationList,getTravelTimes);
 
             //store the map in omx file
-            travelTimeMatrix.createOmxSkimMatrix(autoTravelTime, locationList);
+            if (getTravelTimes) travelTimeMatrix.createOmxSkimMatrix(autoTravelTime, locationList);
         }
 
         //read omx files and calculate accessibility

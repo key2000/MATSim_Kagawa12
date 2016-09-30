@@ -106,8 +106,13 @@ public class MatsimPopulationCreator {
 */
         ArrayList<Location> destList = locationList;
         ArrayList<Location> origList = locationList;
-        int maxOrig = 5429;
-        int maxDest = 5429;
+        //scaling factor
+        float scalingFactor = Float.parseFloat(munich.getString("scaling.factor"));
+        if (scalingFactor<1.0) Collections.shuffle(destList);
+        int maxOrig = (int)(5429*scalingFactor);
+        int maxDest = (int)(5429*scalingFactor);
+
+
         int origCount;
         int destCount;
         destCount = 0;
@@ -156,7 +161,7 @@ public class MatsimPopulationCreator {
                             matsimPerson.addPlan(matsimPlan);
 
                             //SimpleFeature homeFeature = zoneFeatureMap.get(origLoc.getId());
-                            Coord homeCoordinates = new Coord (origLoc.getX()+200*(Math.random()-0.5),origLoc.getY()+200*(Math.random()-0.5));
+                            Coord homeCoordinates = new Coord (origLoc.getX()+origLoc.getSize()*(Math.random()-0.5),origLoc.getY()+origLoc.getSize()*(Math.random()-0.5));
 
 //    		Activity activity1 = matsimPopulationFactory.createActivityFromCoord("home", ct.transform(homeCoordinates));
                             Activity activity1 = matsimPopulationFactory.createActivityFromCoord("home", homeCoordinates);
@@ -168,7 +173,7 @@ public class MatsimPopulationCreator {
 
 //    		SimpleFeature workFeature = featureMap.get(workPuma);
                             //SimpleFeature workFeature = zoneFeatureMap.get(destLoc.getId());
-                            Coord workCoordinates = new Coord (destLoc.getX()+200*(Math.random()-0.5),destLoc.getY()+ 200*(Math.random()-0.5));
+                            Coord workCoordinates = new Coord (destLoc.getX()+destLoc.getSize()*(Math.random()-0.5),destLoc.getY()+ destLoc.getSize()*(Math.random()-0.5));
 //    		Activity activity2 = matsimPopulationFactory.createActivityFromCoord("work", ct.transform(workCoordinates));
                             Activity activity2 = matsimPopulationFactory.createActivityFromCoord("work", workCoordinates);
                             //randomly between 4 and 8 PM
@@ -182,9 +187,48 @@ public class MatsimPopulationCreator {
                             matsimPlan.addActivity(activity3);
                         }
 
+
                     }
                 }
 
+            }
+
+            if (destLoc.getId()==(1989)){
+                for (Location origLoc : origList){
+                    int tripsToAirport= (int)(0.003*origLoc.getPopulation());
+                    Coord airportCoordinates = new Coord(4484789, 5357507);
+                    for (int i =0; i< tripsToAirport; i++){
+                        org.matsim.api.core.v01.population.Person matsimPerson =
+                                matsimPopulationFactory.createPerson(Id.create(personId, org.matsim.api.core.v01.population.Person.class));
+                        matsimPopulation.addPerson(matsimPerson);
+                        personId++;
+                        Plan matsimPlan = matsimPopulationFactory.createPlan();
+                        matsimPerson.addPlan(matsimPlan);
+
+                        //SimpleFeature homeFeature = zoneFeatureMap.get(origLoc.getId());
+                        Coord homeCoordinates = new Coord (origLoc.getX()+200*(Math.random()-0.5),origLoc.getY()+200*(Math.random()-0.5));
+
+//    		Activity activity1 = matsimPopulationFactory.createActivityFromCoord("home", ct.transform(homeCoordinates));
+                        Activity activity1 = matsimPopulationFactory.createActivityFromCoord("home", homeCoordinates);
+                        //randomly between 7 and 9 AM
+                        double time = 5*60*60+rnd.nextDouble()*15*60*60;
+                        activity1.setEndTime(time);
+                        matsimPlan.addActivity(activity1);
+                        matsimPlan.addLeg(matsimPopulationFactory.createLeg(TransportMode.car));
+
+
+                        Activity activity2 = matsimPopulationFactory.createActivityFromCoord("airport", airportCoordinates);
+                        //randomly between 4 and 8 PM
+
+                        time += rnd.nextDouble()*3*60*60;
+                        activity2.setEndTime(time);
+                        matsimPlan.addActivity(activity2);
+                        matsimPlan.addLeg(matsimPopulationFactory.createLeg(TransportMode.car));
+
+                        Activity activity3 = matsimPopulationFactory.createActivityFromCoord("home", homeCoordinates);
+                        matsimPlan.addActivity(activity3);
+                    }
+                }
             }
 
         }
