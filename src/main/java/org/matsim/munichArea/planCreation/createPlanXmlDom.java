@@ -1,7 +1,6 @@
-package org.matsim.example.planCreation;
+package org.matsim.munichArea.planCreation;
 
 
-import com.sun.javafx.binding.SelectBinding;
 import org.w3c.dom.*;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -14,11 +13,6 @@ import java.io.*;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.Scanner;
-
-import static org.matsim.example.planCreation.CentroidsToLocations.CSVtoLocation;
 
 /**
  * Created by carlloga on 9/12/2016.

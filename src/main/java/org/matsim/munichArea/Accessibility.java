@@ -1,24 +1,20 @@
-package org.matsim.example;
+package org.matsim.munichArea;
 
 import com.pb.common.matrix.Matrix;
 import omx.OmxFile;
-import omx.OmxLookup;
 import omx.OmxMatrix;
 import omx.hdf5.OmxHdf5Datatype;
 import org.matsim.core.utils.io.IOUtils;
-import org.matsim.example.planCreation.Location;
+import org.matsim.munichArea.planCreation.Location;
 
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
 
 import java.util.ArrayList;
 
 import static java.lang.System.exit;
-import static org.matsim.example.MatsimExecuter.munich;
+import static org.matsim.munichArea.MatsimExecuter.munich;
 
 /**
  * Created by carlloga on 9/15/2016.

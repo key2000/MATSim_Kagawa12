@@ -1,28 +1,22 @@
-package org.matsim.example;
+package org.matsim.munichArea;
 
 
 
 
 import com.pb.common.matrix.Matrix;
 import com.pb.common.util.ResourceUtil;
-import org.matsim.example.Accessibility;
 import org.matsim.api.core.v01.population.Population;
-import org.matsim.core.utils.collections.Tuple;
 import org.matsim.core.utils.geometry.transformations.TransformationFactory;
-import org.matsim.example.configMatsim.MatsimPopulationCreator;
-import org.matsim.example.configMatsim.MatsimRunFromJava;
-import org.matsim.example.configMatsim.Zone2ZoneTravelTimeListener;
-import org.matsim.example.planCreation.CentroidsToLocations;
-import org.matsim.example.planCreation.Location;
-import org.matsim.example.outputCreation.travelTimeMatrix;
-
-import org.matsim.contrib.networkEditor.run.RunNetworkEditor;
+import org.matsim.munichArea.configMatsim.MatsimPopulationCreator;
+import org.matsim.munichArea.configMatsim.MatsimRunFromJava;
+import org.matsim.munichArea.planCreation.CentroidsToLocations;
+import org.matsim.munichArea.planCreation.Location;
+import org.matsim.munichArea.outputCreation.travelTimeMatrix;
 
 
 import java.io.File;
 import java.util.*;
 
-import static java.lang.Integer.highestOneBit;
 import static java.lang.Integer.valueOf;
 
 

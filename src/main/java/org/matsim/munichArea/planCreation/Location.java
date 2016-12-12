@@ -1,4 +1,4 @@
-package org.matsim.example.planCreation;
+package org.matsim.munichArea.planCreation;
 
 /**
  * Created by carlloga on 9/12/2016.

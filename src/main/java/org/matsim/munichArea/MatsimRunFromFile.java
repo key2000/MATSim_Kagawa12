@@ -1,4 +1,4 @@
-package org.matsim.example;
+package org.matsim.munichArea;
 
 import org.matsim.api.core.v01.Scenario;
 import org.matsim.core.config.Config;

@@ -16,7 +16,7 @@
  *   See also COPYING, LICENSE and WARRANTY file                           *
  *                                                                         *
  * *********************************************************************** */
-package org.matsim.example;
+package org.matsim.munichArea;
 
 import org.apache.log4j.Logger;
 import org.junit.Assert;

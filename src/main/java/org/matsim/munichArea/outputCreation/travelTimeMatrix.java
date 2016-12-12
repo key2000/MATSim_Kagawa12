@@ -1,15 +1,13 @@
-package org.matsim.example.outputCreation;
+package org.matsim.munichArea.outputCreation;
 
 import com.pb.common.matrix.Matrix;
 import omx.*;
 import omx.hdf5.*;
-import org.matsim.core.utils.collections.Tuple;
-import org.matsim.example.planCreation.Location;
+import org.matsim.munichArea.planCreation.Location;
 
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 

@@ -1,11 +1,9 @@
-package org.matsim.example.configMatsim;
+package org.matsim.munichArea.configMatsim;
 
 /**
  * Created by carlloga on 9/14/2016.
  */
 
-import java.lang.reflect.Array;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Map.Entry;
 
@@ -18,14 +16,12 @@ import org.matsim.api.core.v01.population.*;
 import org.matsim.core.api.internal.MatsimWriter;
 import org.matsim.core.config.Config;
 import org.matsim.core.config.ConfigUtils;
-import org.matsim.core.gbl.MatsimRandom;
 import org.matsim.core.scenario.ScenarioUtils;
-import org.matsim.example.Accessibility;
-import org.matsim.example.planCreation.Location;
-import org.opengis.feature.simple.SimpleFeature;
+import org.matsim.munichArea.Accessibility;
+import org.matsim.munichArea.planCreation.Location;
 import com.pb.common.matrix.Matrix;
 
-import static org.matsim.example.MatsimExecuter.munich;
+import static org.matsim.munichArea.MatsimExecuter.munich;
 
 
 /**
@@ -262,7 +258,7 @@ public class MatsimPopulationCreator {
 
         }
 
-        //add demand to example transit line
+        //add demand to munichArea transit line
         float transitShare = Float.parseFloat(munich.getString("transit.modal.share"));
 
         int numberOfS1travelers = (int) (500 * transitShare);

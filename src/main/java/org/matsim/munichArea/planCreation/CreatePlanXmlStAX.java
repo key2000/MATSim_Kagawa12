@@ -1,18 +1,11 @@
-package org.matsim.example.planCreation;
+package org.matsim.munichArea.planCreation;
 
 
 import com.sun.xml.internal.txw2.output.IndentingXMLStreamWriter;
-import org.w3c.dom.*;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

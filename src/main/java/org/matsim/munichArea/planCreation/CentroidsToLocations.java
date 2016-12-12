@@ -1,22 +1,12 @@
-package org.matsim.example.planCreation;
+package org.matsim.munichArea.planCreation;
 
 
-import org.w3c.dom.*;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-import static org.matsim.example.MatsimExecuter.munich;
+import static org.matsim.munichArea.MatsimExecuter.munich;
 
 /**
  * Created by carlloga on 9/12/2016.

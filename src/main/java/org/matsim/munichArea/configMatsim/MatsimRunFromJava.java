@@ -1,24 +1,15 @@
-package org.matsim.example.configMatsim;
+package org.matsim.munichArea.configMatsim;
 
 import com.pb.common.matrix.Matrix;
-import org.matsim.api.core.v01.network.Network;
 import org.matsim.api.core.v01.population.Population;
 import org.matsim.core.config.Config;
 import org.matsim.core.config.ConfigUtils;
 import org.matsim.core.config.groups.*;
 import org.matsim.core.controler.Controler;
 import org.matsim.core.controler.OutputDirectoryHierarchy;
-import org.matsim.core.controler.listener.ControlerListener;
-import org.matsim.core.network.KmlNetworkWriter;
-import org.matsim.core.population.PopulationReader;
-import org.matsim.core.population.PopulationReaderMatsimV5;
 import org.matsim.core.scenario.MutableScenario;
 import org.matsim.core.scenario.ScenarioUtils;
-import org.matsim.core.utils.collections.Tuple;
-import org.matsim.example.planCreation.Location;
-import org.matsim.pt.counts.PtCountControlerListener;
-import org.matsim.vis.kml.KMZWriter;
-import org.matsim.vis.snapshotwriters.KmlSnapshotWriter;
+import org.matsim.munichArea.planCreation.Location;
 
 import java.util.*;
 
@@ -50,15 +41,14 @@ public class MatsimRunFromJava {
         config.transit().setVehiclesFile("./input/pt/vehiclesS1.xml");
         config.transit().setUseTransit(true);
         Set<String> transitModes = new TreeSet<>();
-        transitModes.add("train");
+        transitModes.add("pt");
         config.transit().setTransitModes(transitModes);
 
         //experimental settings - I don't know if they are useful/required
-        Set <String> allModes = transitModes;
-        allModes.add("car");
-        config.qsim().setMainModes(allModes);
 
-        config.travelTimeCalculator().setAnalyzedModes("car,pt");
+
+
+
 
         //end of experimental settings
 

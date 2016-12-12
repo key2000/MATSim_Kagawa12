@@ -18,7 +18,7 @@
  * *********************************************************************** */
 /**
  * Examples are collected in the package {@link tutorial}, in particular {@link tutorial.programming}.  They sit physically in the
- * matsim main repository, not on the matsim-example-project on which you are working here.  However, maven should be configured
+ * matsim main repository, not on the matsim-munichArea-project on which you are working here.  However, maven should be configured
  * such that it downloads the matsim sources as well, so you should be able to click on the package links above.  (In eclipse, this seems
  * to be a bit flaky; in many cases, it works if you say "attach source", then start browsing around, and then it often pops up without 
  * you having to know where it is physically located.)

@@ -1,46 +1,27 @@
-package org.matsim.example.configMatsim;
+package org.matsim.munichArea.configMatsim;
 
 /**
  * Created by carlloga on 9/14/2016. copyed from siloMatsim package in github silo
  */
 
-import java.io.FileWriter;
-
 import java.util.*;
 
 import com.pb.common.matrix.Matrix;
 import org.apache.log4j.Logger;
-import org.matsim.analysis.TravelDistanceStats;
 import org.matsim.api.core.v01.Coord;
-import org.matsim.api.core.v01.Id;
 import org.matsim.api.core.v01.network.Link;
 import org.matsim.api.core.v01.network.Network;
 import org.matsim.api.core.v01.network.Node;
 import org.matsim.api.core.v01.population.Person;
-import org.matsim.api.core.v01.population.Population;
-import org.matsim.core.config.Config;
-import org.matsim.core.config.ConfigUtils;
-import org.matsim.core.config.groups.PlanCalcScoreConfigGroup;
-import org.matsim.core.config.groups.QSimConfigGroup;
-import org.matsim.core.config.groups.StrategyConfigGroup;
-import org.matsim.core.config.groups.VspExperimentalConfigGroup;
 import org.matsim.core.controler.Controler;
-import org.matsim.core.controler.OutputDirectoryHierarchy;
 import org.matsim.core.controler.events.IterationEndsEvent;
 import org.matsim.core.controler.listener.IterationEndsListener;
 import org.matsim.core.network.NetworkUtils;
-import org.matsim.core.router.Dijkstra;
-import org.matsim.core.router.util.LeastCostPathCalculator;
 import org.matsim.core.router.util.TravelDisutility;
 import org.matsim.core.router.util.TravelTime;
-import org.matsim.core.scenario.MutableScenario;
-import org.matsim.core.scenario.ScenarioUtils;
-import org.matsim.core.utils.collections.Tuple;
-import org.matsim.example.planCreation.Location;
+import org.matsim.munichArea.planCreation.Location;
 import org.matsim.utils.leastcostpathtree.LeastCostPathTree;
-import org.matsim.utils.leastcostpathtree.LeastCostPathTree.NodeData;
 import org.matsim.vehicles.Vehicle;
-import org.opengis.feature.simple.SimpleFeature;
 
 
 /**
