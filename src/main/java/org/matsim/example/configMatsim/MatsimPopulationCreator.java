@@ -269,9 +269,9 @@ public class MatsimPopulationCreator {
 
 
         for (int i = 0; i < numberOfS1travelers; i++) {
-            //select randomly trips whithin the population
-            double randomNumber = Math.random();
-            if (randomNumber < tripScalingFactor) {
+            //select randomly trips within the population
+
+
 
 
                 org.matsim.api.core.v01.population.Person matsimPerson =
@@ -300,14 +300,14 @@ public class MatsimPopulationCreator {
                 Activity activity2 = matsimPopulationFactory.createActivityFromCoord("work", workCoordinates);
                 //randomly between 4 and 8 PM
 
-                time = 17 * 60 * 60 + rnd.nextGaussian() * 60 * 60;
-                activity2.setEndTime(Math.max(14 * 60 * 60, Math.min(time, 22 * 60 * 60)));
+//                time = 17 * 60 * 60 + rnd.nextGaussian() * 60 * 60;
+//                activity2.setEndTime(Math.max(14 * 60 * 60, Math.min(time, 22 * 60 * 60)));
                 matsimPlan.addActivity(activity2);
                 //matsimPlan.addLeg(matsimPopulationFactory.createLeg(TransportMode.car));
 
                 //Activity activity3 = matsimPopulationFactory.createActivityFromCoord("home", homeCoordinates);
                 //matsimPlan.addActivity(activity3);
-            }
+
         }
 
 

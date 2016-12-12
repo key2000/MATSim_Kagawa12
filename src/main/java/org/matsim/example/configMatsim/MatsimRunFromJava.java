@@ -50,9 +50,17 @@ public class MatsimRunFromJava {
         config.transit().setVehiclesFile("./input/pt/vehiclesS1.xml");
         config.transit().setUseTransit(true);
         Set<String> transitModes = new TreeSet<>();
-        transitModes.add("pt");
+        transitModes.add("train");
         config.transit().setTransitModes(transitModes);
 
+        //experimental settings - I don't know if they are useful/required
+        Set <String> allModes = transitModes;
+        allModes.add("car");
+        config.qsim().setMainModes(allModes);
+
+        config.travelTimeCalculator().setAnalyzedModes("car,pt");
+
+        //end of experimental settings
 
         // Plans
         //		config.plans().setInputFile(inputPlansFile);
