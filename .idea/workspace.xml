@@ -2,21 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a15e1a17-0473-40da-a7d8-a5224804c518" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/example/Accessibility.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/Accessibility.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/example/CreateNetwork.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/CreateNetwork.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/example/MatsimExecuter.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/MatsimExecuter.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/example/MatsimRunFromFile.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/MatsimRunFromFile.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/example/configMatsim/MatsimPopulationCreator.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/configMatsim/MatsimPopulationCreator.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/example/configMatsim/MatsimRunFromJava.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/configMatsim/MatsimRunFromJava.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/example/configMatsim/Zone2ZoneTravelTimeListener.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/configMatsim/Zone2ZoneTravelTimeListener.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/example/outputCreation/travelTimeMatrix.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/outputCreation/travelTimeMatrix.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/example/planCreation/CentroidsToLocations.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/planCreation/CentroidsToLocations.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/example/planCreation/CreatePlanXmlStAX.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/planCreation/CreatePlanXmlStAX.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/example/planCreation/Location.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/planCreation/Location.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/example/planCreation/createPlanXmlDom.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/planCreation/createPlanXmlDom.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/java/org/matsim/example/HelloWorldTest.java" afterPath="$PROJECT_DIR$/src/test/java/org/matsim/munichArea/HelloWorldTest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/moreexamples/package-info.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/moreexamples/package-info.java" />
     </list>
     <ignored path="MATSim.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -1743,8 +1729,8 @@
       <file leaf-file-name="MatsimExecuter.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/matsim/munichArea/MatsimExecuter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="55" column="50" selection-start-line="55" selection-start-column="50" selection-end-line="55" selection-end-column="50" />
+            <state relative-caret-position="578">
+              <caret line="66" column="24" selection-start-line="66" selection-start-column="24" selection-end-line="66" selection-end-column="24" />
               <folding />
             </state>
           </provider>
@@ -2387,11 +2373,11 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../Osmosis/lib/default/xercesImpl-2.9.1.jar!/" />
-    <property name="settings.editor.selected.configurable" value="vcs.Git" />
+    <property name="settings.editor.selected.configurable" value="settings.github" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="290" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
@@ -2922,7 +2908,14 @@
       <option name="project" value="LOCAL" />
       <updated>1481538418728</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="rename package">
+      <created>1481555869149</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1481555869149</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TodoView">
@@ -2936,31 +2929,31 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32998884" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29431438" sideWeight="0.5042644" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.08742005" sideWeight="0.49317408" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1609808" sideWeight="0.49317408" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32887402" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33779263" sideWeight="0.49573562" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32887402" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20522387" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20522387" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32998884" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33779263" sideWeight="0.49573562" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18443497" sideWeight="0.5068259" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32998884" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
@@ -2985,7 +2978,8 @@
     <MESSAGE value="added properties and modified working directory" />
     <MESSAGE value="added size of zones, added linkStats" />
     <MESSAGE value="included a first sbahn line" />
-    <option name="LAST_COMMIT_MESSAGE" value="included a first sbahn line" />
+    <MESSAGE value="rename package" />
+    <option name="LAST_COMMIT_MESSAGE" value="rename package" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -3162,14 +3156,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/matsim/example/GetTravelTime.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/org/matsim/example/transitTravelTime/TransitTravelTime.java" />
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$PROJECT_DIR$/../extensionsMatsim/networkEditor/networkEditor-0.8.0.jar!/org/matsim/contrib/networkEditor/utils/OsmImport.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1413">
@@ -3242,6 +3228,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="188">
           <caret line="84" column="17" selection-start-line="84" selection-start-column="17" selection-end-line="84" selection-end-column="17" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -3277,6 +3264,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="532">
           <caret line="64" column="1" selection-start-line="64" selection-start-column="1" selection-end-line="64" selection-end-column="1" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -3323,6 +3311,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1106">
           <caret line="128" column="0" selection-start-line="128" selection-start-column="0" selection-end-line="128" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -3340,13 +3329,22 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
           <caret line="82" column="28" selection-start-line="82" selection-start-column="28" selection-end-line="82" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/matsim/munichArea/MatsimExecuter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="55" column="50" selection-start-line="55" selection-start-column="50" selection-end-line="55" selection-end-column="50" />
+        <state relative-caret-position="578">
+          <caret line="66" column="24" selection-start-line="66" selection-start-column="24" selection-end-line="66" selection-end-column="24" />
           <folding />
         </state>
       </provider>
@@ -3408,6 +3406,7 @@
             <option name="proportions">
               <list>
                 <option value="0.2" />
+                <option value="0.6" />
               </list>
             </option>
           </splitter-proportions>
