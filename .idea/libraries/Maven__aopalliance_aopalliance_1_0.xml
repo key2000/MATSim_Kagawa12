@@ -2,46 +2,6 @@
   <library name="Maven: aopalliance:aopalliance:1.0">
     <CLASSES>
       <root url="jar://$MAVEN_REPOSITORY$/aopalliance/aopalliance/1.0/aopalliance-1.0.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../Osmosis/lib/default/commons-codec-1.10.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../Osmosis/lib/default/commons-compress-1.10.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../Osmosis/lib/default/commons-dbcp-1.4.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../Osmosis/lib/default/commons-logging-1.2.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../Osmosis/lib/default/commons-pool-1.5.4.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../Osmosis/lib/default/jpf-1.5.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../Osmosis/lib/default/logback-classic-1.1.3.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../Osmosis/lib/default/logback-core-1.1.3.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../Osmosis/lib/default/mysql-connector-java-5.1.37.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../Osmosis/lib/default/netty-3.10.5.Final.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../Osmosis/lib/default/osmosis-apidb-0.45.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../Osmosis/lib/default/osmosis-areafilter-0.45.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../Osmosis/lib/default/osmosis-core-0.45.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../Osmosis/lib/default/osmosis-dataset-0.45.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../Osmosis/lib/default/osmosis-extract-0.45.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../Osmosis/lib/default/osmosis-hstore-jdbc-0.45.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../Osmosis/lib/default/osmosis-osm-binary-0.45.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../Osmosis/lib/default/osmosis-pbf-0.45.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../Osmosis/lib/default/osmosis-pbf2-0.45.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../Osmosis/lib/default/osmosis-pgsimple-0.45.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../Osmosis/lib/default/osmosis-pgsnapshot-0.45.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../Osmosis/lib/default/osmosis-replication-0.45.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../Osmosis/lib/default/osmosis-replication-http-0.45.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../Osmosis/lib/default/osmosis-set-0.45.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../Osmosis/lib/default/osmosis-tagfilter-0.45.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../Osmosis/lib/default/osmosis-tagtransform-0.45.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../Osmosis/lib/default/osmosis-xml-0.45.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../Osmosis/lib/default/plexus-classworlds-2.5.2.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../Osmosis/lib/default/postgis-jdbc-2.1.7.2.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../Osmosis/lib/default/postgresql-9.1-901-1.jdbc4.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../Osmosis/lib/default/postgresql-9.4-1204-jdbc4.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../Osmosis/lib/default/protobuf-java-2.6.1.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../Osmosis/lib/default/slf4j-api-1.7.12.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../Osmosis/lib/default/spring-beans-4.2.2.RELEASE.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../Osmosis/lib/default/spring-core-4.2.2.RELEASE.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../Osmosis/lib/default/spring-jdbc-4.2.2.RELEASE.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../Osmosis/lib/default/spring-tx-4.2.2.RELEASE.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../Osmosis/lib/default/stax2-api-4.0.0.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../Osmosis/lib/default/woodstox-core-5.0.1.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../Osmosis/lib/default/xercesImpl-2.9.1.jar!/" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$MAVEN_REPOSITORY$/aopalliance/aopalliance/1.0/aopalliance-1.0-javadoc.jar!/" />

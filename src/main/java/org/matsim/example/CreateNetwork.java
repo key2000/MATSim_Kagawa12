@@ -1,15 +1,28 @@
 package org.matsim.example;
 
+import com.pb.common.util.ResourceUtil;
+import org.matsim.api.core.v01.Coord;
+import org.matsim.api.core.v01.Id;
 import org.matsim.api.core.v01.Scenario;
+import org.matsim.api.core.v01.network.Link;
 import org.matsim.api.core.v01.network.Network;
+import org.matsim.api.core.v01.network.Node;
 import org.matsim.core.config.Config;
 import org.matsim.core.config.ConfigUtils;
+import org.matsim.core.network.NetworkUtils;
 import org.matsim.core.network.NetworkWriter;
 import org.matsim.core.network.algorithms.NetworkCleaner;
 import org.matsim.core.scenario.ScenarioUtils;
 import org.matsim.core.utils.geometry.CoordinateTransformation;
 import org.matsim.core.utils.geometry.transformations.TransformationFactory;
 import org.matsim.core.utils.io.OsmNetworkReader;
+import org.matsim.example.planCreation.Location;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Set;
 
 import static org.matsim.example.MatsimExecuter.munich;
 
@@ -48,6 +61,9 @@ public class CreateNetwork {
         Config config = ConfigUtils.createConfig();
         Scenario scenario = ScenarioUtils.createScenario(config);
 
+
+
+
 		/*
 		 * Pick the Network from the Scenario for convenience.
 		 */
@@ -56,7 +72,41 @@ public class CreateNetwork {
         OsmNetworkReader onr = new OsmNetworkReader(network,ct);
         onr.parse(osm);
 
-		/*
+
+
+        boolean cleanEmpty = ResourceUtil.getBooleanProperty(munich,"clean.empty.link");
+        if (cleanEmpty) {
+            String emptyLinksFileName = networkFolder + munich.getString("empty.links.file");
+
+            BufferedReader bufferReader = null;
+            ArrayList<Integer> emptyLinkList = new ArrayList<>();
+
+            try {
+                String line;
+                bufferReader = new BufferedReader(new FileReader(emptyLinksFileName));
+
+                while ((line = bufferReader.readLine()) != null) {
+                    int emptyLink = Integer.parseInt(line);
+                    emptyLinkList.add(emptyLink);
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (bufferReader != null) bufferReader.close();
+                } catch (IOException crunchifyException) {
+                    crunchifyException.printStackTrace();
+                }
+            }
+
+            for (int i : emptyLinkList) {
+                Id linkId = Id.createLinkId(i);
+                network.removeLink(linkId);
+            }
+        }
+
+        /*
 		 * Clean the Network. Cleaning means removing disconnected components, so that afterwards there is a route from every link
 		 * to every other link. This may not be the case in the initial network converted from OpenStreetMap.
 		 */
@@ -65,7 +115,7 @@ public class CreateNetwork {
 		/*
 		 * Write the Network to a MATSim network file.
 		 */
-        new NetworkWriter(network).write(munich.getString(networkFolder + "xml.network.file"));
+        new NetworkWriter(network).write(networkFolder + munich.getString("xml.network.file"));
 
         System.out.println("MATSIM network created");
 

@@ -21,10 +21,10 @@ import java.util.Set;
 public class travelTimeMatrix {
 
 
-    public static void createOmxSkimMatrix(Matrix autoTravelTime, ArrayList<Location> locationList){
+    public static void createOmxSkimMatrix(Matrix autoTravelTime, ArrayList<Location> locationList, String omxFileName){
 
-        String f = "./data/travelTimes.omx";
-        try (OmxFile omxFile = new OmxFile(f)) {
+
+        try (OmxFile omxFile = new OmxFile(omxFileName)) {
 
             int dim0 = locationList.size();
 

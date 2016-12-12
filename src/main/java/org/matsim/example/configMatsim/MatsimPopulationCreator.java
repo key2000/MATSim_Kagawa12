@@ -3,9 +3,11 @@ package org.matsim.example.configMatsim;
 /**
  * Created by carlloga on 9/14/2016.
  */
+
 import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Map.Entry;
 
 import org.matsim.api.core.v01.Coord;
 import org.matsim.api.core.v01.Id;
@@ -31,8 +33,12 @@ import static org.matsim.example.MatsimExecuter.munich;
  */
 public class MatsimPopulationCreator {
 
+    public static boolean ASC = true;
+    public static boolean DESC = false;
+
     public static Population createMatsimPopulation(ArrayList<Location> locationList, /*HouseholdDataManager householdDataManager,*/ int year,
-                                                    /*Map<Integer,SimpleFeature>zoneFeatureMap, String crs, */ boolean writePopulation /*, double scalingFactor*/) {
+                                                    /*Map<Integer,SimpleFeature>zoneFeatureMap, String crs, */ boolean writePopulation,
+                                                    double tripScalingFactor) {
 
 
         //    	Collection<SimpleFeature> features = ShapeFileReader.getAllFeatures(zoneShapeFile);
@@ -55,7 +61,7 @@ public class MatsimPopulationCreator {
 //    			TransformationFactory.WGS84, crs);
 
 //    	Random random = new Random();
-       // Random random = MatsimRandom.getLocalInstance() ;
+        // Random random = MatsimRandom.getLocalInstance() ;
         // make sure that stream of random variables is reproducible. kai, apr'16
 
    /*
@@ -106,94 +112,117 @@ public class MatsimPopulationCreator {
 */
         ArrayList<Location> destList = locationList;
         ArrayList<Location> origList = locationList;
-        //scaling factor
-        float scalingFactor = Float.parseFloat(munich.getString("scaling.factor"));
-        if (scalingFactor<1.0) Collections.shuffle(destList);
-        int maxOrig = (int)(5429*scalingFactor);
-        int maxDest = (int)(5429*scalingFactor);
 
-
-        int origCount;
-        int destCount;
-        destCount = 0;
         int personId = 0;
-
-
 
         Accessibility acc = new Accessibility();
         acc.readSkim(munich.getString("base.skim.file"));
         Matrix autoTravelTime = acc.getAutoTravelTimeMatrix();
 
         Random rnd = new Random();
+        double alpha = 1.5;
+        double g = 1;
+        double minTravelTime = 3;
 
-        for (Location destLoc: destList) {
-            destCount++;
-            origCount = 0;
-            if (destCount < maxDest) {
-                for (Location origLoc : origList) {
-                    origCount++;
-                    if (origCount < maxOrig) {
-
-                        long origPop = origLoc.getPopulation();
-                        long destEmp = destLoc.getEmployment();
-
-                        double alpha = 1.5;
-                        double g = (float) 0.00002;
-
-// apply gravity model and generate trips between the zones (intra zonal trips = 0)
-                        int trips;
-                        double travelTime = acc.getAutoTravelTime(origLoc.getId(),destLoc.getId(), autoTravelTime);
-                        if (travelTime < 5){
-                            trips = 0;
-                        }else {
-                            trips = (int) (origPop*destEmp*g/Math.pow(travelTime,alpha));
-                        }
-
-                        for (int i=0; i < trips; i++){
+        int totalTripsAllDestinations = 0;
 
 
-                            org.matsim.api.core.v01.population.Person matsimPerson =
-                                    matsimPopulationFactory.createPerson(Id.create(personId, org.matsim.api.core.v01.population.Person.class));
-                            matsimPopulation.addPerson(matsimPerson);
-                            personId++;
+        //start loop to generate trips to work
+        for (Location destLoc : destList) {
+            Map<Integer, Double> origZoneWeight = new HashMap<>();
+//            double[] origRate = new double[origList.size()];
+            double sumOrigRates = 0;
+            //first loop to calculate weights
+            for (Location origLoc : origList) {
+                double weight;
+                double travelTime = acc.getAutoTravelTime(origLoc.getId(), destLoc.getId(), autoTravelTime);
+                if (travelTime < minTravelTime) {
+//                    origRate[origLoc.getId() - 1] = (origLoc.getPopulation() * g / Math.pow(minTravelTime, alpha));
+                    weight = (origLoc.getPopulation() * g / Math.pow(minTravelTime, alpha));
+                } else {
+//                    origRate[origLoc.getId() - 1] = (origLoc.getPopulation() * g / Math.pow(travelTime, alpha));
+                    weight = (origLoc.getPopulation() * g / Math.pow(travelTime, alpha));
+                }
+//                sumOrigRates += origRate[origLoc.getId() - 1];
+                sumOrigRates += weight;
+                origZoneWeight.put(origLoc.getId(), weight);
+            }
 
-                            Plan matsimPlan = matsimPopulationFactory.createPlan();
-                            matsimPerson.addPlan(matsimPlan);
 
-                            //SimpleFeature homeFeature = zoneFeatureMap.get(origLoc.getId());
-                            Coord homeCoordinates = new Coord (origLoc.getX()+origLoc.getSize()*(Math.random()-0.5),origLoc.getY()+origLoc.getSize()*(Math.random()-0.5));
+            float carShare = Float.parseFloat(munich.getString("car.modal.share"));
+
+
+            //order the map according to decreasing weights
+            origZoneWeight = sortByComparator(origZoneWeight, DESC);
+
+            //second loop to normalize weights and calculate integer trips
+            Map<Integer, Integer> origZoneTrips = new HashMap<>();
+            List<Integer> origOrderedList = new ArrayList<>(origZoneWeight.keySet());
+            int totalTripsToDestination = Math.round(destLoc.getEmployment() * carShare);
+            int tripsAssigned = 0;
+
+            for (int loc : origOrderedList) {
+                int trips = (int) Math.ceil(totalTripsToDestination * origZoneWeight.get(loc) / sumOrigRates);
+                if (tripsAssigned <= totalTripsToDestination) {
+                    tripsAssigned += trips;
+                } else {
+                    trips = 0;
+                }
+                origZoneTrips.put(loc, trips);
+            }
+
+            totalTripsAllDestinations += tripsAssigned;
+
+            //third loop to create trips
+            for (Location origLoc : origList) {
+                int trips = origZoneTrips.get(origLoc.getId());
+                for (int i = 0; i < trips; i++) {
+                    //select randomly trips whithin the population
+                    double randomNumber = Math.random();
+                    if (randomNumber < tripScalingFactor) {
+
+
+                        org.matsim.api.core.v01.population.Person matsimPerson =
+                                matsimPopulationFactory.createPerson(Id.create(personId, org.matsim.api.core.v01.population.Person.class));
+                        matsimPopulation.addPerson(matsimPerson);
+                        personId++;
+
+                        Plan matsimPlan = matsimPopulationFactory.createPlan();
+                        matsimPerson.addPlan(matsimPlan);
+
+                        //SimpleFeature homeFeature = zoneFeatureMap.get(origLoc.getId());
+                        Coord homeCoordinates = new Coord(origLoc.getX() + origLoc.getSize() * (Math.random() - 0.5), origLoc.getY() + origLoc.getSize() * (Math.random() - 0.5));
 
 //    		Activity activity1 = matsimPopulationFactory.createActivityFromCoord("home", ct.transform(homeCoordinates));
-                            Activity activity1 = matsimPopulationFactory.createActivityFromCoord("home", homeCoordinates);
-                            //randomly between 7 and 9 AM
-                            double time = 8*60*60+rnd.nextGaussian()*60*60;
-                            activity1.setEndTime(Math.max(4*60*60,Math.min(time,12*60*60)));
-                            matsimPlan.addActivity(activity1);
-                            matsimPlan.addLeg(matsimPopulationFactory.createLeg(TransportMode.car));
+                        Activity activity1 = matsimPopulationFactory.createActivityFromCoord("home", homeCoordinates);
+                        //randomly between 7 and 9 AM
+                        double time = 8 * 60 * 60 + rnd.nextGaussian() * 60 * 60;
+                        activity1.setEndTime(Math.max(4 * 60 * 60, Math.min(time, 12 * 60 * 60)));
+                        matsimPlan.addActivity(activity1);
+                        matsimPlan.addLeg(matsimPopulationFactory.createLeg(TransportMode.car));
 
 //    		SimpleFeature workFeature = featureMap.get(workPuma);
-                            //SimpleFeature workFeature = zoneFeatureMap.get(destLoc.getId());
-                            Coord workCoordinates = new Coord (destLoc.getX()+destLoc.getSize()*(Math.random()-0.5),destLoc.getY()+ destLoc.getSize()*(Math.random()-0.5));
+                        //SimpleFeature workFeature = zoneFeatureMap.get(destLoc.getId());
+                        Coord workCoordinates = new Coord(destLoc.getX() + destLoc.getSize() * (Math.random() - 0.5), destLoc.getY() + destLoc.getSize() * (Math.random() - 0.5));
 //    		Activity activity2 = matsimPopulationFactory.createActivityFromCoord("work", ct.transform(workCoordinates));
-                            Activity activity2 = matsimPopulationFactory.createActivityFromCoord("work", workCoordinates);
-                            //randomly between 4 and 8 PM
+                        Activity activity2 = matsimPopulationFactory.createActivityFromCoord("work", workCoordinates);
+                        //randomly between 4 and 8 PM
 
-                            time = 17*60*60+rnd.nextGaussian()*60*60;
-                            activity2.setEndTime(Math.max(14*60*60,Math.min(time,22*60*60)));
-                            matsimPlan.addActivity(activity2);
-                            matsimPlan.addLeg(matsimPopulationFactory.createLeg(TransportMode.car));
+                        time = 17 * 60 * 60 + rnd.nextGaussian() * 60 * 60;
+                        activity2.setEndTime(Math.max(14 * 60 * 60, Math.min(time, 22 * 60 * 60)));
+                        matsimPlan.addActivity(activity2);
+                        matsimPlan.addLeg(matsimPopulationFactory.createLeg(TransportMode.car));
 
-                            Activity activity3 = matsimPopulationFactory.createActivityFromCoord("home", homeCoordinates);
-                            matsimPlan.addActivity(activity3);
-                        }
-
-
+                        Activity activity3 = matsimPopulationFactory.createActivityFromCoord("home", homeCoordinates);
+                        matsimPlan.addActivity(activity3);
                     }
                 }
 
+
             }
 
-            if (destLoc.getId()==(1989)){
+
+/*            if (destLoc.getId()==(1989)){
                 for (Location origLoc : origList){
                     int tripsToAirport= (int)(0.003*origLoc.getPopulation());
                     Coord airportCoordinates = new Coord(4484789, 5357507);
@@ -229,15 +258,91 @@ public class MatsimPopulationCreator {
                         matsimPlan.addActivity(activity3);
                     }
                 }
-            }
+            }*/
 
         }
 
-        if (writePopulation == true) {
+        //add demand to example transit line
+        float transitShare = Float.parseFloat(munich.getString("transit.modal.share"));
+
+        int numberOfS1travelers = (int) (500 * transitShare);
+
+
+        for (int i = 0; i < numberOfS1travelers; i++) {
+            //select randomly trips whithin the population
+            double randomNumber = Math.random();
+            if (randomNumber < tripScalingFactor) {
+
+
+                org.matsim.api.core.v01.population.Person matsimPerson =
+                        matsimPopulationFactory.createPerson(Id.create(personId, org.matsim.api.core.v01.population.Person.class));
+                matsimPopulation.addPerson(matsimPerson);
+                personId++;
+
+                Plan matsimPlan = matsimPopulationFactory.createPlan();
+                matsimPerson.addPlan(matsimPlan);
+
+                //SimpleFeature homeFeature = zoneFeatureMap.get(origLoc.getId());
+                Coord homeCoordinates = new Coord(4484162 + 500 * (Math.random() - 0.5), 5357245 + 500 * (Math.random() - 0.5));
+
+//    		Activity activity1 = matsimPopulationFactory.createActivityFromCoord("home", ct.transform(homeCoordinates));
+                Activity activity1 = matsimPopulationFactory.createActivityFromCoord("home", homeCoordinates);
+                //randomly between 7 and 9 AM
+                double time = 8 * 60 * 60 + rnd.nextGaussian() * 60 * 60;
+                activity1.setEndTime(Math.max(4 * 60 * 60, Math.min(time, 12 * 60 * 60)));
+                matsimPlan.addActivity(activity1);
+                matsimPlan.addLeg(matsimPopulationFactory.createLeg(TransportMode.pt));
+
+//    		SimpleFeature workFeature = featureMap.get(workPuma);
+                //SimpleFeature workFeature = zoneFeatureMap.get(destLoc.getId());
+                Coord workCoordinates = new Coord(4470602 +500*(Math.random() - 0.5), 5332173+2000 * (Math.random() - 0.5));
+//    		Activity activity2 = matsimPopulationFactory.createActivityFromCoord("work", ct.transform(workCoordinates));
+                Activity activity2 = matsimPopulationFactory.createActivityFromCoord("work", workCoordinates);
+                //randomly between 4 and 8 PM
+
+                time = 17 * 60 * 60 + rnd.nextGaussian() * 60 * 60;
+                activity2.setEndTime(Math.max(14 * 60 * 60, Math.min(time, 22 * 60 * 60)));
+                matsimPlan.addActivity(activity2);
+                //matsimPlan.addLeg(matsimPopulationFactory.createLeg(TransportMode.car));
+
+                //Activity activity3 = matsimPopulationFactory.createActivityFromCoord("home", homeCoordinates);
+                //matsimPlan.addActivity(activity3);
+            }
+        }
+
+
+        if (writePopulation) {
             MatsimWriter popWriter = new PopulationWriter(matsimPopulation, matsimNetwork);
             popWriter.write("./input/population_" + year + ".xml");
         }
 
+        System.out.println("The total number of trips by car is = " + totalTripsAllDestinations);
+
         return matsimPopulation;
+
+    }
+
+
+    private static Map<Integer, Double> sortByComparator(Map<Integer, Double> unsortMap, final boolean order) {
+
+        List<Map.Entry<Integer, Double>> list = new LinkedList<>(unsortMap.entrySet());
+        // Sorting the list based on values
+        Collections.sort(list, new Comparator<Map.Entry<Integer, Double>>() {
+            public int compare(Entry<Integer, Double> o1,
+                               Entry<Integer, Double> o2) {
+                if (order) {
+                    return o1.getValue().compareTo(o2.getValue());
+                } else {
+                    return o2.getValue().compareTo(o1.getValue());
+
+                }
+            }
+        });
+        // Maintaining insertion order with the help of LinkedList
+        Map<Integer, Double> sortedMap = new LinkedHashMap<>();
+        for (Entry<Integer, Double> entry : list) {
+            sortedMap.put(entry.getKey(), entry.getValue());
+        }
+        return sortedMap;
     }
 }

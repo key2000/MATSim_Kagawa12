@@ -35,6 +35,9 @@ public class MatsimExecuter {
 
     public static void main (String[] args){
 
+
+
+
         File propFile = new File("munich.properties");
         munich = ResourceUtil.getPropertyBundle(propFile);
 
@@ -43,6 +46,7 @@ public class MatsimExecuter {
         boolean getTravelTimes = ResourceUtil.getBooleanProperty(munich,"get.travel.times");
         boolean analyzeAccessibility = ResourceUtil.getBooleanProperty(munich,"analyze.accessibility");
         boolean visualize = ResourceUtil.getBooleanProperty(munich,"run.oftvis");
+        String networkFile = munich.getString("network.folder")+munich.getString("xml.network.file");
 
         //create network from OSM file
         if (createNetwork) CreateNetwork.createNetwork();
@@ -61,56 +65,74 @@ public class MatsimExecuter {
 //
 //        locationList = smallLocationList;
 
-        int iterations = Integer.parseInt(munich.getString("last.iteration"));
-        int year = Integer.parseInt(munich.getString("simulation.year"));
-        int hourOfDay = Integer.parseInt(munich.getString("hour.of.day"));
-        String networkFile = munich.getString("network.folder")+munich.getString("xml.network.file");
-        String simulationName = munich.getString("simulation.name");
-        String outputFolder = munich.getString("output.folder");
+        //get arrays of parameters
+       double[] tripScalingFactorVector = ResourceUtil.getDoubleArray(munich, "trip.scaling.factor");
+       int[] lastIterationVector =   ResourceUtil.getIntegerArray(munich, "last.iteration");
+
+
         if (runMatsim) {
+            for (int iterations : lastIterationVector)
+                for (double tripScalingFactor : tripScalingFactorVector) {
+                    double flowCapacityFactor = tripScalingFactor;
+                    System.out.println("Starting MATSim simulation. Sampling factor = " + tripScalingFactor);
+                    double storageCapacityFactor = tripScalingFactor;
+                    int year = Integer.parseInt(munich.getString("simulation.year"));
+                    int hourOfDay = Integer.parseInt(munich.getString("hour.of.day"));
+                    String simulationName = String.format("TF%.2fCF%.2fSF%.2fIT%d", tripScalingFactor, flowCapacityFactor, storageCapacityFactor, iterations);
+                    simulationName += "transitTest";
+                    String outputFolder = munich.getString("output.folder") + simulationName;
+                    String omxFileName = munich.getString("output.skim.file") + simulationName + ".omx";
 
 
-
-            //create population
-            Population matsimPopulation = MatsimPopulationCreator.createMatsimPopulation(locationList, 2013, true);
-            //create an empty map to store travel times
-            Matrix autoTravelTime = new Matrix(locationList.size(), locationList.size());
+                    //create population
+                    Population matsimPopulation = MatsimPopulationCreator.createMatsimPopulation(locationList, 2013, true, tripScalingFactor);
 
 
-            //get travel times and run Matsim
-            autoTravelTime = MatsimRunFromJava.runMatsimToCreateTravelTimes(autoTravelTime, hourOfDay * 60 * 60, 1,
-                    networkFile, matsimPopulation, year,
-                    TransformationFactory.WGS84, iterations, simulationName,
-                    outputFolder /*,1, 2*/, locationList,getTravelTimes);
+                    //create an empty map to store travel times
+                    Matrix autoTravelTime = new Matrix(locationList.size(), locationList.size());
 
-            //store the map in omx file
-            if (getTravelTimes) travelTimeMatrix.createOmxSkimMatrix(autoTravelTime, locationList);
+
+                    //get travel times and run Matsim
+                    //if (runMatsim) {
+                        autoTravelTime = MatsimRunFromJava.runMatsimToCreateTravelTimes(autoTravelTime, hourOfDay * 60 * 60, 1,
+                                networkFile, matsimPopulation, year,
+                                TransformationFactory.WGS84, iterations, simulationName,
+                                outputFolder, flowCapacityFactor, storageCapacityFactor, locationList, getTravelTimes);
+                    //}
+
+                    //store the map in omx file
+                    if (getTravelTimes) travelTimeMatrix.createOmxSkimMatrix(autoTravelTime, locationList, omxFileName);
+
+                    //read omx files and calculate accessibility
+                    if (analyzeAccessibility) {
+                        Accessibility acc = new Accessibility();
+                        acc.calculateAccessibility(locationList);
+                        acc.calculateTravelTimesToZone(locationList, 1989);
+                        acc.printAccessibility(locationList);
+                    }
+
+                    //visualization
+                    if (visualize) {
+                        //program arguments
+                        String arguments[] = new String[5];
+                        arguments[1] = outputFolder + "/" + simulationName + "_" + year + ".output_events.xml.gz";
+                        arguments[2] = outputFolder +"/" + simulationName + "_" + year + ".output_network.xml.gz";
+                        arguments[3] = munich.getString("output.mvi.file");
+                        arguments[4] = munich.getString("seconds.frame");
+                        //run the conversion
+                        org.matsim.contrib.otfvis.OTFVis.convert(arguments);
+                        //run the visualization
+                        org.matsim.contrib.otfvis.OTFVis.playMVI(arguments[3]);
+                    }
+                }
         }
 
-        //read omx files and calculate accessibility
-        if (analyzeAccessibility) {
-            Accessibility acc = new Accessibility();
-            acc.calculateAccessibility(locationList);
-            acc.calculateTravelTimesToZone(locationList, 1989);
-            acc.printAccessibility(locationList);
-        }
 
         //run MATSim from file configs
 //        matsimRunFromFile();
 
-        //generate an animation using the OTFVIS extension
 
-        if (visualize) {
-            //program arguments
-            String arguments[] = new String[5];
-            arguments[1] = outputFolder + simulationName + "_" + year + ".output_events.xml.gz";
-            arguments[2] = outputFolder + simulationName + "_" + year + ".output_network.xml.gz";
-            arguments[3] = munich.getString("output.mvi.file");
-            arguments[4] = munich.getString("seconds.frame");
-            //run the conversion
-            org.matsim.contrib.otfvis.OTFVis.convert(arguments);
-            //run the visualization
-            org.matsim.contrib.otfvis.OTFVis.playMVI(arguments[3]);
-        }
+
+
     }
 }

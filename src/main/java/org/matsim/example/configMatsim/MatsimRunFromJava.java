@@ -1,25 +1,26 @@
 package org.matsim.example.configMatsim;
 
 import com.pb.common.matrix.Matrix;
+import org.matsim.api.core.v01.network.Network;
 import org.matsim.api.core.v01.population.Population;
 import org.matsim.core.config.Config;
 import org.matsim.core.config.ConfigUtils;
-import org.matsim.core.config.groups.PlanCalcScoreConfigGroup;
-import org.matsim.core.config.groups.QSimConfigGroup;
-import org.matsim.core.config.groups.StrategyConfigGroup;
-import org.matsim.core.config.groups.VspExperimentalConfigGroup;
+import org.matsim.core.config.groups.*;
 import org.matsim.core.controler.Controler;
 import org.matsim.core.controler.OutputDirectoryHierarchy;
+import org.matsim.core.controler.listener.ControlerListener;
+import org.matsim.core.network.KmlNetworkWriter;
+import org.matsim.core.population.PopulationReader;
+import org.matsim.core.population.PopulationReaderMatsimV5;
 import org.matsim.core.scenario.MutableScenario;
 import org.matsim.core.scenario.ScenarioUtils;
 import org.matsim.core.utils.collections.Tuple;
 import org.matsim.example.planCreation.Location;
 import org.matsim.pt.counts.PtCountControlerListener;
+import org.matsim.vis.kml.KMZWriter;
+import org.matsim.vis.snapshotwriters.KmlSnapshotWriter;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Map;
-
+import java.util.*;
 
 
 /**
@@ -32,10 +33,10 @@ public class MatsimRunFromJava {
                                                                                    String inputNetworkFile,
                                                                                    Population population, int year,
                                                                                    String crs, int numberOfIterations, String siloRunId, String outputDirectoryRoot,
-                                                                                   //double flowCapacityFactor, double storageCapacityFactor,
+                                                                                   double flowCapacityFactor, double storageCapacityFactor,
                                                                                    ArrayList<Location> locationList, boolean getTravelTimes
                                                                                    ) {
-        //			String populationFile, int year, String crs, int numberOfIterations) {
+        // String populationFile, int year, String crs, int numberOfIterations) {
         final Config config = ConfigUtils.createConfig();
 
         // Global
@@ -44,15 +45,27 @@ public class MatsimRunFromJava {
         // Network
         config.network().setInputFile(inputNetworkFile);
 
+        //public transport
+        config.transit().setTransitScheduleFile("./input/pt/scheduleS1.xml");
+        config.transit().setVehiclesFile("./input/pt/vehiclesS1.xml");
+        config.transit().setUseTransit(true);
+        Set<String> transitModes = new TreeSet<>();
+        transitModes.add("pt");
+        config.transit().setTransitModes(transitModes);
+
+
         // Plans
         //		config.plans().setInputFile(inputPlansFile);
 
         // Simulation
         //		config.qsim().setFlowCapFactor(0.01);
-        //config.qsim().setFlowCapFactor(flowCapacityFactor);
+        config.qsim().setFlowCapFactor(flowCapacityFactor);
         //		config.qsim().setStorageCapFactor(0.018);
-        //        config.qsim().setStorageCapFactor(storageCapacityFactor);
+        config.qsim().setStorageCapFactor(storageCapacityFactor);
         config.qsim().setRemoveStuckVehicles(false);
+
+        config.qsim().setStartTime(0);
+        config.qsim().setEndTime(24*60*60);
 
         // Controller
         //		String siloRunId = "run_09";
@@ -66,38 +79,34 @@ public class MatsimRunFromJava {
         config.controler().setWritePlansInterval(numberOfIterations);
         config.controler().setWriteEventsInterval(numberOfIterations);
 
-
-
-        Collection<String> snapshot = new ArrayList<>();
-        snapshot.add("googleearth");
-        config.controler().setWriteSnapshotsInterval(numberOfIterations);
-
-        config.controler().setSnapshotFormat(snapshot);
+        config.controler().setRoutingAlgorithmType(ControlerConfigGroup.RoutingAlgorithmType.Dijkstra);
 
         config.controler().setOverwriteFileSetting(OutputDirectoryHierarchy.OverwriteFileSetting.deleteDirectoryIfExists);
 
         //linkstats
-        config.linkStats().setWriteLinkStatsInterval(1);
-        config.linkStats().setAverageLinkStatsOverIterations(0);
+//        config.linkStats().setWriteLinkStatsInterval(1);
+//        config.linkStats().setAverageLinkStatsOverIterations(0);
+
         // QSim and other
         config.qsim().setTrafficDynamics(QSimConfigGroup.TrafficDynamics.withHoles);
         config.vspExperimental().setWritingOutputEvents(true); // writes final events into toplevel directory
 
-        // Strategy
+        //Strategy
         StrategyConfigGroup.StrategySettings strategySettings1 = new StrategyConfigGroup.StrategySettings();
         strategySettings1.setStrategyName("ChangeExpBeta");
-        strategySettings1.setWeight(0.3); //originally 0.8
+        strategySettings1.setWeight(0.5); //originally 0.8
         config.strategy().addStrategySettings(strategySettings1);
 
         StrategyConfigGroup.StrategySettings strategySettings2 = new StrategyConfigGroup.StrategySettings();
         strategySettings2.setStrategyName("ReRoute");
-        strategySettings2.setWeight(0.2);//originally 0.2
+        strategySettings2.setWeight(0.5);//originally 0.2
         strategySettings2.setDisableAfter((int) (numberOfIterations * 0.7));
         config.strategy().addStrategySettings(strategySettings2);
 
         StrategyConfigGroup.StrategySettings strategySettings3 = new StrategyConfigGroup.StrategySettings();
         strategySettings3.setStrategyName("TimeAllocationMutator");
         strategySettings3.setWeight(0.5); //originally 0
+        strategySettings3.setDisableAfter((int) (numberOfIterations * 0.7));
         config.strategy().addStrategySettings(strategySettings3);
 
         config.strategy().setMaxAgentPlanMemorySize(4);
@@ -122,17 +131,18 @@ public class MatsimRunFromJava {
         config.parallelEventHandling().setNumberOfThreads(16);
         config.qsim().setUsingThreadpool(false);
 
+
         config.vspExperimental().setVspDefaultsCheckingLevel(VspExperimentalConfigGroup.VspDefaultsCheckingLevel.warn);
 
-        // ===
-        // Scenario
+        // Scenario //chose between population file and population creator in java
         MutableScenario scenario = (MutableScenario) ScenarioUtils.loadScenario(config);
-        //		PopulationReader populationReader = new PopulationReaderMatsimV5(scenario);
-        //		populationReader.readFile(populationFile);
+//        		PopulationReader populationReader = new PopulationReaderMatsimV5(scenario);
+//        		populationReader.readFile("./input/population_2013.xml");
         scenario.setPopulation(population);
 
         // Initialize controller
         final Controler controler = new Controler(scenario);
+
 
         //      Add controller listener
         if (getTravelTimes) {

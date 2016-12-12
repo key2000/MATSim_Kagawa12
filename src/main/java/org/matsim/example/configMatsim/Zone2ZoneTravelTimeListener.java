@@ -102,6 +102,7 @@ public class Zone2ZoneTravelTimeListener implements IterationEndsListener {
             //get the nodes of each location
             //for (int zoneId : zoneFeatureMap.keySet()) {
             for (Location loc : locationList) {
+
                 //TODO come back to multiple points when implementing together with SILO
 //                for (int i = 0; i < numberOfCalcPoints; i++) { // several points in a given origin zone
                 //SimpleFeature originFeature = zoneFeatureMap.get(zoneId);
@@ -109,6 +110,9 @@ public class Zone2ZoneTravelTimeListener implements IterationEndsListener {
                 //Coord originCoord = SiloMatsimUtils.getRandomCoordinateInGeometry(originFeature);
                 Coord originCoord = new Coord(loc.getX(), loc.getY());
                 Link originLink = NetworkUtils.getNearestLink(network, originCoord);
+
+
+
                 Node originNode = originLink.getFromNode();
 //                Double dist = NetworkUtils.getEuclideanDistance(originCoord, originNode.getCoord());
 //                log.info("Zone: " + loc.getId() + " Distance to nearest node: " + dist);
