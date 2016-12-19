@@ -46,7 +46,10 @@ public class CreateNetwork {
                 TransformationFactory.getCoordinateTransformation(TransformationFactory.WGS84, "EPSG:25832");*/
 
         CoordinateTransformation ct =
-                TransformationFactory.getCoordinateTransformation(TransformationFactory.WGS84, "EPSG:31468");
+                TransformationFactory.getCoordinateTransformation(TransformationFactory.WGS84, TransformationFactory.DHDN_GK4);
+
+
+        //31468 is the coordinate system DHDN_3 zone 4
 		/*
 		 * First, create a new Config and a new Scenario. One always has to do this when working with the MATSim
 		 * data containers.

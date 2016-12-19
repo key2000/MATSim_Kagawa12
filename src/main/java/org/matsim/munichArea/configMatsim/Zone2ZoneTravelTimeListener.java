@@ -9,6 +9,7 @@ import java.util.*;
 import com.pb.common.matrix.Matrix;
 import org.apache.log4j.Logger;
 import org.matsim.api.core.v01.Coord;
+import org.matsim.api.core.v01.TransportMode;
 import org.matsim.api.core.v01.network.Link;
 import org.matsim.api.core.v01.network.Network;
 import org.matsim.api.core.v01.network.Node;
@@ -17,8 +18,10 @@ import org.matsim.core.controler.Controler;
 import org.matsim.core.controler.events.IterationEndsEvent;
 import org.matsim.core.controler.listener.IterationEndsListener;
 import org.matsim.core.network.NetworkUtils;
+import org.matsim.core.network.algorithms.NetworkCleaner;
 import org.matsim.core.router.util.TravelDisutility;
 import org.matsim.core.router.util.TravelTime;
+import org.matsim.munichArea.CreateNetwork;
 import org.matsim.munichArea.planCreation.Location;
 import org.matsim.utils.leastcostpathtree.LeastCostPathTree;
 import org.matsim.vehicles.Vehicle;
@@ -69,82 +72,46 @@ public class Zone2ZoneTravelTimeListener implements IterationEndsListener {
 
             TravelDisutility travelDisutility = controler.getTravelDisutilityFactory().createTravelDisutility(travelTime);
 
-//            TravelDisutility travelTimeAsTravelDisutility = new MyTravelTimeDisutility(controler.getLinkTravelTimes());
-// PICK ONE OF THE TWO ALTERNATIVE LINES
-          LeastCostPathTree leastCoastPathTree = new LeastCostPathTree(travelTime, travelDisutility);
-//            LeastCostPathTree leastCoastPathTree = new LeastCostPathTree(travelTime, travelTimeAsTravelDisutility);
-//FOR PATH
-//			Dijkstra dijkstra = new Dijkstra(network, travelTimeAsTravelDisutility, travelTime);
 
-            //Map<Integer, List<Node>> zoneCalculationNodesMap = new HashMap<>();
-            //simplified to one node per location
+            LeastCostPathTree leastCoastPathTree = new LeastCostPathTree(travelTime, travelDisutility);
+
+            //Map to asign a node to each zone
             Map<Integer, Node> zoneCalculationNodesMap = new HashMap<>();
 
-            //get the nodes of each location
-            //for (int zoneId : zoneFeatureMap.keySet()) {
+            //reclean the network will remove all pt links and will make possible getting auto travel times
+            NetworkCleaner networkCleaner = new NetworkCleaner();
+            networkCleaner.run(network);
+
             for (Location loc : locationList) {
 
-                //TODO come back to multiple points when implementing together with SILO
-//                for (int i = 0; i < numberOfCalcPoints; i++) { // several points in a given origin zone
-                //SimpleFeature originFeature = zoneFeatureMap.get(zoneId);
-//					Coord originCoord = ct.transform(SiloMatsimUtils.getRandomCoordinateInGeometry(originFeature));
-                //Coord originCoord = SiloMatsimUtils.getRandomCoordinateInGeometry(originFeature);
                 Coord originCoord = new Coord(loc.getX(), loc.getY());
+
                 Link originLink = NetworkUtils.getNearestLink(network, originCoord);
 
-
-
                 Node originNode = originLink.getFromNode();
+
+                //Get distance from node to centroid, if required
 //                Double dist = NetworkUtils.getEuclideanDistance(originCoord, originNode.getCoord());
 //                log.info("Zone: " + loc.getId() + " Distance to nearest node: " + dist);
 
                 //if (!zoneCalculationNodesMap.containsKey(zoneId)) {
 //                        zoneCalculationNodesMap.put(zoneId, new LinkedList<Node>());
 //                zoneCalculationNodesMap.put(loc.getId(), new LinkedList<Node>());
+
                 zoneCalculationNodesMap.put(loc.getId(), originNode);
-                //}
-                //zoneCalculationNodesMap.get(loc.getId()).add(originNode);
-//                }
+
             }
 
             int counter = 0;
             for (Location originZone : locationList) { // going over all origin zones
 
-                //for (Node originNode : zoneCalculationNodesMap.get(originZoneId)) { // several points in a given origin zone
-                // Run Dijkstra for originNode
                 Node originNode = zoneCalculationNodesMap.get(originZone.getId());
 
                 leastCoastPathTree.calculate(network, originNode, departureTime);
 
                 for (Location destinationZone : locationList) { // going over all destination zones
 
-                    //Tuple<Integer, Integer> originDestinationRelation = new Tuple<>(originZone.getId(), destinationZone.getId());
-
-//                    if (!travelTimesMap.containsKey(originDestinationRelation)) {
-//                        travelTimesMap.put(originDestinationRelation, 0.f);
-//                    }
-
-                    //for (Node destinationNode : zoneCalculationNodesMap.get(destinationZoneId)) {// several points in a given destination zone
-
                     double arrivalTime = leastCoastPathTree.getTree().get(zoneCalculationNodesMap.get(destinationZone.getId()).getId()).getTime();
-
-// Carlos test to get the list of links - discontinued
-                    /*Id firstNodeId = zoneCalculationNodesMap.get(destinationZone.getId()).getId();
-                    ArrayList<Id> nodeIdList = new ArrayList<>();
-                    nodeIdList.add(firstNodeId);
-                    while (!firstNodeId.equals(originNode.getId())) {
-                        Id prevNodeId = leastCoastPathTree.getTree().get(destinationZone.getId()).getPrevNodeId();
-                        nodeIdList.add(prevNodeId);
-                        firstNodeId = prevNodeId;
-                    }
-                    Node firstNode = originNode;
-                    double routeLength = 0;
-                    for (Id id : nodeIdList){
-                        Node secondNode =
-                        routeLength += NetworkUtils.getConnectingLink(firstNode,secondNode).getLength();
-
-                    }*/
-
 
                     // congested car travel times in minutes
                     float congestedTravelTimeMin = (float) ((arrivalTime - departureTime) / 60.);

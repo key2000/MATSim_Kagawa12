@@ -1,8 +1,5 @@
 package org.matsim.munichArea;
 
-
-
-
 import com.pb.common.matrix.Matrix;
 import com.pb.common.util.ResourceUtil;
 import org.matsim.api.core.v01.population.Population;
@@ -28,9 +25,6 @@ public class MatsimExecuter {
     public static ResourceBundle munich;
 
     public static void main (String[] args){
-
-
-
 
         File propFile = new File("munich.properties");
         munich = ResourceUtil.getPropertyBundle(propFile);

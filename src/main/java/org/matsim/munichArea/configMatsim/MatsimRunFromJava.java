@@ -11,6 +11,7 @@ import org.matsim.core.scenario.MutableScenario;
 import org.matsim.core.scenario.ScenarioUtils;
 import org.matsim.munichArea.planCreation.Location;
 
+import java.awt.*;
 import java.util.*;
 
 
@@ -37,18 +38,12 @@ public class MatsimRunFromJava {
         config.network().setInputFile(inputNetworkFile);
 
         //public transport
-        config.transit().setTransitScheduleFile("./input/pt/scheduleS1.xml");
-        config.transit().setVehiclesFile("./input/pt/vehiclesS1.xml");
+        config.transit().setTransitScheduleFile("./input/pt/schedule.xml");
+        config.transit().setVehiclesFile("./input/pt/vehicles.xml");
         config.transit().setUseTransit(true);
         Set<String> transitModes = new TreeSet<>();
         transitModes.add("pt");
         config.transit().setTransitModes(transitModes);
-
-        //experimental settings - I don't know if they are useful/required
-
-
-
-
 
         //end of experimental settings
 
@@ -106,6 +101,14 @@ public class MatsimRunFromJava {
         strategySettings3.setWeight(0.5); //originally 0
         strategySettings3.setDisableAfter((int) (numberOfIterations * 0.7));
         config.strategy().addStrategySettings(strategySettings3);
+
+        //TODO this strategy is implemented to test the pt modes (in general do not include)
+        StrategyConfigGroup.StrategySettings strategySettings4 = new StrategyConfigGroup.StrategySettings();
+        strategySettings4.setStrategyName("ChangeTripMode");
+        strategySettings4.setWeight(10); //originally 0
+        strategySettings4.setDisableAfter((int) (numberOfIterations * 0.7));
+        config.strategy().addStrategySettings(strategySettings4);
+
 
         config.strategy().setMaxAgentPlanMemorySize(4);
 
