@@ -24,6 +24,7 @@ public class TravelTimeMatrix {
 
         try (OmxFile omxFile = new OmxFile(omxFileName)) {
 
+
             int dim0 = locationList.size();
 
             int dim1 = dim0;
@@ -57,13 +58,14 @@ public class TravelTimeMatrix {
             }
             OmxLookup.OmxIntLookup lookup1 = new OmxLookup.OmxIntLookup("lookup1",lookup1Data,lookup1NA);
 
-
             omxFile.openNew(shape);
             omxFile.addMatrix(mat1);
             omxFile.addLookup(lookup1);
             omxFile.save();
             System.out.println(omxFile.summary());
 
+
+            omxFile.close();
             System.out.println("travel time matrix written");
 
         }

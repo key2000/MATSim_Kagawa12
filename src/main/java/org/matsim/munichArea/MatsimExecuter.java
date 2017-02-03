@@ -9,6 +9,7 @@ import org.matsim.munichArea.configMatsim.createDemand.MatsimGravityModel;
 import org.matsim.munichArea.configMatsim.createDemand.MatsimPopulationCreator;
 import org.matsim.munichArea.configMatsim.MatsimRunFromJava;
 import org.matsim.munichArea.configMatsim.createDemand.PtSyntheticTraveller;
+import org.matsim.munichArea.outputCreation.EuclideanDistanceCalculator;
 import org.matsim.munichArea.outputCreation.PtEventHandler;
 import org.matsim.munichArea.planCreation.CentroidsToLocations;
 import org.matsim.munichArea.planCreation.Location;
@@ -38,6 +39,7 @@ public class MatsimExecuter {
         boolean runGravityModel = ResourceUtil.getBooleanProperty(munich, "run.gravity.model");
         boolean autoSkims = ResourceUtil.getBooleanProperty(munich,"skim.auto.times");
         boolean ptSkimsFromEvents = ResourceUtil.getBooleanProperty(munich,"skim.pt.events");
+        boolean eucliddistSkims = ResourceUtil.getBooleanProperty(munich,"skim.eucliddist" );
         boolean analyzeAccessibility = ResourceUtil.getBooleanProperty(munich,"analyze.accessibility");
         boolean visualize = ResourceUtil.getBooleanProperty(munich,"run.oftvis");
         String networkFile = munich.getString("network.folder")+munich.getString("xml.network.file");
@@ -80,7 +82,7 @@ public class MatsimExecuter {
                     Matrix autoTravelTime = new Matrix(locationList.size(), locationList.size());
                     Map<Id, PtSyntheticTraveller> ptSyntheticTravellerMap = matsimPopulationCreator.getPtSyntheticTravellerMap();
                     Matrix transitTravelTime = new Matrix(locationList.size(), locationList.size());
-                    Matrix euclideanDistanceMatrix = new Matrix(locationList.size(), locationList.size());
+
 
 
 
@@ -130,6 +132,13 @@ public class MatsimExecuter {
                         TravelTimeMatrix.createOmxSkimMatrix(transitTravelTime, locationList, omxPtFileName);
 
 
+                    }
+
+                    if (eucliddistSkims){
+                        EuclideanDistanceCalculator edc = new EuclideanDistanceCalculator();
+                        Matrix euclideanDistanceMatrix = edc.createEuclideanDistanceMatrix(locationList);
+                        String omxDistFileName = munich.getString("skim.eucliddist.file") + simulationName + ".omx";
+                        TravelTimeMatrix.createOmxSkimMatrix(euclideanDistanceMatrix, locationList, omxDistFileName);
                     }
 
                 }
