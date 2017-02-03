@@ -7,6 +7,7 @@ package org.matsim.munichArea.configMatsim;
 import java.util.*;
 import java.util.Map.Entry;
 
+import com.pb.common.util.ResourceUtil;
 import org.matsim.api.core.v01.Coord;
 import org.matsim.api.core.v01.Id;
 import org.matsim.api.core.v01.Scenario;
@@ -132,13 +133,20 @@ public class MatsimPopulationCreator {
             for (Location origLoc : origList) {
                 double weight;
                 double travelTime = acc.getAutoTravelTime(origLoc.getId(), destLoc.getId(), autoTravelTime);
+
                 if (travelTime < minTravelTime) {
 //                    origRate[origLoc.getId() - 1] = (origLoc.getPopulation() * g / Math.pow(minTravelTime, alpha));
                     weight = (origLoc.getPopulation() * g / Math.pow(minTravelTime, alpha));
+
+
                 } else {
 //                    origRate[origLoc.getId() - 1] = (origLoc.getPopulation() * g / Math.pow(travelTime, alpha));
                     weight = (origLoc.getPopulation() * g / Math.pow(travelTime, alpha));
+
                 }
+
+
+
 //                sumOrigRates += origRate[origLoc.getId() - 1];
                 sumOrigRates += weight;
                 origZoneWeight.put(origLoc.getId(), weight);
@@ -217,94 +225,20 @@ public class MatsimPopulationCreator {
 
             }
 
+        }
 
-/*            if (destLoc.getId()==(1989)){
-                for (Location origLoc : origList){
-                    int tripsToAirport= (int)(0.003*origLoc.getPopulation());
-                    Coord airportCoordinates = new Coord(4484789, 5357507);
-                    for (int i =0; i< tripsToAirport; i++){
-                        org.matsim.api.core.v01.population.Person matsimPerson =
-                                matsimPopulationFactory.createPerson(Id.create(personId, org.matsim.api.core.v01.population.Person.class));
-                        matsimPopulation.addPerson(matsimPerson);
-                        personId++;
-                        Plan matsimPlan = matsimPopulationFactory.createPlan();
-                        matsimPerson.addPlan(matsimPlan);
-
-                        //SimpleFeature homeFeature = zoneFeatureMap.get(origLoc.getId());
-                        Coord homeCoordinates = new Coord (origLoc.getX()+200*(Math.random()-0.5),origLoc.getY()+200*(Math.random()-0.5));
-
-//    		Activity activity1 = matsimPopulationFactory.createActivityFromCoord("home", ct.transform(homeCoordinates));
-                        Activity activity1 = matsimPopulationFactory.createActivityFromCoord("home", homeCoordinates);
-                        //randomly between 7 and 9 AM
-                        double time = 5*60*60+rnd.nextDouble()*15*60*60;
-                        activity1.setEndTime(time);
-                        matsimPlan.addActivity(activity1);
-                        matsimPlan.addLeg(matsimPopulationFactory.createLeg(TransportMode.car));
-
-
-                        Activity activity2 = matsimPopulationFactory.createActivityFromCoord("airport", airportCoordinates);
-                        //randomly between 4 and 8 PM
-
-                        time += rnd.nextDouble()*3*60*60;
-                        activity2.setEndTime(time);
-                        matsimPlan.addActivity(activity2);
-                        matsimPlan.addLeg(matsimPopulationFactory.createLeg(TransportMode.car));
-
-                        Activity activity3 = matsimPopulationFactory.createActivityFromCoord("home", homeCoordinates);
-                        matsimPlan.addActivity(activity3);
-                    }
-                }
-            }*/
-
+        //public transportation demand to get skims
+        if ( ResourceUtil.getBooleanProperty(munich,"transit.for.skims")) {
+            TransitDemandForSkim tdSkims = new TransitDemandForSkim();
+            ArrayList<Location> zonesServedList = tdSkims.locationsServedBySUBahn(locationList);
+            tdSkims.createDemandForSkims(zonesServedList, personId, matsimPopulation);
         }
 
         //add demand to munichArea transit line
         float transitShare = Float.parseFloat(munich.getString("transit.modal.share"));
 
-        int numberOfS1travelers = (int) (500 * transitShare);
+        //int numberOfS1travelers = (int) (500 * transitShare);
 
-
-        for (int i = 0; i < numberOfS1travelers; i++) {
-            //select randomly trips within the population
-
-
-
-
-                org.matsim.api.core.v01.population.Person matsimPerson =
-                        matsimPopulationFactory.createPerson(Id.create(personId, org.matsim.api.core.v01.population.Person.class));
-                matsimPopulation.addPerson(matsimPerson);
-                personId++;
-
-                Plan matsimPlan = matsimPopulationFactory.createPlan();
-                matsimPerson.addPlan(matsimPlan);
-
-                //SimpleFeature homeFeature = zoneFeatureMap.get(origLoc.getId());
-                Coord homeCoordinates = new Coord(4484162 + 500 * (Math.random() - 0.5), 5357245 + 500 * (Math.random() - 0.5));
-
-//    		Activity activity1 = matsimPopulationFactory.createActivityFromCoord("home", ct.transform(homeCoordinates));
-                Activity activity1 = matsimPopulationFactory.createActivityFromCoord("home", homeCoordinates);
-                //randomly between 7 and 9 AM
-                double time = 8 * 60 * 60 + rnd.nextGaussian() * 60 * 60;
-                activity1.setEndTime(Math.max(4 * 60 * 60, Math.min(time, 12 * 60 * 60)));
-                matsimPlan.addActivity(activity1);
-                matsimPlan.addLeg(matsimPopulationFactory.createLeg(TransportMode.pt));
-
-//    		SimpleFeature workFeature = featureMap.get(workPuma);
-                //SimpleFeature workFeature = zoneFeatureMap.get(destLoc.getId());
-                Coord workCoordinates = new Coord(4470602 +500*(Math.random() - 0.5), 5332173+2000 * (Math.random() - 0.5));
-//    		Activity activity2 = matsimPopulationFactory.createActivityFromCoord("work", ct.transform(workCoordinates));
-                Activity activity2 = matsimPopulationFactory.createActivityFromCoord("work", workCoordinates);
-                //randomly between 4 and 8 PM
-
-//                time = 17 * 60 * 60 + rnd.nextGaussian() * 60 * 60;
-//                activity2.setEndTime(Math.max(14 * 60 * 60, Math.min(time, 22 * 60 * 60)));
-                matsimPlan.addActivity(activity2);
-                //matsimPlan.addLeg(matsimPopulationFactory.createLeg(TransportMode.car));
-
-                //Activity activity3 = matsimPopulationFactory.createActivityFromCoord("home", homeCoordinates);
-                //matsimPlan.addActivity(activity3);
-
-        }
 
 
         if (writePopulation) {

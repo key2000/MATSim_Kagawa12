@@ -71,9 +71,7 @@ public class MatsimRunFromJava {
         config.controler().setMobsim("qsim");
         config.controler().setWritePlansInterval(numberOfIterations);
         config.controler().setWriteEventsInterval(numberOfIterations);
-
         config.controler().setRoutingAlgorithmType(ControlerConfigGroup.RoutingAlgorithmType.Dijkstra);
-
         config.controler().setOverwriteFileSetting(OutputDirectoryHierarchy.OverwriteFileSetting.deleteDirectoryIfExists);
 
         //linkstats
@@ -103,11 +101,11 @@ public class MatsimRunFromJava {
         config.strategy().addStrategySettings(strategySettings3);
 
         //TODO this strategy is implemented to test the pt modes (in general do not include)
-        StrategyConfigGroup.StrategySettings strategySettings4 = new StrategyConfigGroup.StrategySettings();
-        strategySettings4.setStrategyName("ChangeTripMode");
-        strategySettings4.setWeight(10); //originally 0
-        strategySettings4.setDisableAfter((int) (numberOfIterations * 0.7));
-        config.strategy().addStrategySettings(strategySettings4);
+//        StrategyConfigGroup.StrategySettings strategySettings4 = new StrategyConfigGroup.StrategySettings();
+//        strategySettings4.setStrategyName("ChangeTripMode");
+//        strategySettings4.setWeight(0); //originally 0
+//        strategySettings4.setDisableAfter((int) (numberOfIterations * 0.7));
+//        config.strategy().addStrategySettings(strategySettings4);
 
 
         config.strategy().setMaxAgentPlanMemorySize(4);

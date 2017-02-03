@@ -4,8 +4,10 @@ import com.pb.common.matrix.Matrix;
 import com.pb.common.util.ResourceUtil;
 import org.matsim.api.core.v01.population.Population;
 import org.matsim.core.utils.geometry.transformations.TransformationFactory;
+import org.matsim.munichArea.configMatsim.MatsimGravityModel;
 import org.matsim.munichArea.configMatsim.MatsimPopulationCreator;
 import org.matsim.munichArea.configMatsim.MatsimRunFromJava;
+import org.matsim.munichArea.outputCreation.PtEventHandler;
 import org.matsim.munichArea.planCreation.CentroidsToLocations;
 import org.matsim.munichArea.planCreation.Location;
 import org.matsim.munichArea.outputCreation.travelTimeMatrix;
@@ -31,7 +33,9 @@ public class MatsimExecuter {
 
         boolean createNetwork = ResourceUtil.getBooleanProperty(munich,"create.network");
         boolean runMatsim = ResourceUtil.getBooleanProperty(munich,"run.matsim");
+        boolean runGravityModel = ResourceUtil.getBooleanProperty(munich, "run.gravity.model");
         boolean getTravelTimes = ResourceUtil.getBooleanProperty(munich,"get.travel.times");
+        boolean ptSkimsFromEvents = ResourceUtil.getBooleanProperty(munich,"skim.pt.events");
         boolean analyzeAccessibility = ResourceUtil.getBooleanProperty(munich,"analyze.accessibility");
         boolean visualize = ResourceUtil.getBooleanProperty(munich,"run.oftvis");
         String networkFile = munich.getString("network.folder")+munich.getString("xml.network.file");
@@ -58,6 +62,8 @@ public class MatsimExecuter {
        int[] lastIterationVector =   ResourceUtil.getIntegerArray(munich, "last.iteration");
 
 
+
+
         if (runMatsim) {
             for (int iterations : lastIterationVector)
                 for (double tripScalingFactor : tripScalingFactorVector) {
@@ -67,10 +73,14 @@ public class MatsimExecuter {
                     int year = Integer.parseInt(munich.getString("simulation.year"));
                     int hourOfDay = Integer.parseInt(munich.getString("hour.of.day"));
                     String simulationName = String.format("TF%.2fCF%.2fSF%.2fIT%d", tripScalingFactor, flowCapacityFactor, storageCapacityFactor, iterations);
-                    simulationName += "transitTest";
+                    simulationName += munich.getString("simulation.name");
                     String outputFolder = munich.getString("output.folder") + simulationName;
                     String omxFileName = munich.getString("output.skim.file") + simulationName + ".omx";
 
+
+
+                    //run gravity model to get HBW trips
+                    if (runGravityModel) MatsimGravityModel.createMatsimPopulation(locationList, 2013, false, tripScalingFactor);
 
                     //create population
                     Population matsimPopulation = MatsimPopulationCreator.createMatsimPopulation(locationList, 2013, true, tripScalingFactor);
@@ -112,8 +122,18 @@ public class MatsimExecuter {
                         //run the visualization
                         org.matsim.contrib.otfvis.OTFVis.playMVI(arguments[3]);
                     }
+
+                    if (ptSkimsFromEvents) {
+                        String eventFile = outputFolder + "/" + simulationName + "_" + year + ".output_events.xml.gz";
+                        PtEventHandler ptEH = new PtEventHandler();
+                        ptEH.ptEventHandler(networkFile, eventFile);
+
+                    }
+
                 }
         }
+
+
 
 
         //run MATSim from file configs
