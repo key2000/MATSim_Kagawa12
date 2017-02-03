@@ -47,8 +47,6 @@ public class TravelTimeMatrix {
             OmxMatrix.OmxFloatMatrix mat1 = new OmxMatrix.OmxFloatMatrix("mat1",autoTravelTime.getValues(),mat1NA);
             mat1.setAttribute(OmxConstants.OmxNames.OMX_DATASET_TITLE_KEY.getKey(),"travelTimes");
 
-
-
             int lookup1NA = -1;
             int[] lookup1Data = new int[dim0];
             Set<Integer> lookup1Used = new HashSet<>();
