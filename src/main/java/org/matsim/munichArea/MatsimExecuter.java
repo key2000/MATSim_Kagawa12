@@ -2,15 +2,17 @@ package org.matsim.munichArea;
 
 import com.pb.common.matrix.Matrix;
 import com.pb.common.util.ResourceUtil;
+import org.matsim.api.core.v01.Id;
 import org.matsim.api.core.v01.population.Population;
 import org.matsim.core.utils.geometry.transformations.TransformationFactory;
-import org.matsim.munichArea.configMatsim.MatsimGravityModel;
-import org.matsim.munichArea.configMatsim.MatsimPopulationCreator;
+import org.matsim.munichArea.configMatsim.createDemand.MatsimGravityModel;
+import org.matsim.munichArea.configMatsim.createDemand.MatsimPopulationCreator;
 import org.matsim.munichArea.configMatsim.MatsimRunFromJava;
+import org.matsim.munichArea.configMatsim.createDemand.PtSyntheticTraveller;
 import org.matsim.munichArea.outputCreation.PtEventHandler;
 import org.matsim.munichArea.planCreation.CentroidsToLocations;
 import org.matsim.munichArea.planCreation.Location;
-import org.matsim.munichArea.outputCreation.travelTimeMatrix;
+import org.matsim.munichArea.outputCreation.TravelTimeMatrix;
 
 
 import java.io.File;
@@ -34,7 +36,7 @@ public class MatsimExecuter {
         boolean createNetwork = ResourceUtil.getBooleanProperty(munich,"create.network");
         boolean runMatsim = ResourceUtil.getBooleanProperty(munich,"run.matsim");
         boolean runGravityModel = ResourceUtil.getBooleanProperty(munich, "run.gravity.model");
-        boolean getTravelTimes = ResourceUtil.getBooleanProperty(munich,"get.travel.times");
+        boolean autoSkims = ResourceUtil.getBooleanProperty(munich,"skim.auto.times");
         boolean ptSkimsFromEvents = ResourceUtil.getBooleanProperty(munich,"skim.pt.events");
         boolean analyzeAccessibility = ResourceUtil.getBooleanProperty(munich,"analyze.accessibility");
         boolean visualize = ResourceUtil.getBooleanProperty(munich,"run.oftvis");
@@ -43,26 +45,12 @@ public class MatsimExecuter {
         //create network from OSM file
         if (createNetwork) CreateNetwork.createNetwork();
 
-
         //read centroids and get list of locations
         ArrayList<Location> locationList = CentroidsToLocations.readCentroidList();
-
-        //make a subset of locations to test the calculation of travel times (ONLY FOR TESTING)
-//        ArrayList<Location> smallLocationList = new ArrayList<>();
-//        for (Location location : locationList){
-//            if (location.getId()<100){
-//                smallLocationList.add(location);
-//            }
-//        }
-//
-//        locationList = smallLocationList;
 
         //get arrays of parameters
        double[] tripScalingFactorVector = ResourceUtil.getDoubleArray(munich, "trip.scaling.factor");
        int[] lastIterationVector =   ResourceUtil.getIntegerArray(munich, "last.iteration");
-
-
-
 
         if (runMatsim) {
             for (int iterations : lastIterationVector)
@@ -83,31 +71,40 @@ public class MatsimExecuter {
                     if (runGravityModel) MatsimGravityModel.createMatsimPopulation(locationList, 2013, false, tripScalingFactor);
 
                     //create population
-                    Population matsimPopulation = MatsimPopulationCreator.createMatsimPopulation(locationList, 2013, true, tripScalingFactor);
+                    MatsimPopulationCreator matsimPopulationCreator = new MatsimPopulationCreator();
+                    matsimPopulationCreator.createMatsimPopulation(locationList, 2013, true, tripScalingFactor);
+                    Population matsimPopulation = matsimPopulationCreator.getMatsimPopulation();
 
 
-                    //create an empty map to store travel times
+                    //create empty matrices and map of pt-travellers for skims
                     Matrix autoTravelTime = new Matrix(locationList.size(), locationList.size());
+                    Map<Id, PtSyntheticTraveller> ptSyntheticTravellerMap = matsimPopulationCreator.getPtSyntheticTravellerMap();
+                    Matrix transitTravelTime = new Matrix(locationList.size(), locationList.size());
+                    Matrix euclideanDistanceMatrix = new Matrix(locationList.size(), locationList.size());
+
 
 
                     //get travel times and run Matsim
-                    //if (runMatsim) {
-                        autoTravelTime = MatsimRunFromJava.runMatsimToCreateTravelTimes(autoTravelTime, hourOfDay * 60 * 60, 1,
+                    //TODO need to improve this part of the code
+                    MatsimRunFromJava matsimRunner = new MatsimRunFromJava();
+                    autoTravelTime = matsimRunner.runMatsim(autoTravelTime, hourOfDay * 60 * 60, 1,
                                 networkFile, matsimPopulation, year,
                                 TransformationFactory.WGS84, iterations, simulationName,
-                                outputFolder, flowCapacityFactor, storageCapacityFactor, locationList, getTravelTimes);
-                    //}
+                                outputFolder, flowCapacityFactor, storageCapacityFactor, locationList, autoSkims);
 
                     //store the map in omx file
-                    if (getTravelTimes) travelTimeMatrix.createOmxSkimMatrix(autoTravelTime, locationList, omxFileName);
+                    if (autoSkims) {
+                        TravelTimeMatrix.createOmxSkimMatrix(autoTravelTime, locationList, omxFileName);
+                        if (analyzeAccessibility) {
+                            Accessibility acc = new Accessibility();
+                            acc.calculateAccessibility(locationList);
+                            acc.calculateTravelTimesToZone(locationList, 1989);
+                            acc.printAccessibility(locationList);
+                        }
+                    }
 
                     //read omx files and calculate accessibility
-                    if (analyzeAccessibility) {
-                        Accessibility acc = new Accessibility();
-                        acc.calculateAccessibility(locationList);
-                        acc.calculateTravelTimesToZone(locationList, 1989);
-                        acc.printAccessibility(locationList);
-                    }
+
 
                     //visualization
                     if (visualize) {
@@ -126,7 +123,12 @@ public class MatsimExecuter {
                     if (ptSkimsFromEvents) {
                         String eventFile = outputFolder + "/" + simulationName + "_" + year + ".output_events.xml.gz";
                         PtEventHandler ptEH = new PtEventHandler();
-                        ptEH.ptEventHandler(networkFile, eventFile);
+
+                        transitTravelTime = ptEH.ptEventHandler(eventFile, transitTravelTime, ptSyntheticTravellerMap);
+
+                        String omxPtFileName = munich.getString("pt.skim.file") + simulationName + ".omx";
+                        TravelTimeMatrix.createOmxSkimMatrix(transitTravelTime, locationList, omxPtFileName);
+
 
                     }
 

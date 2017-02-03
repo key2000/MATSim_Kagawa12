@@ -1,4 +1,4 @@
-package org.matsim.munichArea.configMatsim;
+package org.matsim.munichArea.configMatsim.createDemand;
 
 /**
  * Created by carlloga on 9/14/2016.

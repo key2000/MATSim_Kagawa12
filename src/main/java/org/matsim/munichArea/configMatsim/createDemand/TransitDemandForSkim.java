@@ -1,25 +1,17 @@
-package org.matsim.munichArea.configMatsim;
+package org.matsim.munichArea.configMatsim.createDemand;
 
 import org.matsim.api.core.v01.Id;
 import org.matsim.api.core.v01.population.Plan;
-import org.matsim.core.utils.io.IOUtils;
 import org.matsim.munichArea.planCreation.Location;
 
 import org.matsim.api.core.v01.Coord;
-import org.matsim.api.core.v01.Id;
-import org.matsim.api.core.v01.Scenario;
 import org.matsim.api.core.v01.TransportMode;
-import org.matsim.api.core.v01.network.Network;
 import org.matsim.api.core.v01.population.*;
-import org.matsim.core.api.internal.MatsimWriter;
-import org.matsim.core.config.Config;
-import org.matsim.core.config.ConfigUtils;
-import org.matsim.core.scenario.ScenarioUtils;
-import org.matsim.munichArea.Accessibility;
-import org.matsim.munichArea.planCreation.Location;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 import static org.matsim.munichArea.MatsimExecuter.munich;
@@ -28,6 +20,8 @@ import static org.matsim.munichArea.MatsimExecuter.munich;
  * Created by carlloga on 3/2/17.
  */
 public class TransitDemandForSkim {
+
+
 
 
     public ArrayList<Location> locationsServedBySUBahn(ArrayList<Location> locationList) {
@@ -63,13 +57,15 @@ public class TransitDemandForSkim {
         return zonesServedList;
     }
 
-    public void createDemandForSkims(ArrayList<Location> zonesServedList, int personId, Population matsimPopulation) {
+    public Map< Id, PtSyntheticTraveller> createDemandForSkims(ArrayList<Location> zonesServedList, int personId, Population matsimPopulation) {
+
+        Map< Id, PtSyntheticTraveller> ptSyntheticTravellerMap = new HashMap<>();
 
         PopulationFactory matsimPopulationFactory = matsimPopulation.getFactory();
-        try {
-            PrintWriter pw = new PrintWriter(new FileWriter("input/pt/OdPairs.csv", false));
+        //try {
+          //  PrintWriter pw = new PrintWriter(new FileWriter("input/pt/OdPairs.csv", false));
 
-            pw.println("person, from, to");
+            //pw.println("person, from, to");
 
             double time = 8 * 60 * 60;
             for (int i = 0; i < zonesServedList.size(); i++) {
@@ -83,7 +79,10 @@ public class TransitDemandForSkim {
                         org.matsim.api.core.v01.population.Person matsimPerson =
                                 matsimPopulationFactory.createPerson(Id.create(personId, org.matsim.api.core.v01.population.Person.class));
                         matsimPopulation.addPerson(matsimPerson);
-                        pw.println(personId + "," + origLoc.getId() + "," + destLoc.getId());
+                        //pw.println(personId + "," + origLoc.getId() + "," + destLoc.getId());
+
+                        PtSyntheticTraveller ptSyntheticTraveller = new PtSyntheticTraveller(personId, origLoc, destLoc, matsimPerson);
+                        ptSyntheticTravellerMap.put(matsimPerson.getId(), ptSyntheticTraveller);
 
                         personId++;
                         Plan matsimPlan = matsimPopulationFactory.createPlan();
@@ -105,13 +104,17 @@ public class TransitDemandForSkim {
                 time = 8 * 60 * 60;
             }
 
-            pw.flush();
-            pw.close();
+            //pw.flush();
+            //pw.close();
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        //} catch (IOException e) {
+        //    e.printStackTrace();
+        //}
+
+        return ptSyntheticTravellerMap;
 
     }
+
+
 
 }

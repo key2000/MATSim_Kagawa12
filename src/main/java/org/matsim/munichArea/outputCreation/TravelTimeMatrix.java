@@ -16,7 +16,7 @@ import java.util.Set;
 /**
  * Created by carlloga on 9/14/2016.
  */
-public class travelTimeMatrix {
+public class TravelTimeMatrix {
 
 
     public static void createOmxSkimMatrix(Matrix autoTravelTime, ArrayList<Location> locationList, String omxFileName){

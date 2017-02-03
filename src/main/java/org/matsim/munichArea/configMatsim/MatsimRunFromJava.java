@@ -20,7 +20,9 @@ import java.util.*;
  */
 public class MatsimRunFromJava {
 
-    public static Matrix runMatsimToCreateTravelTimes(Matrix autoTravelTime,
+
+
+    public Matrix runMatsim(Matrix autoTravelTime,
                                                                                    int timeOfDay, int numberOfCalcPoints /*, Map<Integer,SimpleFeature> zoneFeatureMap*/, //CoordinateTransformation ct,
                                                                                    String inputNetworkFile,
                                                                                    Population population, int year,
@@ -149,6 +151,7 @@ public class MatsimRunFromJava {
                     controler, scenario.getNetwork(), config.controler().getLastIteration(),
                     locationList, timeOfDay, numberOfCalcPoints, //ct,
                     autoTravelTime);
+
             controler.addControlerListener(zone2zoneTravelTimeListener);
             // yyyyyy feedback will not work without the above, will it?  kai, apr'16
         }
@@ -157,6 +160,10 @@ public class MatsimRunFromJava {
         controler.run();
 
         // Return collected travel times
+
         return autoTravelTime;
+
     }
+
+
 }

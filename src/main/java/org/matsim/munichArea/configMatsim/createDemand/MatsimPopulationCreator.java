@@ -1,4 +1,4 @@
-package org.matsim.munichArea.configMatsim;
+package org.matsim.munichArea.configMatsim.createDemand;
 
 /**
  * Created by carlloga on 9/14/2016.
@@ -33,7 +33,10 @@ public class MatsimPopulationCreator {
     public static boolean ASC = true;
     public static boolean DESC = false;
 
-    public static Population createMatsimPopulation(ArrayList<Location> locationList, /*HouseholdDataManager householdDataManager,*/ int year,
+    private Population matsimPopulation;
+    private Map<Id, PtSyntheticTraveller> ptSyntheticTravellerMap;
+
+    public void createMatsimPopulation(ArrayList<Location> locationList, /*HouseholdDataManager householdDataManager,*/ int year,
                                                     /*Map<Integer,SimpleFeature>zoneFeatureMap, String crs, */ boolean writePopulation,
                                                     double tripScalingFactor) {
 
@@ -51,7 +54,7 @@ public class MatsimPopulationCreator {
         Scenario matsimScenario = ScenarioUtils.createScenario(matsimConfig);
 
         Network matsimNetwork = matsimScenario.getNetwork();
-        Population matsimPopulation = matsimScenario.getPopulation();
+        matsimPopulation = matsimScenario.getPopulation();
         PopulationFactory matsimPopulationFactory = matsimPopulation.getFactory();
 
 //    	CoordinateTransformation ct = TransformationFactory.getCoordinateTransformation(
@@ -231,7 +234,8 @@ public class MatsimPopulationCreator {
         if ( ResourceUtil.getBooleanProperty(munich,"transit.for.skims")) {
             TransitDemandForSkim tdSkims = new TransitDemandForSkim();
             ArrayList<Location> zonesServedList = tdSkims.locationsServedBySUBahn(locationList);
-            tdSkims.createDemandForSkims(zonesServedList, personId, matsimPopulation);
+            ptSyntheticTravellerMap= tdSkims.createDemandForSkims(zonesServedList, personId, matsimPopulation);
+
         }
 
         //add demand to munichArea transit line
@@ -248,10 +252,18 @@ public class MatsimPopulationCreator {
 
         System.out.println("The total number of trips by car is = " + totalTripsAllDestinations);
 
-        return matsimPopulation;
+
 
     }
 
+
+    public Population getMatsimPopulation() {
+        return matsimPopulation;
+    }
+
+    public Map<Id, PtSyntheticTraveller> getPtSyntheticTravellerMap() {
+        return ptSyntheticTravellerMap;
+    }
 
     private static Map<Integer, Double> sortByComparator(Map<Integer, Double> unsortMap, final boolean order) {
 
