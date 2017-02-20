@@ -1,12 +1,19 @@
 package org.matsim.munichArea.configMatsim;
 
 import com.pb.common.matrix.Matrix;
+import org.matsim.api.core.v01.Coord;
+import org.matsim.api.core.v01.Id;
+import org.matsim.api.core.v01.network.Link;
+import org.matsim.api.core.v01.network.Network;
+import org.matsim.api.core.v01.network.NetworkFactory;
+import org.matsim.api.core.v01.network.Node;
 import org.matsim.api.core.v01.population.Population;
 import org.matsim.core.config.Config;
 import org.matsim.core.config.ConfigUtils;
 import org.matsim.core.config.groups.*;
 import org.matsim.core.controler.Controler;
 import org.matsim.core.controler.OutputDirectoryHierarchy;
+import org.matsim.core.network.NetworkUtils;
 import org.matsim.core.scenario.MutableScenario;
 import org.matsim.core.scenario.ScenarioUtils;
 import org.matsim.munichArea.planCreation.Location;
@@ -28,8 +35,8 @@ public class MatsimRunFromJava {
                                                                                    Population population, int year,
                                                                                    String crs, int numberOfIterations, String siloRunId, String outputDirectoryRoot,
                                                                                    double flowCapacityFactor, double storageCapacityFactor,
-                                                                                   ArrayList<Location> locationList, boolean getTravelTimes
-                                                                                   ) {
+                                                                                   ArrayList<Location> locationList, boolean getTravelTimes,
+                                                                                   String scheduleFile, String vehicleFile) {
         // String populationFile, int year, String crs, int numberOfIterations) {
         final Config config = ConfigUtils.createConfig();
 
@@ -39,15 +46,16 @@ public class MatsimRunFromJava {
         // Network
         config.network().setInputFile(inputNetworkFile);
 
+
+
         //public transport
-        config.transit().setTransitScheduleFile("./input/pt/schedule.xml");
-        config.transit().setVehiclesFile("./input/pt/vehicles.xml");
+        config.transit().setTransitScheduleFile(scheduleFile);
+        config.transit().setVehiclesFile(vehicleFile);
         config.transit().setUseTransit(true);
         Set<String> transitModes = new TreeSet<>();
         transitModes.add("pt");
         config.transit().setTransitModes(transitModes);
 
-        //end of experimental settings
 
         // Plans
         //		config.plans().setInputFile(inputPlansFile);
@@ -103,11 +111,11 @@ public class MatsimRunFromJava {
         config.strategy().addStrategySettings(strategySettings3);
 
         //TODO this strategy is implemented to test the pt modes (in general do not include)
-//        StrategyConfigGroup.StrategySettings strategySettings4 = new StrategyConfigGroup.StrategySettings();
-//        strategySettings4.setStrategyName("ChangeTripMode");
-//        strategySettings4.setWeight(0); //originally 0
-//        strategySettings4.setDisableAfter((int) (numberOfIterations * 0.7));
-//        config.strategy().addStrategySettings(strategySettings4);
+        StrategyConfigGroup.StrategySettings strategySettings4 = new StrategyConfigGroup.StrategySettings();
+        strategySettings4.setStrategyName("ChangeTripMode");
+        strategySettings4.setWeight(0); //originally 0
+        strategySettings4.setDisableAfter((int) (numberOfIterations * 0.7));
+        config.strategy().addStrategySettings(strategySettings4);
 
 
         config.strategy().setMaxAgentPlanMemorySize(4);
@@ -158,6 +166,7 @@ public class MatsimRunFromJava {
 
         // Run controller
         controler.run();
+
 
         // Return collected travel times
 

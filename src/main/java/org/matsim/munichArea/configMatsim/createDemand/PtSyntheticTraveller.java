@@ -4,6 +4,8 @@ import com.sun.xml.internal.stream.events.LocationImpl;
 import org.matsim.api.core.v01.population.Person;
 import org.matsim.munichArea.planCreation.Location;
 
+import java.util.HashMap;
+
 /**
  * Created by carlloga on 3/2/17.
  */
@@ -15,12 +17,22 @@ public class PtSyntheticTraveller {
     private Person person;
     private double departureTime;
     private double arrivalTime;
+    private HashMap<Integer,Double> boardingMap;
+    private HashMap<Integer,Double> alightingMap;
+    private int boardSeq;
+    private int alightSeq;
+
+
 
     public PtSyntheticTraveller(int id, Location origLoc, Location destLoc, Person person) {
         this.id = id;
         this.origLoc = origLoc;
         this.destLoc = destLoc;
         this.person = person;
+        this.boardingMap = new HashMap<>();
+        this.alightingMap = new HashMap<>();
+        this.boardSeq = 0;
+        this.alightSeq = 0;
     }
 
     public int getId() {
@@ -69,5 +81,27 @@ public class PtSyntheticTraveller {
 
     public void setArrivalTime(double arrivalTime) {
         this.arrivalTime = arrivalTime;
+    }
+
+    public void boards(double boardingTime){
+        boardingMap.put(boardSeq,boardingTime);
+        boardSeq++;
+    }
+
+    public void alights(double alightingTime){
+        alightingMap.put(alightSeq,alightingTime);
+        alightSeq++;
+    }
+
+    public HashMap<Integer, Double> getBoardingMap() {
+        return boardingMap;
+    }
+
+    public HashMap<Integer, Double> getAlightingMap() {
+        return alightingMap;
+    }
+
+    public int getTransfers() {
+        return alightSeq -1;
     }
 }

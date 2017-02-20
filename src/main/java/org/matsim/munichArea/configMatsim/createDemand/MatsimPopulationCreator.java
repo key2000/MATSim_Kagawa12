@@ -231,9 +231,16 @@ public class MatsimPopulationCreator {
         }
 
         //public transportation demand to get skims
-        if ( ResourceUtil.getBooleanProperty(munich,"transit.for.skims")) {
+        if ( ResourceUtil.getBooleanProperty(munich,"skim.pt.events")) {
             TransitDemandForSkim tdSkims = new TransitDemandForSkim();
+
+            //todo only served
             ArrayList<Location> zonesServedList = tdSkims.locationsServedBySUBahn(locationList);
+            // todo all
+//            ArrayList<Location> zonesServedList = locationList;
+
+
+
             ptSyntheticTravellerMap= tdSkims.createDemandForSkims(zonesServedList, personId, matsimPopulation);
 
         }
@@ -247,7 +254,7 @@ public class MatsimPopulationCreator {
 
         if (writePopulation) {
             MatsimWriter popWriter = new PopulationWriter(matsimPopulation, matsimNetwork);
-            popWriter.write("./input/population_" + year + ".xml");
+            popWriter.write("./input/population.xml");
         }
 
         System.out.println("The total number of trips by car is = " + totalTripsAllDestinations);

@@ -43,6 +43,8 @@ public class MatsimExecuter {
         boolean analyzeAccessibility = ResourceUtil.getBooleanProperty(munich,"analyze.accessibility");
         boolean visualize = ResourceUtil.getBooleanProperty(munich,"run.oftvis");
         String networkFile = munich.getString("network.folder")+munich.getString("xml.network.file");
+        String scheduleFile = munich.getString("network.folder")+munich.getString("schedule.file");
+        String vehicleFile = munich.getString("network.folder")+munich.getString("vehicle.file");
 
         //create network from OSM file
         if (createNetwork) CreateNetwork.createNetwork();
@@ -81,7 +83,9 @@ public class MatsimExecuter {
                     //create empty matrices and map of pt-travellers for skims
                     Matrix autoTravelTime = new Matrix(locationList.size(), locationList.size());
                     Map<Id, PtSyntheticTraveller> ptSyntheticTravellerMap = matsimPopulationCreator.getPtSyntheticTravellerMap();
-                    Matrix transitTravelTime = new Matrix(locationList.size(), locationList.size());
+                    Matrix transitTotalTime = new Matrix(locationList.size(), locationList.size());
+                    Matrix transitInTime = new Matrix(locationList.size(), locationList.size());
+                    Matrix transitTransfers = new Matrix(locationList.size(), locationList.size());
 
 
 
@@ -92,7 +96,7 @@ public class MatsimExecuter {
                     autoTravelTime = matsimRunner.runMatsim(autoTravelTime, hourOfDay * 60 * 60, 1,
                                 networkFile, matsimPopulation, year,
                                 TransformationFactory.WGS84, iterations, simulationName,
-                                outputFolder, flowCapacityFactor, storageCapacityFactor, locationList, autoSkims);
+                                outputFolder, flowCapacityFactor, storageCapacityFactor, locationList, autoSkims, scheduleFile, vehicleFile);
 
                     //store the map in omx file
                     if (autoSkims) {
@@ -126,11 +130,17 @@ public class MatsimExecuter {
                         String eventFile = outputFolder + "/" + simulationName + "_" + year + ".output_events.xml.gz";
                         PtEventHandler ptEH = new PtEventHandler();
 
-                        transitTravelTime = ptEH.ptEventHandler(eventFile, transitTravelTime, ptSyntheticTravellerMap);
+                        ptEH.runPtEventAnalyzer(eventFile, ptSyntheticTravellerMap);
+                        transitTotalTime = ptEH.ptTotalTime(ptSyntheticTravellerMap, transitTotalTime);
+                        transitInTime = ptEH.ptInTransitTime(ptSyntheticTravellerMap, transitInTime);
+                        transitTransfers = ptEH.ptTransfers(ptSyntheticTravellerMap, transitTransfers);
 
-                        String omxPtFileName = munich.getString("pt.skim.file") + simulationName + ".omx";
-                        TravelTimeMatrix.createOmxSkimMatrix(transitTravelTime, locationList, omxPtFileName);
-
+                        String omxPtFileName = munich.getString("pt.total.skim.file") + simulationName + ".omx";
+                        TravelTimeMatrix.createOmxSkimMatrix(transitTotalTime, locationList, omxPtFileName);
+                        omxPtFileName = munich.getString("pt.in.skim.file") + simulationName + ".omx";
+                        TravelTimeMatrix.createOmxSkimMatrix(transitInTime, locationList, omxPtFileName);
+                        omxPtFileName = munich.getString("pt.transfer.skim.file") + simulationName + ".omx";
+                        TravelTimeMatrix.createOmxSkimMatrix(transitTransfers, locationList, omxPtFileName);
 
                     }
 

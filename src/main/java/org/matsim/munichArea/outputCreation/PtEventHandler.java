@@ -25,66 +25,76 @@ import static org.matsim.munichArea.MatsimExecuter.munich;
  */
 public class PtEventHandler {
 
-    public Matrix ptEventHandler(String eventsFile, Matrix transitTravelTime, Map<Id, PtSyntheticTraveller> ptSyntheticTravellerMap) {
 
+    public void runPtEventAnalyzer(String eventsFile, Map<Id, PtSyntheticTraveller> ptSyntheticTravellerMap){
         EventsManager eventsManager = EventsUtils.createEventsManager();
-        Scenario scenario = ScenarioUtils.createScenario(ConfigUtils.createConfig());
-
-        //new MatsimNetworkReader(scenario.getNetwork()).readFile(networkFile);
-        TransitDemandForSkim tdSkim = new TransitDemandForSkim();
-
         ODTripAnalyzer odTripAnalyzer = new ODTripAnalyzer(ptSyntheticTravellerMap);
         eventsManager.addHandler(odTripAnalyzer);
         new MatsimEventsReader(eventsManager).readFile(eventsFile);
-
-
-        //writeSkimToFile(odTripAnalyzer.getDepartureTimeMap(), odTripAnalyzer.getArrivalTimeMap(), munich.getString("skim.pt.file"));
-
-
-
-        return getPtSkimMatrix(ptSyntheticTravellerMap, transitTravelTime);
-
     }
 
-    private Matrix getPtSkimMatrix(Map<Id,PtSyntheticTraveller> ptSyntheticTravellerMap, Matrix transitTravelTime) {
+    public Matrix ptTotalTime(Map<Id,PtSyntheticTraveller> ptSyntheticTravellerMap, Matrix transitTravelTime) {
 
         transitTravelTime.fill(-1F);
 
-        System.out.println("Analyzing trips of: " + ptSyntheticTravellerMap.size());
+        System.out.println("Number of PT synthetic trips: " + ptSyntheticTravellerMap.size());
         for (PtSyntheticTraveller ptst : ptSyntheticTravellerMap.values()){
             float tt = (float) ( ptst.getArrivalTime() - ptst.getDepartureTime())/60;
             //System.out.println(ptst.getOrigLoc().getId() + "-" + tt);
             transitTravelTime.setValueAt(ptst.getOrigLoc().getId(), ptst.getDestLoc().getId(), tt);
             transitTravelTime.setValueAt(ptst.getDestLoc().getId(), ptst.getOrigLoc().getId(), tt);
-
         }
-
 
         return transitTravelTime;
     }
 
+    public Matrix ptInTransitTime(Map<Id,PtSyntheticTraveller> ptSyntheticTravellerMap, Matrix transitTravelTime) {
 
-    static void writeSkimToFile(Map<Integer, Double> departureTimeMap, Map<Integer, Double> arrivalTimeMap, String fileName) {
-        BufferedWriter bw = IOUtils.getBufferedWriter(fileName,IOUtils.CHARSET_UTF8,false);
-        try {
-            bw.write("person,departureTime, arrivalTime");
+        transitTravelTime.fill(-1F);
 
-            for (int person : departureTimeMap.keySet()){
+        System.out.println("Number of PT synthetic trips: " + ptSyntheticTravellerMap.size());
+        for (PtSyntheticTraveller ptst : ptSyntheticTravellerMap.values()){
 
-                bw.newLine();
-                bw.write(person +"," +  departureTimeMap.get(person) + ","  + arrivalTimeMap.get(person));
+            //System.out.println(ptst.getOrigLoc().getId() + "-" + tt);
+
+            if(!ptst.getBoardingMap().isEmpty()) {
+
+                double end = ptst.getAlightingMap().get(ptst.getAlightingMap().keySet().size() - 1);
+
+                double start = ptst.getBoardingMap().get(0);
+
+                float tt = (float) (end - start);
+
+                transitTravelTime.setValueAt(ptst.getOrigLoc().getId(), ptst.getDestLoc().getId(), tt);
+                transitTravelTime.setValueAt(ptst.getDestLoc().getId(), ptst.getOrigLoc().getId(), tt);
             }
 
-            bw.flush();
-            bw.close();
-
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         }
 
-
+        return transitTravelTime;
     }
+
+    public Matrix ptTransfers(Map<Id,PtSyntheticTraveller> ptSyntheticTravellerMap, Matrix transfers) {
+
+        transfers.fill(-1F);
+
+        System.out.println("Number of PT synthetic trips: " + ptSyntheticTravellerMap.size());
+        for (PtSyntheticTraveller ptst : ptSyntheticTravellerMap.values()){
+
+            //System.out.println(ptst.getOrigLoc().getId() + "-" + tt);
+
+            float numberOfTransfers = (float) ptst.getTransfers();
+
+            transfers.setValueAt(ptst.getOrigLoc().getId(), ptst.getDestLoc().getId(), numberOfTransfers);
+            transfers.setValueAt(ptst.getDestLoc().getId(), ptst.getOrigLoc().getId(), numberOfTransfers);
+
+        }
+
+        return transfers;
+    }
+
+
+
 
 
 
