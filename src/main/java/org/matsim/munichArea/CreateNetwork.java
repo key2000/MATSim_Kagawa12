@@ -109,6 +109,8 @@ public class CreateNetwork {
 		 */
         new NetworkCleaner().run(network);
 
+
+
 		/*
 		 * Write the Network to a MATSim network file.
 		 */

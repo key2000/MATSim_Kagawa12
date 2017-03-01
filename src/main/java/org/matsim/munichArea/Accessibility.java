@@ -22,11 +22,15 @@ import static org.matsim.munichArea.MatsimExecuter.munich;
 public class Accessibility {
 
     private Matrix autoTravelTime;
-    private String skimFileName = munich.getString("output.skim.file");
+    private String skimFileName;
+
+    public Accessibility(String skimFileName) {
+        this.skimFileName = skimFileName;
+    }
 
     public void calculateTravelTimesToZone(ArrayList<Location> locationList, int destinationId) {
 
-        readSkim(skimFileName);
+        readSkim();
         for (Location orig : locationList){
             double travelTime = getAutoTravelTime(orig.getId(), destinationId, autoTravelTime);
             orig.setTravelTime(travelTime);
@@ -37,12 +41,19 @@ public class Accessibility {
 
     public void calculateAccessibility(ArrayList<Location> locationList){
 
-        readSkim(skimFileName);
+        readSkim();
 
         for (Location orig : locationList){
             float accessibility = 0;
             for (Location dest: locationList){
-                accessibility += Math.pow(dest.getPopulation(),1.25) * Math.exp(-0.1*getAutoTravelTime(orig.getId(), dest.getId(), autoTravelTime));
+
+                double travelTime = getAutoTravelTime(orig.getId(), dest.getId(), autoTravelTime);
+
+                if(travelTime == -1){
+                    travelTime = Double.POSITIVE_INFINITY;
+                }
+
+                accessibility += Math.pow(dest.getPopulation(),1.25) * Math.exp(-0.1*travelTime);
             }
             orig.setAccessibility(accessibility);
         }
@@ -67,10 +78,10 @@ public class Accessibility {
         }
     }
 
-    public void readSkim(String f) {
+    public void readSkim() {
         // read skim file
 
-        OmxFile hSkim = new OmxFile(f);
+        OmxFile hSkim = new OmxFile(skimFileName);
         hSkim.openReadOnly();
         OmxMatrix timeOmxSkimAutos = hSkim.getMatrix(munich.getString("output.skim.matrix"));
 

@@ -1,0 +1,49 @@
+package org.matsim.munichArea.configMatsim.createDemand;
+
+import org.matsim.munichArea.planCreation.Location;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import static org.matsim.munichArea.MatsimExecuter.munich;
+
+/**
+ * Created by carlloga on 28.02.2017.
+ */
+public class ReadZonesServedByTransit {
+
+    public ArrayList<Location> readZonesServedByTransit(ArrayList<Location> locationList) {
+        String fileName = munich.getString("zones.served.SU.file");
+
+        BufferedReader bufferReader = null;
+        ArrayList<Location> zonesServedList = new ArrayList<>();
+
+        try {
+            int lineCount = 1;
+            String line;
+            bufferReader = new BufferedReader(new FileReader(fileName));
+
+            while ((line = bufferReader.readLine()) != null) {
+                if (lineCount > 1) {
+                    String[] row = line.split(";");
+                    int locationId = Integer.parseInt(row[0]);
+                    zonesServedList.add(locationList.get(locationId));
+                }
+                lineCount++;
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (bufferReader != null) bufferReader.close();
+            } catch (IOException crunchifyException) {
+                crunchifyException.printStackTrace();
+            }
+        }
+        System.out.println("The number of zones served by transit is = " + zonesServedList.size());
+        return zonesServedList;
+    }
+}

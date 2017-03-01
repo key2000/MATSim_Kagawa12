@@ -38,7 +38,7 @@ public class MatsimPopulationCreator {
 
     public void createMatsimPopulation(ArrayList<Location> locationList, /*HouseholdDataManager householdDataManager,*/ int year,
                                                     /*Map<Integer,SimpleFeature>zoneFeatureMap, String crs, */ boolean writePopulation,
-                                                    double tripScalingFactor) {
+                                       double tripScalingFactor) {
 
 
         //    	Collection<SimpleFeature> features = ShapeFileReader.getAllFeatures(zoneShapeFile);
@@ -115,8 +115,8 @@ public class MatsimPopulationCreator {
 
         int personId = 0;
 
-        Accessibility acc = new Accessibility();
-        acc.readSkim(munich.getString("base.skim.file"));
+        Accessibility acc = new Accessibility(munich.getString("base.skim.file"));
+        acc.readSkim();
         Matrix autoTravelTime = acc.getAutoTravelTimeMatrix();
 
         Random rnd = new Random();
@@ -147,7 +147,6 @@ public class MatsimPopulationCreator {
                     weight = (origLoc.getPopulation() * g / Math.pow(travelTime, alpha));
 
                 }
-
 
 
 //                sumOrigRates += origRate[origLoc.getId() - 1];
@@ -230,36 +229,28 @@ public class MatsimPopulationCreator {
 
         }
 
-        //public transportation demand to get skims
-        if ( ResourceUtil.getBooleanProperty(munich,"skim.pt.events")) {
-            TransitDemandForSkim tdSkims = new TransitDemandForSkim();
-
-            //todo only served
-            ArrayList<Location> zonesServedList = tdSkims.locationsServedBySUBahn(locationList);
-            // todo all
-//            ArrayList<Location> zonesServedList = locationList;
-
-
-
-            ptSyntheticTravellerMap= tdSkims.createDemandForSkims(zonesServedList, personId, matsimPopulation);
-
-        }
-
-        //add demand to munichArea transit line
-        float transitShare = Float.parseFloat(munich.getString("transit.modal.share"));
-
-        //int numberOfS1travelers = (int) (500 * transitShare);
-
-
+        System.out.println("The total number of trips by car is = " + totalTripsAllDestinations);
 
         if (writePopulation) {
             MatsimWriter popWriter = new PopulationWriter(matsimPopulation, matsimNetwork);
             popWriter.write("./input/population.xml");
         }
+    }
 
-        System.out.println("The total number of trips by car is = " + totalTripsAllDestinations);
+    public void createSyntheticPtPopulation(ArrayList<Location> servedZonesList, ArrayList<Location> shortServedZonesList) {
+
+        //public transportation demand to get skims
+
+        int personId = 10000000;
+
+        TransitDemandForSkim tdSkims = new TransitDemandForSkim();
+        ptSyntheticTravellerMap = tdSkims.createDemandForSkims(servedZonesList, shortServedZonesList, personId, matsimPopulation);
 
 
+        //add demand to munichArea transit line
+        float transitShare = Float.parseFloat(munich.getString("transit.modal.share"));
+
+        //int numberOfS1travelers = (int) (500 * transitShare);
 
     }
 

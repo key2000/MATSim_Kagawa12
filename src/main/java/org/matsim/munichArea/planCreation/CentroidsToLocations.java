@@ -13,9 +13,10 @@ import static org.matsim.munichArea.MatsimExecuter.munich;
  */
 public class CentroidsToLocations {
 
+    public CentroidsToLocations() {
+    }
 
-
-    public static ArrayList<Location> readCentroidList() {
+    public ArrayList<Location> readCentroidList() {
 
 
         //read the centroid list

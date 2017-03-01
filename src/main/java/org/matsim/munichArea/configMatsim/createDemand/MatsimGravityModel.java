@@ -55,8 +55,8 @@ public class MatsimGravityModel {
 
         int personId = 0;
 
-        Accessibility acc = new Accessibility();
-        acc.readSkim(munich.getString("base.skim.file"));
+        Accessibility acc = new Accessibility(munich.getString("base.skim.file"));
+        acc.readSkim();
         Matrix autoTravelTime = acc.getAutoTravelTimeMatrix();
 
         Random rnd = new Random();

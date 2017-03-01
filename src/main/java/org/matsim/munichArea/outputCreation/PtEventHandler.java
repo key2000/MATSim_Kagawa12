@@ -35,7 +35,7 @@ public class PtEventHandler {
 
     public Matrix ptTotalTime(Map<Id,PtSyntheticTraveller> ptSyntheticTravellerMap, Matrix transitTravelTime) {
 
-        transitTravelTime.fill(-1F);
+        //transitTravelTime.fill(-1F);
 
         System.out.println("Number of PT synthetic trips: " + ptSyntheticTravellerMap.size());
         for (PtSyntheticTraveller ptst : ptSyntheticTravellerMap.values()){
@@ -50,7 +50,7 @@ public class PtEventHandler {
 
     public Matrix ptInTransitTime(Map<Id,PtSyntheticTraveller> ptSyntheticTravellerMap, Matrix transitTravelTime) {
 
-        transitTravelTime.fill(-1F);
+        //transitTravelTime.fill(-1F);
 
         System.out.println("Number of PT synthetic trips: " + ptSyntheticTravellerMap.size());
         for (PtSyntheticTraveller ptst : ptSyntheticTravellerMap.values()){
@@ -63,7 +63,7 @@ public class PtEventHandler {
 
                 double start = ptst.getBoardingMap().get(0);
 
-                float tt = (float) (end - start);
+                float tt = (float) (end - start)/60;
 
                 transitTravelTime.setValueAt(ptst.getOrigLoc().getId(), ptst.getDestLoc().getId(), tt);
                 transitTravelTime.setValueAt(ptst.getDestLoc().getId(), ptst.getOrigLoc().getId(), tt);
@@ -76,7 +76,7 @@ public class PtEventHandler {
 
     public Matrix ptTransfers(Map<Id,PtSyntheticTraveller> ptSyntheticTravellerMap, Matrix transfers) {
 
-        transfers.fill(-1F);
+       // transfers.fill(-1F);
 
         System.out.println("Number of PT synthetic trips: " + ptSyntheticTravellerMap.size());
         for (PtSyntheticTraveller ptst : ptSyntheticTravellerMap.values()){
