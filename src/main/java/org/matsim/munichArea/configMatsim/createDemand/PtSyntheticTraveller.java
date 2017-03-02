@@ -24,6 +24,7 @@ public class PtSyntheticTraveller {
 
 
 
+
     public PtSyntheticTraveller(int id, Location origLoc, Location destLoc, Person person) {
         this.id = id;
         this.origLoc = origLoc;
@@ -103,5 +104,20 @@ public class PtSyntheticTraveller {
 
     public int getTransfers() {
         return alightSeq -1;
+    }
+
+    public double getInVehicleTime() {
+        int size = boardingMap.size();
+        double vehicleInTime = 0;
+        for (int i =0; i< size; i++){
+            vehicleInTime += alightingMap.get(i) - boardingMap.get(i);
+        }
+        return vehicleInTime;
+    }
+
+
+    public double getAccesTimeByWalk() {
+        double accessTime = 0;
+        return  accessTime;
     }
 }

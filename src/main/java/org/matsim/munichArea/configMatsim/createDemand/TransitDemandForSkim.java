@@ -25,10 +25,6 @@ public class TransitDemandForSkim {
 
     public Map< Id, PtSyntheticTraveller> createDemandForSkims(ArrayList<Location> servedZonesList,ArrayList<Location> shortServedZonesList, int personId, Population matsimPopulation) {
 
-
-        Collections.shuffle(servedZonesList);
-        Collections.shuffle(shortServedZonesList);
-
         Map< Id, PtSyntheticTraveller> ptSyntheticTravellerMap = new HashMap<>();
 
         PopulationFactory matsimPopulationFactory = matsimPopulation.getFactory();

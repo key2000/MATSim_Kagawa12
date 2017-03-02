@@ -19,7 +19,7 @@ import java.util.Set;
 public class TravelTimeMatrix {
 
 
-    public static void createOmxSkimMatrix(Matrix autoTravelTime, ArrayList<Location> locationList, String omxFileName){
+    public static void createOmxSkimMatrix(Matrix autoTravelTime, ArrayList<Location> locationList, String omxFileName, String omxMatrixName){
 
 
         try (OmxFile omxFile = new OmxFile(omxFileName)) {
@@ -44,7 +44,7 @@ public class TravelTimeMatrix {
 //                    autoTravelTime.setValueAt(i,j,travelTimesMap.get(tuple));
 //                }
 
-            OmxMatrix.OmxFloatMatrix mat1 = new OmxMatrix.OmxFloatMatrix("mat1",autoTravelTime.getValues(),mat1NA);
+            OmxMatrix.OmxFloatMatrix mat1 = new OmxMatrix.OmxFloatMatrix(omxMatrixName, autoTravelTime.getValues(),mat1NA);
             mat1.setAttribute(OmxConstants.OmxNames.OMX_DATASET_TITLE_KEY.getKey(),"travelTimes");
 
             int lookup1NA = -1;
@@ -64,7 +64,7 @@ public class TravelTimeMatrix {
 
 
             omxFile.close();
-            System.out.println("travel time matrix written");
+            System.out.println(omxMatrixName + "matrix written");
 
         }
 // clean the matrix if not needed ?

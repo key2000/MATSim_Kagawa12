@@ -58,7 +58,6 @@ public class ODTripAnalyzer implements PersonDepartureEventHandler, PersonArriva
         } catch (Exception e) {}
     }
 
-
     public void handleEvent(PersonArrivalEvent event) {
         try {
             PtSyntheticTraveller ptSyntheticTraveller = ptSyntheticTravellerMap.get(event.getPersonId());

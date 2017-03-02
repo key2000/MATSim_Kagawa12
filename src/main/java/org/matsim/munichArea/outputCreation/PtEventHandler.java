@@ -93,6 +93,25 @@ public class PtEventHandler {
         return transfers;
     }
 
+    public Matrix inVehicleTt(Map<Id,PtSyntheticTraveller> ptSyntheticTravellerMap, Matrix ptInVehicleTt) {
+
+        // transfers.fill(-1F);
+
+        System.out.println("Number of PT synthetic trips: " + ptSyntheticTravellerMap.size());
+        for (PtSyntheticTraveller ptst : ptSyntheticTravellerMap.values()){
+
+            //System.out.println(ptst.getOrigLoc().getId() + "-" + tt);
+
+            float inVehicleTt = (float) ptst.getInVehicleTime();
+
+            ptInVehicleTt.setValueAt(ptst.getOrigLoc().getId(), ptst.getDestLoc().getId(), inVehicleTt);
+            ptInVehicleTt.setValueAt(ptst.getDestLoc().getId(), ptst.getOrigLoc().getId(), inVehicleTt);
+
+        }
+
+        return ptInVehicleTt;
+    }
+
 
 
 

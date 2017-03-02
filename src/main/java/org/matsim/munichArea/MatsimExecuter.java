@@ -5,6 +5,7 @@ import com.pb.common.util.ResourceUtil;
 import org.matsim.api.core.v01.Id;
 import org.matsim.api.core.v01.population.Population;
 import org.matsim.core.utils.geometry.transformations.TransformationFactory;
+import org.matsim.munichArea.configMatsim.Zone2ZoneTravelTimeListener;
 import org.matsim.munichArea.configMatsim.createDemand.MatsimGravityModel;
 import org.matsim.munichArea.configMatsim.createDemand.MatsimPopulationCreator;
 import org.matsim.munichArea.configMatsim.MatsimRunFromJava;
@@ -12,6 +13,7 @@ import org.matsim.munichArea.configMatsim.createDemand.PtSyntheticTraveller;
 import org.matsim.munichArea.configMatsim.createDemand.ReadZonesServedByTransit;
 import org.matsim.munichArea.outputCreation.EuclideanDistanceCalculator;
 import org.matsim.munichArea.outputCreation.PtEventHandler;
+import org.matsim.munichArea.outputCreation.TransitSkimPostProcessing;
 import org.matsim.munichArea.planCreation.CentroidsToLocations;
 import org.matsim.munichArea.planCreation.Location;
 import org.matsim.munichArea.outputCreation.TravelTimeMatrix;
@@ -66,12 +68,15 @@ public class MatsimExecuter {
 
         //initialize matrices
         Matrix autoTravelTime = new Matrix(locationList.size(), locationList.size());
+        Matrix autoTravelDistance = new Matrix(locationList.size(), locationList.size());
         Matrix transitTotalTime = new Matrix(locationList.size(), locationList.size());
         transitTotalTime.fill(-1F);
         Matrix transitInTime = new Matrix(locationList.size(), locationList.size());
         transitInTime.fill(-1F);
         Matrix transitTransfers = new Matrix(locationList.size(), locationList.size());
         transitTransfers.fill(-1F);
+        Matrix inVehicleTime = new Matrix(locationList.size(), locationList.size());
+        inVehicleTime.fill(-1F);
 
         if (runMatsim) {
             for (int iterations : lastIterationVector) //loop iteration vector
@@ -103,7 +108,7 @@ public class MatsimExecuter {
                         shortServedZoneList.addAll(servedZoneList.subList(min, max));
 
                         System.out.println("sub-iteration: " + subRun  );
-                        System.out.println("getting PT skim matrix between zone " + min + " and zone " + max  + " which count a total of " + shortServedZoneList.size());
+                        //System.out.println("getting PT skim matrix between zone " + min + " and zone " + max  + " which count a total of " + shortServedZoneList.size());
 
 
                         //run gravity model to get HBW trips
@@ -124,17 +129,23 @@ public class MatsimExecuter {
 
 
                         ptSyntheticTravellerMap = matsimPopulationCreator.getPtSyntheticTravellerMap();
-                        System.out.println("PTSynthetic trips: " + ptSyntheticTravellerMap.size());
+                       // System.out.println("PTSynthetic trips: " + ptSyntheticTravellerMap.size());
                         //update map of pt-travellers for skims
 
 
                         //get travel times and run Matsim
                         //TODO need to improve this part of the code
                         MatsimRunFromJava matsimRunner = new MatsimRunFromJava();
-                        autoTravelTime = matsimRunner.runMatsim(autoTravelTime, hourOfDay * 60 * 60, 1,
+                        matsimRunner.runMatsim(hourOfDay * 60 * 60, 1,
                                 networkFile, matsimPopulation, year,
                                 TransformationFactory.WGS84, iterations, simulationName,
                                 outputFolder, flowCapacityFactor, storageCapacityFactor, locationList, autoSkims, scheduleFile, vehicleFile);
+
+                        if (autoSkims){
+                            autoTravelTime = matsimRunner.getAutoTravelTime();
+                            autoTravelDistance = matsimRunner.getAutoTravelDistance();
+                        }
+
 
 
                         //visualization
@@ -159,6 +170,7 @@ public class MatsimExecuter {
                             transitTotalTime = ptEH.ptTotalTime(ptSyntheticTravellerMap, transitTotalTime);
                             transitInTime = ptEH.ptInTransitTime(ptSyntheticTravellerMap, transitInTime);
                             transitTransfers = ptEH.ptTransfers(ptSyntheticTravellerMap, transitTransfers);
+                            inVehicleTime = ptEH.inVehicleTt(ptSyntheticTravellerMap, inVehicleTime);
                         }
 
                     }
@@ -168,33 +180,50 @@ public class MatsimExecuter {
                         EuclideanDistanceCalculator edc = new EuclideanDistanceCalculator();
                         Matrix euclideanDistanceMatrix = edc.createEuclideanDistanceMatrix(locationList);
                         String omxDistFileName = munich.getString("skim.eucliddist.file") + simulationName + ".omx";
-                        TravelTimeMatrix.createOmxSkimMatrix(euclideanDistanceMatrix, locationList, omxDistFileName);
+                        TravelTimeMatrix.createOmxSkimMatrix(euclideanDistanceMatrix, locationList, omxDistFileName, "distance");
                     }
 
 
                     if (autoSkims) {
-                        String omxFileName = munich.getString("output.skim.file") + simulationName + ".omx";
-                        TravelTimeMatrix.createOmxSkimMatrix(autoTravelTime, locationList, omxFileName);
+                        String omxFileName = munich.getString("out.skim.auto.time") + simulationName + ".omx";
+                        TravelTimeMatrix.createOmxSkimMatrix(autoTravelTime, locationList, omxFileName, "mat1");
+
+                        omxFileName = munich.getString("out.skim.auto.dist") + simulationName + ".omx";
+                        TravelTimeMatrix.createOmxSkimMatrix(autoTravelDistance, locationList, omxFileName, "mat1");
                     }
 
                     if (ptSkimsFromEvents) {
                         String omxPtFileName = munich.getString("pt.total.skim.file") + simulationName + ".omx";
-                        TravelTimeMatrix.createOmxSkimMatrix(transitTotalTime, locationList, omxPtFileName);
+                        TravelTimeMatrix.createOmxSkimMatrix(transitTotalTime, locationList, omxPtFileName, "mat1");
                         omxPtFileName = munich.getString("pt.in.skim.file") + simulationName + ".omx";
-                        TravelTimeMatrix.createOmxSkimMatrix(transitInTime, locationList, omxPtFileName);
+                        TravelTimeMatrix.createOmxSkimMatrix(transitInTime, locationList, omxPtFileName, "mat1");
                         omxPtFileName = munich.getString("pt.transfer.skim.file") + simulationName + ".omx";
-                        TravelTimeMatrix.createOmxSkimMatrix(transitTransfers, locationList, omxPtFileName);
+                        TravelTimeMatrix.createOmxSkimMatrix(transitTransfers, locationList, omxPtFileName, "mat1");
+                        omxPtFileName = munich.getString("pt.in.vehicle.skim.file") + simulationName + ".omx";
+                        TravelTimeMatrix.createOmxSkimMatrix(inVehicleTime, locationList, omxPtFileName, "mat1");
                     }
                 }
 
         }
 
+        if (Boolean.parseBoolean(munich.getString("skim.postprocess"))){
+            TransitSkimPostProcessing postProcess = new TransitSkimPostProcessing(munich, servedZoneList);
+            postProcess.postProcessTransitSkims();
+            Matrix completeTotalPtTime = postProcess.getInTransitCompleteMatrix();
+
+            String omxPtFileName = munich.getString("pt.total.skim.file") + simulationName + "Complete.omx";
+            TravelTimeMatrix.createOmxSkimMatrix(completeTotalPtTime, locationList, omxPtFileName, "mat1");
+        }
+
+
         if (analyzeAccessibility) {
 
             String omxFile = munich.getString("omx.access.calc") + ".omx";
-            Accessibility acc = new Accessibility(omxFile);
+            Accessibility acc = new Accessibility(omxFile, "mat1");
             acc.calculateAccessibility(locationList);
-            acc.calculateTravelTimesToZone(locationList, 3627);
+            acc.calculateTravelTimesToZone(locationList, 3612);
+
+            //acc.calculateTransfersToZone(servedZoneList, 3612);
             acc.printAccessibility(locationList);
         }
 

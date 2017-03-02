@@ -27,18 +27,26 @@ import java.util.*;
  */
 public class MatsimRunFromJava {
 
+    private Matrix autoTravelTime;
+    private Matrix autoTravelDistance;
+
+    public MatsimRunFromJava() {
+    }
 
 
-    public Matrix runMatsim(Matrix autoTravelTime,
+
+    public void runMatsim(
                                                                                    int timeOfDay, int numberOfCalcPoints /*, Map<Integer,SimpleFeature> zoneFeatureMap*/, //CoordinateTransformation ct,
                                                                                    String inputNetworkFile,
                                                                                    Population population, int year,
                                                                                    String crs, int numberOfIterations, String siloRunId, String outputDirectoryRoot,
                                                                                    double flowCapacityFactor, double storageCapacityFactor,
-                                                                                   ArrayList<Location> locationList, boolean getTravelTimes,
+                                                                                   ArrayList<Location> locationList, boolean autoSkims,
                                                                                    String scheduleFile, String vehicleFile) {
         // String populationFile, int year, String crs, int numberOfIterations) {
         final Config config = ConfigUtils.createConfig();
+
+        autoTravelTime = new Matrix(locationList.size(), locationList.size());
 
         // Global
         config.global().setCoordinateSystem(crs);
@@ -153,13 +161,17 @@ public class MatsimRunFromJava {
         final Controler controler = new Controler(scenario);
 
 
-        //      Add controller listener
-        if (getTravelTimes) {
-            Zone2ZoneTravelTimeListener zone2zoneTravelTimeListener = new Zone2ZoneTravelTimeListener(
-                    controler, scenario.getNetwork(), config.controler().getLastIteration(),
-                    locationList, timeOfDay, numberOfCalcPoints, //ct,
-                    autoTravelTime);
+        Zone2ZoneTravelTimeListener zone2zoneTravelTimeListener = new Zone2ZoneTravelTimeListener(
+                controler, scenario.getNetwork(), config.controler().getLastIteration(),
+                locationList, timeOfDay, numberOfCalcPoints);
 
+        Zone2ZoneTravelDistanceListener zone2ZoneTravelDistanceListener = new Zone2ZoneTravelDistanceListener(
+                controler, scenario.getNetwork(), config.controler().getLastIteration(),
+                locationList, timeOfDay, numberOfCalcPoints);
+
+        //      Add controller listener
+        if (autoSkims) {
+            controler.addControlerListener(zone2ZoneTravelDistanceListener);
             controler.addControlerListener(zone2zoneTravelTimeListener);
             // yyyyyy feedback will not work without the above, will it?  kai, apr'16
         }
@@ -168,11 +180,18 @@ public class MatsimRunFromJava {
         controler.run();
 
 
-        // Return collected travel times
+        autoTravelTime = zone2zoneTravelTimeListener.getAutoTravelTime();
+        autoTravelDistance = zone2ZoneTravelDistanceListener.getAutoTravelDistance();
 
-        return autoTravelTime;
+        // Return collected travel times
 
     }
 
+    public Matrix getAutoTravelTime() {
+        return autoTravelTime;
+    }
 
+    public Matrix getAutoTravelDistance() {
+        return autoTravelDistance;
+    }
 }

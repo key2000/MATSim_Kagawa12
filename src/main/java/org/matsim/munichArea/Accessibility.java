@@ -23,9 +23,11 @@ public class Accessibility {
 
     private Matrix autoTravelTime;
     private String skimFileName;
+    private String matrixName;
 
-    public Accessibility(String skimFileName) {
+    public Accessibility(String skimFileName, String matrixName) {
         this.skimFileName = skimFileName;
+        this.matrixName = matrixName;
     }
 
     public void calculateTravelTimesToZone(ArrayList<Location> locationList, int destinationId) {
@@ -34,6 +36,19 @@ public class Accessibility {
         for (Location orig : locationList){
             double travelTime = getAutoTravelTime(orig.getId(), destinationId, autoTravelTime);
             orig.setTravelTime(travelTime);
+        }
+
+    }
+
+    //this is test only
+    public void calculateTransfersToZone(ArrayList<Location> locationList, int destinationId) {
+
+        readSkim();
+        for (Location orig : locationList){
+            double transfers = 0;
+            double cellValue = getAutoTravelTime(orig.getId(), destinationId, autoTravelTime);
+            if (cellValue >=0)  transfers += cellValue;
+            orig.setTravelTime(transfers);
         }
 
     }
@@ -83,7 +98,7 @@ public class Accessibility {
 
         OmxFile hSkim = new OmxFile(skimFileName);
         hSkim.openReadOnly();
-        OmxMatrix timeOmxSkimAutos = hSkim.getMatrix(munich.getString("output.skim.matrix"));
+        OmxMatrix timeOmxSkimAutos = hSkim.getMatrix(matrixName);
 
         autoTravelTime = convertOmxToMatrix(timeOmxSkimAutos);
 

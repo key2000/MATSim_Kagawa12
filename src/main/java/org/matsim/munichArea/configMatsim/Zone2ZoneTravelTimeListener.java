@@ -52,12 +52,13 @@ public class Zone2ZoneTravelTimeListener implements IterationEndsListener {
     private Matrix autoTravelTime;
 
 
+
     public Zone2ZoneTravelTimeListener(Controler controler, Network network,
                                        int finalIteration, /*Map<Integer, SimpleFeature> zoneFeatureMap*/
                                        ArrayList<Location> locationList,
                                        int timeOfDay,
-                                       int numberOfCalcPoints, //CoordinateTransformation ct,
-                                       Matrix autoTravelTime) {
+                                       int numberOfCalcPoints //CoordinateTransformation ct,
+                                       ) {
         this.controler = controler;
         this.network = network;
         this.finalIteration = finalIteration;
@@ -66,7 +67,6 @@ public class Zone2ZoneTravelTimeListener implements IterationEndsListener {
         this.departureTime = timeOfDay;
         this.numberOfCalcPoints = numberOfCalcPoints;
 //		this.ct = ct;
-        this.autoTravelTime = autoTravelTime;
     }
 
 
@@ -83,7 +83,7 @@ public class Zone2ZoneTravelTimeListener implements IterationEndsListener {
 
 //            Dijkstra dijkstra = new Dijkstra(network, travelTimeAsTravelDisutility, travelTime);
 
-
+            autoTravelTime = new Matrix(locationList.size(), locationList.size());
 
             //Map to assign a node to each zone
             Map<Integer, Node> zoneCalculationNodesMap = new HashMap<>();
@@ -91,9 +91,6 @@ public class Zone2ZoneTravelTimeListener implements IterationEndsListener {
             //TODO re-clean the network will remove all pt links and will make possible getting auto travel times
             NetworkCleaner networkCleaner = new NetworkCleaner();
             networkCleaner.run(network);
-
-
-
 
             for (Location loc : locationList) {
                 Coord originCoord = new Coord(loc.getX(), loc.getY());
@@ -174,6 +171,7 @@ public class Zone2ZoneTravelTimeListener implements IterationEndsListener {
                         //original
 //                    double arrivalTime = leastCoastPathTree.getTree().get(zoneCalculationNodesMap.get(destinationZone.getId()).getId()).getTime();
                         Node destinationNode = zoneCalculationNodesMap.get(destinationZone.getId());
+
                         double arrivalTime = tree.get(destinationNode.getId()).getTime();
                         //congested car travel times in minutes
                         float congestedTravelTimeMin = (float) ((arrivalTime - departureTime) / 60.);
@@ -219,6 +217,10 @@ public class Zone2ZoneTravelTimeListener implements IterationEndsListener {
         public double getLinkMinimumTravelDisutility(Link link) {
             return link.getLength() / link.getFreespeed(); // minimum travel time
         }
+    }
+
+    public Matrix getAutoTravelTime() {
+        return autoTravelTime;
     }
 
 
