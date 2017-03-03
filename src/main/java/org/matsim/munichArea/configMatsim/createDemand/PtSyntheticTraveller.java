@@ -16,7 +16,8 @@ public class PtSyntheticTraveller {
     private Location destLoc;
     private Person person;
     private double departureTime;
-    private double arrivalTime;
+    //in case the traveller nevel arrive gives a very long duration in mins
+    private double arrivalTime = 1000000;
     private HashMap<Integer,Double> boardingMap;
     private HashMap<Integer,Double> alightingMap;
     private int boardSeq;
@@ -112,7 +113,7 @@ public class PtSyntheticTraveller {
         for (int i =0; i< size; i++){
             vehicleInTime += alightingMap.get(i) - boardingMap.get(i);
         }
-        return vehicleInTime;
+        return vehicleInTime/60;
     }
 
 

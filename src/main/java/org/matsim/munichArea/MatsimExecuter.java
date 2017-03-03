@@ -59,6 +59,12 @@ public class MatsimExecuter {
         CentroidsToLocations centroidsToLocations = new CentroidsToLocations();
         ArrayList<Location> locationList = centroidsToLocations.readCentroidList();
 
+        //to make test reduce the size
+        /*ArrayList<Location> shortLocationList = new ArrayList<>();
+        shortLocationList.addAll(locationList.subList(0, 200));
+        locationList = shortLocationList;
+        System.out.println(locationList.size());*/
+
         ReadZonesServedByTransit servedZoneReader = new ReadZonesServedByTransit();
         ArrayList<Location> servedZoneList = servedZoneReader.readZonesServedByTransit(locationList);
 
@@ -94,7 +100,7 @@ public class MatsimExecuter {
 
                     //start new loop
                     if (ptSkimsFromEvents) {
-                        maxSubRuns = 60;
+                        maxSubRuns = Integer.parseInt(munich.getString("number.submatrices"));
 
                     }
                     for (int subRun = 0; subRun < maxSubRuns; subRun++) {
@@ -207,7 +213,7 @@ public class MatsimExecuter {
         }
 
         if (Boolean.parseBoolean(munich.getString("skim.postprocess"))){
-            TransitSkimPostProcessing postProcess = new TransitSkimPostProcessing(munich, servedZoneList);
+            TransitSkimPostProcessing postProcess = new TransitSkimPostProcessing(munich, locationList, servedZoneList);
             postProcess.postProcessTransitSkims();
             Matrix completeTotalPtTime = postProcess.getInTransitCompleteMatrix();
 
@@ -221,7 +227,7 @@ public class MatsimExecuter {
             String omxFile = munich.getString("omx.access.calc") + ".omx";
             Accessibility acc = new Accessibility(omxFile, "mat1");
             acc.calculateAccessibility(locationList);
-            acc.calculateTravelTimesToZone(locationList, 3612);
+            acc.calculateTravelTimesToZone(locationList, 100);
 
             //acc.calculateTransfersToZone(servedZoneList, 3612);
             acc.printAccessibility(locationList);

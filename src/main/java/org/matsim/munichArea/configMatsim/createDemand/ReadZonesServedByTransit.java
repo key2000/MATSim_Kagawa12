@@ -6,6 +6,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.matsim.munichArea.MatsimExecuter.munich;
 
@@ -18,6 +20,12 @@ public class ReadZonesServedByTransit {
         String fileName = munich.getString("zones.served.SU.file");
 
         BufferedReader bufferReader = null;
+
+        Map<Integer, Location> zoneMap = new HashMap<>();
+        for (Location loc : locationList){
+          zoneMap.put(loc.getId(), loc);
+        }
+
         ArrayList<Location> zonesServedList = new ArrayList<>();
 
         try {
@@ -29,7 +37,9 @@ public class ReadZonesServedByTransit {
                 if (lineCount > 1) {
                     String[] row = line.split(";");
                     int locationId = Integer.parseInt(row[0]);
-                    zonesServedList.add(locationList.get(locationId));
+                    if (zoneMap.containsKey(locationId)){
+                        zonesServedList.add(zoneMap.get(locationId));
+                    }
                 }
                 lineCount++;
             }

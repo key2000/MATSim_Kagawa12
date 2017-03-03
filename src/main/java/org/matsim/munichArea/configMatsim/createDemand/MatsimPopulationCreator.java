@@ -207,6 +207,8 @@ public class MatsimPopulationCreator {
                         matsimPlan.addActivity(activity1);
                         matsimPlan.addLeg(matsimPopulationFactory.createLeg(TransportMode.car));
 
+
+
 //    		SimpleFeature workFeature = featureMap.get(workPuma);
                         //SimpleFeature workFeature = zoneFeatureMap.get(destLoc.getId());
                         Coord workCoordinates = new Coord(destLoc.getX() + destLoc.getSize() * (Math.random() - 0.5), destLoc.getY() + destLoc.getSize() * (Math.random() - 0.5));

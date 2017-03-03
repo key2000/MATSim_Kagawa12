@@ -54,27 +54,24 @@ public class Accessibility {
     }
 
 
-    public void calculateAccessibility(ArrayList<Location> locationList){
+    public void calculateAccessibility(ArrayList<Location> locationList) {
 
         readSkim();
 
-        for (Location orig : locationList){
+        for (Location orig : locationList) {
             float accessibility = 0;
-            for (Location dest: locationList){
+            for (Location dest : locationList) {
 
                 double travelTime = getAutoTravelTime(orig.getId(), dest.getId(), autoTravelTime);
 
-                if(travelTime == -1){
+                if (travelTime == -1) {
                     travelTime = Double.POSITIVE_INFINITY;
                 }
 
-                accessibility += Math.pow(dest.getPopulation(),1.25) * Math.exp(-0.1*travelTime);
+                accessibility += Math.pow(dest.getPopulation(), 1.25) * Math.exp(-0.1 * travelTime);
             }
             orig.setAccessibility(accessibility);
         }
-
-
-
 
     }
 
@@ -108,7 +105,7 @@ public class Accessibility {
     }
 
     public double getAutoTravelTime(int orig, int dest, Matrix autoTravelTime){
-        return autoTravelTime.getValueAt(orig-1,dest-1);
+        return autoTravelTime.getValueAt(orig,dest);
     }
 
     public static Matrix convertOmxToMatrix (OmxMatrix omxMatrix) {

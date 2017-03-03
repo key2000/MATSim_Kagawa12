@@ -39,7 +39,7 @@ public class PtEventHandler {
 
         System.out.println("Number of PT synthetic trips: " + ptSyntheticTravellerMap.size());
         for (PtSyntheticTraveller ptst : ptSyntheticTravellerMap.values()){
-            float tt = (float) ( ptst.getArrivalTime() - ptst.getDepartureTime())/60;
+            float tt = (float) (( ptst.getArrivalTime() - ptst.getDepartureTime())/60);
             //System.out.println(ptst.getOrigLoc().getId() + "-" + tt);
             transitTravelTime.setValueAt(ptst.getOrigLoc().getId(), ptst.getDestLoc().getId(), tt);
             transitTravelTime.setValueAt(ptst.getDestLoc().getId(), ptst.getOrigLoc().getId(), tt);
@@ -63,7 +63,7 @@ public class PtEventHandler {
 
                 double start = ptst.getBoardingMap().get(0);
 
-                float tt = (float) (end - start)/60;
+                float tt = (float) ((end - start)/60);
 
                 transitTravelTime.setValueAt(ptst.getOrigLoc().getId(), ptst.getDestLoc().getId(), tt);
                 transitTravelTime.setValueAt(ptst.getDestLoc().getId(), ptst.getOrigLoc().getId(), tt);

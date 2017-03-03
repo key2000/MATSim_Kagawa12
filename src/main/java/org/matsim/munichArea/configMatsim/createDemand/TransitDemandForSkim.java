@@ -26,16 +26,20 @@ public class TransitDemandForSkim {
     public Map< Id, PtSyntheticTraveller> createDemandForSkims(ArrayList<Location> servedZonesList,ArrayList<Location> shortServedZonesList, int personId, Population matsimPopulation) {
 
         Map< Id, PtSyntheticTraveller> ptSyntheticTravellerMap = new HashMap<>();
+        Map<Integer, Location> locationMap =  new HashMap<>();
+        for (Location loc : servedZonesList){
+            locationMap.put(loc.getId(), loc);
+        }
 
         PopulationFactory matsimPopulationFactory = matsimPopulation.getFactory();
 
-            for (int i = 0; i < shortServedZonesList.size(); i++) {
+            for (Location origLoc : shortServedZonesList) {
                 double time = 8 * 60 * 60;
-                for (int j = 0; j < servedZonesList.size(); j++) {
+                for (Location destLoc : shortServedZonesList) {
 
 
-                        Location origLoc = shortServedZonesList.get(i);
-                        Location destLoc = servedZonesList.get(j);
+//                        Location origLoc = locationMap.get(i);
+//                        Location destLoc = locationMap.get(j);
 
                     if (origLoc.getId() >= destLoc.getId()) {
 
@@ -47,17 +51,19 @@ public class TransitDemandForSkim {
                         PtSyntheticTraveller ptSyntheticTraveller = new PtSyntheticTraveller(personId, origLoc, destLoc, matsimPerson);
                         ptSyntheticTravellerMap.put(matsimPerson.getId(), ptSyntheticTraveller);
 
+
                         personId++;
                         Plan matsimPlan = matsimPopulationFactory.createPlan();
                         matsimPerson.addPlan(matsimPlan);
 
-                        Coord homeCoordinates = new Coord(origLoc.getX() + origLoc.getSize() * (Math.random() - 0.5), origLoc.getY() + origLoc.getSize() * (Math.random() - 0.5));
+                        //the coordinates of the centroid are inside a square 10% of the equivalent squared zone
+                        Coord homeCoordinates = new Coord(origLoc.getX() + origLoc.getSize() * 0.1*(Math.random() - 0.5), origLoc.getY() + origLoc.getSize() *0.1 * (Math.random() - 0.5));
                         Activity activity1 = matsimPopulationFactory.createActivityFromCoord("home", homeCoordinates);
                         activity1.setEndTime(time + 5*60*60*Math.random());
                         matsimPlan.addActivity(activity1);
                         matsimPlan.addLeg(matsimPopulationFactory.createLeg(TransportMode.pt));
 
-                        Coord workCoordinates = new Coord(destLoc.getX() + destLoc.getSize() * (Math.random() - 0.5), destLoc.getY() + destLoc.getSize() * (Math.random() - 0.5));
+                        Coord workCoordinates = new Coord(destLoc.getX() + destLoc.getSize() * 0.1* (Math.random() - 0.5), destLoc.getY() + destLoc.getSize() * 0.1 * (Math.random() - 0.5));
                         Activity activity2 = matsimPopulationFactory.createActivityFromCoord("work", workCoordinates);
                         matsimPlan.addActivity(activity2);
 
