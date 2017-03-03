@@ -8,14 +8,9 @@ import org.matsim.api.core.v01.Coord;
 import org.matsim.api.core.v01.TransportMode;
 import org.matsim.api.core.v01.population.*;
 
-import java.io.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
-
-import static org.matsim.munichArea.MatsimExecuter.munich;
 
 /**
  * Created by carlloga on 3/2/17.

@@ -117,8 +117,16 @@ public class PtSyntheticTraveller {
     }
 
 
-    public double getAccesTimeByWalk() {
-        double accessTime = 0;
+    public double getAccessTimeByWalk() {
+        double accessTime = -1;
+        if (boardingMap.size()>0)  accessTime = boardingMap.get(0)-departureTime;
         return  accessTime;
     }
+
+    public double getEgressTimeByWalk() {
+        double egressTime = -1;
+        if (alightingMap.size()>0)  egressTime = alightingMap.get(alightingMap.size()-1)-departureTime;
+        return  egressTime;
+    }
+
 }

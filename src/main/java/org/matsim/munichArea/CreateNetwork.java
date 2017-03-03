@@ -18,7 +18,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static org.matsim.munichArea.MatsimExecuter.munich;
+import static org.matsim.munichArea.MatsimExecuter.rb;
 
 
 /**
@@ -31,8 +31,8 @@ public class CreateNetwork {
 		/*
 		 * The input file name.
 		 */
-        String networkFolder = munich.getString("network.folder");
-        String osm = networkFolder + munich.getString("osm.input.file");
+        String networkFolder = rb.getString("network.folder");
+        String osm = networkFolder + rb.getString("osm.input.file");
 
 
 		/*
@@ -71,9 +71,9 @@ public class CreateNetwork {
 
 
 
-        boolean cleanEmpty = ResourceUtil.getBooleanProperty(munich,"clean.empty.link");
+        boolean cleanEmpty = ResourceUtil.getBooleanProperty(rb,"clean.empty.link");
         if (cleanEmpty) {
-            String emptyLinksFileName = networkFolder + munich.getString("empty.links.file");
+            String emptyLinksFileName = networkFolder + rb.getString("empty.links.file");
 
             BufferedReader bufferReader = null;
             ArrayList<Integer> emptyLinkList = new ArrayList<>();
@@ -114,7 +114,7 @@ public class CreateNetwork {
 		/*
 		 * Write the Network to a MATSim network file.
 		 */
-        new NetworkWriter(network).write(networkFolder + munich.getString("xml.network.file"));
+        new NetworkWriter(network).write(networkFolder + rb.getString("xml.network.file"));
 
         System.out.println("MATSIM network created");
 

@@ -7,7 +7,6 @@ package org.matsim.munichArea.configMatsim.createDemand;
 import java.util.*;
 import java.util.Map.Entry;
 
-import com.pb.common.util.ResourceUtil;
 import org.matsim.api.core.v01.Coord;
 import org.matsim.api.core.v01.Id;
 import org.matsim.api.core.v01.Scenario;
@@ -22,7 +21,7 @@ import org.matsim.munichArea.Accessibility;
 import org.matsim.munichArea.planCreation.Location;
 import com.pb.common.matrix.Matrix;
 
-import static org.matsim.munichArea.MatsimExecuter.munich;
+import static org.matsim.munichArea.MatsimExecuter.rb;
 
 
 /**
@@ -115,7 +114,7 @@ public class MatsimPopulationCreator {
 
         int personId = 0;
 
-        Accessibility acc = new Accessibility(munich.getString("base.skim.file"), "mat1");
+        Accessibility acc = new Accessibility(rb.getString("base.skim.file"), "mat1");
         acc.readSkim();
         Matrix autoTravelTime = acc.getAutoTravelTimeMatrix();
 
@@ -155,7 +154,7 @@ public class MatsimPopulationCreator {
             }
 
 
-            float carShare = Float.parseFloat(munich.getString("car.modal.share"));
+            float carShare = Float.parseFloat(rb.getString("car.modal.share"));
 
 
             //order the map according to decreasing weights
@@ -250,7 +249,7 @@ public class MatsimPopulationCreator {
 
 
         //add demand to munichArea transit line
-        float transitShare = Float.parseFloat(munich.getString("transit.modal.share"));
+        float transitShare = Float.parseFloat(rb.getString("transit.modal.share"));
 
         //int numberOfS1travelers = (int) (500 * transitShare);
 

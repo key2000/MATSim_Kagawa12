@@ -9,13 +9,9 @@ import omx.OmxFile;
 import omx.OmxLookup;
 import omx.OmxMatrix;
 import omx.hdf5.OmxConstants;
-import org.matsim.api.core.v01.Coord;
-import org.matsim.api.core.v01.Id;
 import org.matsim.api.core.v01.Scenario;
-import org.matsim.api.core.v01.TransportMode;
 import org.matsim.api.core.v01.network.Network;
 import org.matsim.api.core.v01.population.*;
-import org.matsim.core.api.internal.MatsimWriter;
 import org.matsim.core.config.Config;
 import org.matsim.core.config.ConfigUtils;
 import org.matsim.core.scenario.ScenarioUtils;
@@ -25,7 +21,7 @@ import org.matsim.munichArea.planCreation.Location;
 import java.util.*;
 import java.util.Map.Entry;
 
-import static org.matsim.munichArea.MatsimExecuter.munich;
+import static org.matsim.munichArea.MatsimExecuter.rb;
 
 
 /**
@@ -55,7 +51,7 @@ public class MatsimGravityModel {
 
         int personId = 0;
 
-        Accessibility acc = new Accessibility(munich.getString("base.skim.file"), "mat1");
+        Accessibility acc = new Accessibility(rb.getString("base.skim.file"), "mat1");
         acc.readSkim();
         Matrix autoTravelTime = acc.getAutoTravelTimeMatrix();
 
@@ -169,7 +165,7 @@ public class MatsimGravityModel {
                 System.out.println(classes[0][i] + "," + classes[1][i]);
             }
 
-            /*float carShare = Float.parseFloat(munich.getString("car.modal.share"));
+            /*float carShare = Float.parseFloat(rb.getString("car.modal.share"));
 
 
             //order the map according to decreasing weights
@@ -283,7 +279,7 @@ public class MatsimGravityModel {
         }
 
         //add demand to munichArea transit line
-        /*float transitShare = Float.parseFloat(munich.getString("transit.modal.share"));
+        /*float transitShare = Float.parseFloat(rb.getString("transit.modal.share"));
 
         int numberOfS1travelers = (int) (500 * transitShare);
 

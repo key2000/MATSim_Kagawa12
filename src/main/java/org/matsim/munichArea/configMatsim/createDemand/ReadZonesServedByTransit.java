@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.matsim.munichArea.MatsimExecuter.munich;
+import static org.matsim.munichArea.MatsimExecuter.rb;
 
 /**
  * Created by carlloga on 28.02.2017.
@@ -17,7 +17,7 @@ import static org.matsim.munichArea.MatsimExecuter.munich;
 public class ReadZonesServedByTransit {
 
     public ArrayList<Location> readZonesServedByTransit(ArrayList<Location> locationList) {
-        String fileName = munich.getString("zones.served.SU.file");
+        String fileName = rb.getString("zones.served.SU.file");
 
         BufferedReader bufferReader = null;
 

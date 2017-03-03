@@ -6,7 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static org.matsim.munichArea.MatsimExecuter.munich;
+import static org.matsim.munichArea.MatsimExecuter.rb;
 
 /**
  * Created by carlloga on 9/12/2016.
@@ -20,8 +20,8 @@ public class CentroidsToLocations {
 
 
         //read the centroid list
-        String workDirectory = munich.getString("location.list.folder");
-        String fileName = workDirectory + munich.getString("location.list.file");
+        String workDirectory = rb.getString("location.list.folder");
+        String fileName = workDirectory + rb.getString("location.list.file");
 
         BufferedReader bufferReader = null;
         ArrayList<Location> locationList = new ArrayList<>();

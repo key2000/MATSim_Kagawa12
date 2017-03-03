@@ -2,23 +2,12 @@ package org.matsim.munichArea.outputCreation;
 
 import com.pb.common.matrix.Matrix;
 import org.matsim.api.core.v01.Id;
-import org.matsim.api.core.v01.Scenario;
 import org.matsim.core.api.experimental.events.EventsManager;
-import org.matsim.core.config.ConfigUtils;
 import org.matsim.core.events.EventsUtils;
 import org.matsim.core.events.MatsimEventsReader;
-import org.matsim.core.network.MatsimNetworkReader;
-import org.matsim.core.scenario.ScenarioUtils;
-import org.matsim.core.utils.io.IOUtils;
 import org.matsim.munichArea.configMatsim.createDemand.PtSyntheticTraveller;
-import org.matsim.munichArea.configMatsim.createDemand.TransitDemandForSkim;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
-
-import static org.matsim.munichArea.MatsimExecuter.munich;
 
 /**
  * Created by carlloga on 3/2/17.
@@ -110,6 +99,44 @@ public class PtEventHandler {
         }
 
         return ptInVehicleTt;
+    }
+
+    public Matrix transitAccessTt(Map<Id,PtSyntheticTraveller> ptSyntheticTravellerMap, Matrix transitAccessTt) {
+
+        // transfers.fill(-1F);
+
+        System.out.println("Number of PT synthetic trips: " + ptSyntheticTravellerMap.size());
+        for (PtSyntheticTraveller ptst : ptSyntheticTravellerMap.values()){
+
+            //System.out.println(ptst.getOrigLoc().getId() + "-" + tt);
+
+            float inVehicleTt = (float) ptst.getAccessTimeByWalk()/60;
+
+            transitAccessTt.setValueAt(ptst.getOrigLoc().getId(), ptst.getDestLoc().getId(), inVehicleTt);
+            transitAccessTt.setValueAt(ptst.getDestLoc().getId(), ptst.getOrigLoc().getId(), inVehicleTt);
+
+        }
+
+        return transitAccessTt;
+    }
+
+    public Matrix transitEgressTt(Map<Id,PtSyntheticTraveller> ptSyntheticTravellerMap, Matrix transitEgressTt) {
+
+        // transfers.fill(-1F);
+
+        System.out.println("Number of PT synthetic trips: " + ptSyntheticTravellerMap.size());
+        for (PtSyntheticTraveller ptst : ptSyntheticTravellerMap.values()){
+
+            //System.out.println(ptst.getOrigLoc().getId() + "-" + tt);
+
+            float inVehicleTt = (float) ptst.getEgressTimeByWalk()/60;
+
+            transitEgressTt.setValueAt(ptst.getOrigLoc().getId(), ptst.getDestLoc().getId(), inVehicleTt);
+            transitEgressTt.setValueAt(ptst.getDestLoc().getId(), ptst.getOrigLoc().getId(), inVehicleTt);
+
+        }
+
+        return transitEgressTt;
     }
 
 

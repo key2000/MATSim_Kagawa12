@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import static java.lang.System.exit;
-import static org.matsim.munichArea.MatsimExecuter.munich;
+import static org.matsim.munichArea.MatsimExecuter.rb;
 
 /**
  * Created by carlloga on 9/15/2016.
@@ -76,7 +76,7 @@ public class Accessibility {
     }
 
     public static void printAccessibility(ArrayList<Location> locationList) {
-        BufferedWriter bw = IOUtils.getBufferedWriter(munich.getString("output.accessibility.file"));
+        BufferedWriter bw = IOUtils.getBufferedWriter(rb.getString("output.accessibility.file"));
         try {
             bw.write("ID, X, Y, access, timeToZone");
             bw.newLine();

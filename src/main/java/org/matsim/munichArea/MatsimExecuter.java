@@ -5,7 +5,6 @@ import com.pb.common.util.ResourceUtil;
 import org.matsim.api.core.v01.Id;
 import org.matsim.api.core.v01.population.Population;
 import org.matsim.core.utils.geometry.transformations.TransformationFactory;
-import org.matsim.munichArea.configMatsim.Zone2ZoneTravelTimeListener;
 import org.matsim.munichArea.configMatsim.createDemand.MatsimGravityModel;
 import org.matsim.munichArea.configMatsim.createDemand.MatsimPopulationCreator;
 import org.matsim.munichArea.configMatsim.MatsimRunFromJava;
@@ -30,27 +29,27 @@ import static java.lang.Integer.valueOf;
  */
 public class MatsimExecuter {
 
-    public static ResourceBundle munich;
+    public static ResourceBundle rb;
 
     public static void main(String[] args) {
 
-        File propFile = new File("munich.properties");
-        munich = ResourceUtil.getPropertyBundle(propFile);
+        File propFile = new File(args[0]);
+        rb = ResourceUtil.getPropertyBundle(propFile);
 
-        boolean createNetwork = ResourceUtil.getBooleanProperty(munich, "create.network");
-        boolean runMatsim = ResourceUtil.getBooleanProperty(munich, "run.matsim");
-        boolean runGravityModel = ResourceUtil.getBooleanProperty(munich, "run.gravity.model");
-        boolean autoSkims = ResourceUtil.getBooleanProperty(munich, "skim.auto.times");
-        boolean ptSkimsFromEvents = ResourceUtil.getBooleanProperty(munich, "skim.pt.events");
-        boolean eucliddistSkims = ResourceUtil.getBooleanProperty(munich, "skim.eucliddist");
-        boolean analyzeAccessibility = ResourceUtil.getBooleanProperty(munich, "analyze.accessibility");
-        boolean visualize = ResourceUtil.getBooleanProperty(munich, "run.oftvis");
-        String networkFile = munich.getString("network.folder") + munich.getString("xml.network.file");
-        String scheduleFile = munich.getString("network.folder") + munich.getString("schedule.file");
-        String vehicleFile = munich.getString("network.folder") + munich.getString("vehicle.file");
-        String simulationName = munich.getString("simulation.name");
-        int year = Integer.parseInt(munich.getString("simulation.year"));
-        int hourOfDay = Integer.parseInt(munich.getString("hour.of.day"));
+        boolean createNetwork = ResourceUtil.getBooleanProperty(rb, "create.network");
+        boolean runMatsim = ResourceUtil.getBooleanProperty(rb, "run.matsim");
+        boolean runGravityModel = ResourceUtil.getBooleanProperty(rb, "run.gravity.model");
+        boolean autoSkims = ResourceUtil.getBooleanProperty(rb, "skim.auto.times");
+        boolean ptSkimsFromEvents = ResourceUtil.getBooleanProperty(rb, "skim.pt.events");
+        boolean eucliddistSkims = ResourceUtil.getBooleanProperty(rb, "skim.eucliddist");
+        boolean analyzeAccessibility = ResourceUtil.getBooleanProperty(rb, "analyze.accessibility");
+        boolean visualize = ResourceUtil.getBooleanProperty(rb, "run.oftvis");
+        String networkFile = rb.getString("network.folder") + rb.getString("xml.network.file");
+        String scheduleFile = rb.getString("network.folder") + rb.getString("schedule.file");
+        String vehicleFile = rb.getString("network.folder") + rb.getString("vehicle.file");
+        String simulationName = rb.getString("simulation.name");
+        int year = Integer.parseInt(rb.getString("simulation.year"));
+        int hourOfDay = Integer.parseInt(rb.getString("hour.of.day"));
 
         //create network from OSM file
         if (createNetwork) CreateNetwork.createNetwork();
@@ -69,8 +68,8 @@ public class MatsimExecuter {
         ArrayList<Location> servedZoneList = servedZoneReader.readZonesServedByTransit(locationList);
 
         //get arrays of parameters for single runs
-        double[] tripScalingFactorVector = ResourceUtil.getDoubleArray(munich, "trip.scaling.factor");
-        int[] lastIterationVector = ResourceUtil.getIntegerArray(munich, "last.iteration");
+        double[] tripScalingFactorVector = ResourceUtil.getDoubleArray(rb, "trip.scaling.factor");
+        int[] lastIterationVector = ResourceUtil.getIntegerArray(rb, "last.iteration");
 
         //initialize matrices
         Matrix autoTravelTime = new Matrix(locationList.size(), locationList.size());
@@ -83,6 +82,10 @@ public class MatsimExecuter {
         transitTransfers.fill(-1F);
         Matrix inVehicleTime = new Matrix(locationList.size(), locationList.size());
         inVehicleTime.fill(-1F);
+        Matrix transitAccessTt = new Matrix(locationList.size(), locationList.size());
+        transitAccessTt.fill(-1F);
+        Matrix transitEgressTt = new Matrix(locationList.size(), locationList.size());
+        transitEgressTt.fill(-1F);
 
         if (runMatsim) {
             for (int iterations : lastIterationVector) //loop iteration vector
@@ -92,7 +95,7 @@ public class MatsimExecuter {
                     double storageCapacityFactor = tripScalingFactor;
                     //update simulation name
                     String singleRunName = String.format("TF%.2fCF%.2fSF%.2fIT%d", tripScalingFactor, flowCapacityFactor, storageCapacityFactor, iterations) + simulationName;
-                    String outputFolder = munich.getString("output.folder") + singleRunName;
+                    String outputFolder = rb.getString("output.folder") + singleRunName;
 
                     int maxSubRuns = 1;
                     int min;
@@ -100,7 +103,7 @@ public class MatsimExecuter {
 
                     //start new loop
                     if (ptSkimsFromEvents) {
-                        maxSubRuns = Integer.parseInt(munich.getString("number.submatrices"));
+                        maxSubRuns = Integer.parseInt(rb.getString("number.submatrices"));
 
                     }
                     for (int subRun = 0; subRun < maxSubRuns; subRun++) {
@@ -114,7 +117,7 @@ public class MatsimExecuter {
                         shortServedZoneList.addAll(servedZoneList.subList(min, max));
 
                         System.out.println("sub-iteration: " + subRun  );
-                        //System.out.println("getting PT skim matrix between zone " + min + " and zone " + max  + " which count a total of " + shortServedZoneList.size());
+                       System.out.println("getting PT skim matrix between zone " + min + " and zone " + max  + " which count a total of " + shortServedZoneList.size());
 
 
                         //run gravity model to get HBW trips
@@ -160,8 +163,8 @@ public class MatsimExecuter {
                             String arguments[] = new String[5];
                             arguments[1] = outputFolder + "/" + simulationName + "_" + year + ".output_events.xml.gz";
                             arguments[2] = outputFolder + "/" + simulationName + "_" + year + ".output_network.xml.gz";
-                            arguments[3] = munich.getString("output.mvi.file");
-                            arguments[4] = munich.getString("seconds.frame");
+                            arguments[3] = rb.getString("output.mvi.file");
+                            arguments[4] = rb.getString("seconds.frame");
                             //run the conversion
                             org.matsim.contrib.otfvis.OTFVis.convert(arguments);
                             //run the visualization
@@ -177,6 +180,8 @@ public class MatsimExecuter {
                             transitInTime = ptEH.ptInTransitTime(ptSyntheticTravellerMap, transitInTime);
                             transitTransfers = ptEH.ptTransfers(ptSyntheticTravellerMap, transitTransfers);
                             inVehicleTime = ptEH.inVehicleTt(ptSyntheticTravellerMap, inVehicleTime);
+                            transitAccessTt = ptEH.inVehicleTt(ptSyntheticTravellerMap, transitAccessTt);
+                            transitEgressTt = ptEH.inVehicleTt(ptSyntheticTravellerMap, transitEgressTt);
                         }
 
                     }
@@ -185,49 +190,53 @@ public class MatsimExecuter {
                     if (eucliddistSkims) {
                         EuclideanDistanceCalculator edc = new EuclideanDistanceCalculator();
                         Matrix euclideanDistanceMatrix = edc.createEuclideanDistanceMatrix(locationList);
-                        String omxDistFileName = munich.getString("skim.eucliddist.file") + simulationName + ".omx";
+                        String omxDistFileName = rb.getString("skim.eucliddist.file") + simulationName + ".omx";
                         TravelTimeMatrix.createOmxSkimMatrix(euclideanDistanceMatrix, locationList, omxDistFileName, "distance");
                     }
 
 
                     if (autoSkims) {
-                        String omxFileName = munich.getString("out.skim.auto.time") + simulationName + ".omx";
+                        String omxFileName = rb.getString("out.skim.auto.time") + simulationName + ".omx";
                         TravelTimeMatrix.createOmxSkimMatrix(autoTravelTime, locationList, omxFileName, "mat1");
 
-                        omxFileName = munich.getString("out.skim.auto.dist") + simulationName + ".omx";
+                        omxFileName = rb.getString("out.skim.auto.dist") + simulationName + ".omx";
                         TravelTimeMatrix.createOmxSkimMatrix(autoTravelDistance, locationList, omxFileName, "mat1");
                     }
 
                     if (ptSkimsFromEvents) {
-                        String omxPtFileName = munich.getString("pt.total.skim.file") + simulationName + ".omx";
+                        String omxPtFileName = rb.getString("pt.total.skim.file") + simulationName + ".omx";
                         TravelTimeMatrix.createOmxSkimMatrix(transitTotalTime, locationList, omxPtFileName, "mat1");
-                        omxPtFileName = munich.getString("pt.in.skim.file") + simulationName + ".omx";
+                        omxPtFileName = rb.getString("pt.in.skim.file") + simulationName + ".omx";
                         TravelTimeMatrix.createOmxSkimMatrix(transitInTime, locationList, omxPtFileName, "mat1");
-                        omxPtFileName = munich.getString("pt.transfer.skim.file") + simulationName + ".omx";
+                        omxPtFileName = rb.getString("pt.transfer.skim.file") + simulationName + ".omx";
                         TravelTimeMatrix.createOmxSkimMatrix(transitTransfers, locationList, omxPtFileName, "mat1");
-                        omxPtFileName = munich.getString("pt.in.vehicle.skim.file") + simulationName + ".omx";
+                        omxPtFileName = rb.getString("pt.in.vehicle.skim.file") + simulationName + ".omx";
                         TravelTimeMatrix.createOmxSkimMatrix(inVehicleTime, locationList, omxPtFileName, "mat1");
+                        omxPtFileName = rb.getString("pt.access.skim.file") + simulationName + ".omx";
+                        TravelTimeMatrix.createOmxSkimMatrix(transitAccessTt, locationList, omxPtFileName, "mat1");
+                        omxPtFileName = rb.getString("pt.egress.skim.file") + simulationName + ".omx";
+                        TravelTimeMatrix.createOmxSkimMatrix(transitEgressTt, locationList, omxPtFileName, "mat1");
                     }
                 }
 
         }
 
-        if (Boolean.parseBoolean(munich.getString("skim.postprocess"))){
-            TransitSkimPostProcessing postProcess = new TransitSkimPostProcessing(munich, locationList, servedZoneList);
+        if (Boolean.parseBoolean(rb.getString("skim.postprocess"))){
+            TransitSkimPostProcessing postProcess = new TransitSkimPostProcessing(rb, locationList, servedZoneList);
             postProcess.postProcessTransitSkims();
             Matrix completeTotalPtTime = postProcess.getInTransitCompleteMatrix();
 
-            String omxPtFileName = munich.getString("pt.total.skim.file") + simulationName + "Complete.omx";
+            String omxPtFileName = rb.getString("pt.total.skim.file") + simulationName + "Complete.omx";
             TravelTimeMatrix.createOmxSkimMatrix(completeTotalPtTime, locationList, omxPtFileName, "mat1");
         }
 
 
         if (analyzeAccessibility) {
 
-            String omxFile = munich.getString("omx.access.calc") + ".omx";
+            String omxFile = rb.getString("omx.access.calc") + ".omx";
             Accessibility acc = new Accessibility(omxFile, "mat1");
             acc.calculateAccessibility(locationList);
-            acc.calculateTravelTimesToZone(locationList, 100);
+            acc.calculateTravelTimesToZone(locationList, 3611);
 
             //acc.calculateTransfersToZone(servedZoneList, 3612);
             acc.printAccessibility(locationList);
