@@ -226,6 +226,8 @@ public class MatsimExecuter {
             postProcess.postProcessTransitSkims();
             Matrix completeTotalPtTime = postProcess.getInTransitCompleteMatrix();
 
+            //todo add postprocessing of the rest of matrices
+
             String omxPtFileName = rb.getString("pt.total.skim.file") + simulationName + "Complete.omx";
             TravelTimeMatrix.createOmxSkimMatrix(completeTotalPtTime, locationList, omxPtFileName, "mat1");
         }
