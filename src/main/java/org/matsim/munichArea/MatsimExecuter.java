@@ -16,6 +16,7 @@ import org.matsim.munichArea.outputCreation.TransitSkimPostProcessing;
 import org.matsim.munichArea.planCreation.CentroidsToLocations;
 import org.matsim.munichArea.planCreation.Location;
 import org.matsim.munichArea.outputCreation.TravelTimeMatrix;
+import org.matsim.munichArea.planCreation.ReadSyntheticPopulation;
 
 
 import java.io.File;
@@ -50,6 +51,8 @@ public class MatsimExecuter {
         String simulationName = rb.getString("simulation.name");
         int year = Integer.parseInt(rb.getString("simulation.year"));
         int hourOfDay = Integer.parseInt(rb.getString("hour.of.day"));
+
+        boolean useSpAv = ResourceUtil.getBooleanProperty(rb, "use.sp.av");
 
         //create network from OSM file
         if (createNetwork) CreateNetwork.createNetwork();
@@ -92,7 +95,8 @@ public class MatsimExecuter {
                 for (double tripScalingFactor : tripScalingFactorVector) {  //loop trip Scaling
                     double flowCapacityFactor = tripScalingFactor;
                     System.out.println("Starting MATSim simulation. Sampling factor = " + tripScalingFactor);
-                    double storageCapacityFactor = tripScalingFactor;
+                    double storageCapacityFactor = Math.pow(tripScalingFactor,0.75);
+                    //TODO check stroage factor power
                     //update simulation name
                     String singleRunName = String.format("TF%.2fCF%.2fSF%.2fIT%d", tripScalingFactor, flowCapacityFactor, storageCapacityFactor, iterations) + simulationName;
                     String outputFolder = rb.getString("output.folder") + singleRunName;
@@ -117,34 +121,37 @@ public class MatsimExecuter {
                         shortServedZoneList.addAll(servedZoneList.subList(min, max));
 
                         System.out.println("sub-iteration: " + subRun  );
-                       System.out.println("getting PT skim matrix between zone " + min + " and zone " + max  + " which count a total of " + shortServedZoneList.size());
+                        System.out.println("getting PT skim matrix between zone " + min + " and zone " + max  + " which count a total of " + shortServedZoneList.size());
 
 
-                        //run gravity model to get HBW trips
-                        if (runGravityModel)
+                        //alternative methods --> alternative gravity model that doesn't create other than a OD matrix with counts
+                        if (runGravityModel) {
                             MatsimGravityModel.createMatsimPopulation(locationList, 2013, false, tripScalingFactor);
-
-                        //create population
-                        MatsimPopulationCreator matsimPopulationCreator = new MatsimPopulationCreator();
-                        matsimPopulationCreator.createMatsimPopulation(locationList, 2013, true, tripScalingFactor);
-                        if (ptSkimsFromEvents) {
-                            matsimPopulationCreator.createSyntheticPtPopulation(servedZoneList, shortServedZoneList);
                         }
 
+                        Population matsimPopulation;
+                        Map<Id, PtSyntheticTraveller> ptSyntheticTravellerMap = new HashMap<>();
 
-
-                        Population matsimPopulation = matsimPopulationCreator.getMatsimPopulation();
-                        Map<Id, PtSyntheticTraveller> ptSyntheticTravellerMap;
-
-
-                        ptSyntheticTravellerMap = matsimPopulationCreator.getPtSyntheticTravellerMap();
-                       // System.out.println("PTSynthetic trips: " + ptSyntheticTravellerMap.size());
-                        //update map of pt-travellers for skims
+                        //two alternative methods to create the demand, the second one allows the use of transit synt. travellers
+                        if (useSpAv){
+                            ReadSyntheticPopulation readSp = new ReadSyntheticPopulation(rb, locationList);
+                            readSp.demandFromSyntheticPopulation(false, 0, (float) tripScalingFactor, "sp/plans.xml");
+                            matsimPopulation = readSp.getMatsimPopulation();
+                            readSp.printHistogram();
+                        } else{
+                            MatsimPopulationCreator matsimPopulationCreator = new MatsimPopulationCreator();
+                            matsimPopulationCreator.createMatsimPopulation(locationList, 2013, true, tripScalingFactor);
+                            matsimPopulation= matsimPopulationCreator.getMatsimPopulation();
+                            if (ptSkimsFromEvents) {
+                                matsimPopulationCreator.createSyntheticPtPopulation(servedZoneList, shortServedZoneList);
+                                ptSyntheticTravellerMap = matsimPopulationCreator.getPtSyntheticTravellerMap();
+                            }
+                        }
 
 
                         //get travel times and run Matsim
                         //TODO need to improve this part of the code
-                        MatsimRunFromJava matsimRunner = new MatsimRunFromJava();
+                        MatsimRunFromJava matsimRunner = new MatsimRunFromJava(rb);
                         matsimRunner.runMatsim(hourOfDay * 60 * 60, 1,
                                 networkFile, matsimPopulation, year,
                                 TransformationFactory.WGS84, iterations, simulationName,

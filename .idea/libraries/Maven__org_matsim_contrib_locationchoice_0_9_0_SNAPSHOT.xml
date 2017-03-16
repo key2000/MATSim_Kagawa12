@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.matsim.contrib:locationchoice:0.9.0-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/matsim/contrib/locationchoice/0.9.0-SNAPSHOT/locationchoice-0.9.0-20170315.174943-859.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/matsim/contrib/locationchoice/0.9.0-SNAPSHOT/locationchoice-0.9.0-20170315.174943-859-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/matsim/contrib/locationchoice/0.9.0-SNAPSHOT/locationchoice-0.9.0-20170315.174943-859-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

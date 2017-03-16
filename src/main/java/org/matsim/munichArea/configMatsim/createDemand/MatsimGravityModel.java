@@ -32,6 +32,7 @@ public class MatsimGravityModel {
     public static boolean ASC = true;
     public static boolean DESC = false;
 
+
     public static void createMatsimPopulation(ArrayList<Location> locationList, /*HouseholdDataManager householdDataManager,*/ int year,
                                                     /*Map<Integer,SimpleFeature>zoneFeatureMap, String crs, */ boolean writePopulation,
                                                     double tripScalingFactor) {

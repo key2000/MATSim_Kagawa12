@@ -6,7 +6,7 @@ import org.matsim.api.core.v01.Scenario;
 import org.matsim.api.core.v01.network.Network;
 import org.matsim.core.config.Config;
 import org.matsim.core.config.ConfigUtils;
-import org.matsim.core.network.NetworkWriter;
+//import org.matsim.core.network.NetworkWriter;
 import org.matsim.core.network.algorithms.NetworkCleaner;
 import org.matsim.core.scenario.ScenarioUtils;
 import org.matsim.core.utils.geometry.CoordinateTransformation;
@@ -111,10 +111,11 @@ public class CreateNetwork {
 
 
 
+
 		/*
 		 * Write the Network to a MATSim network file.
 		 */
-        new NetworkWriter(network).write(networkFolder + rb.getString("xml.network.file"));
+        //new NetworkWriter(network).write(networkFolder + rb.getString("xml.network.file"));
 
         System.out.println("MATSIM network created");
 

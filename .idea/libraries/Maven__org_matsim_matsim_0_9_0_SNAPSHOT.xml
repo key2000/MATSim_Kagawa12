@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.matsim:matsim:0.9.0-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/matsim/matsim/0.9.0-SNAPSHOT/matsim-0.9.0-20170315.170827-826.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/matsim/matsim/0.9.0-SNAPSHOT/matsim-0.9.0-20170315.170827-826-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/matsim/matsim/0.9.0-SNAPSHOT/matsim-0.9.0-20170315.170827-826-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

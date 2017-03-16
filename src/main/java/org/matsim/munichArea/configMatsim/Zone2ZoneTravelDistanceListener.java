@@ -27,6 +27,7 @@ import org.matsim.core.router.util.TravelTime;
 import org.matsim.munichArea.outputCreation.EuclideanDistanceCalculator;
 import org.matsim.munichArea.planCreation.Location;
 import org.matsim.utils.leastcostpathtree.LeastCostPathTree;
+import org.matsim.utils.objectattributes.attributable.Attributes;
 import org.matsim.vehicles.Vehicle;
 import org.matsim.vehicles.VehicleType;
 
@@ -124,6 +125,11 @@ public class Zone2ZoneTravelDistanceListener implements IterationEndsListener {
                         //alternative 1
                         //Node destinationNode = zoneCalculationNodesMap.get(destinationZone.getId());
                         Person person = new Person() {
+                            @Override
+                            public Attributes getAttributes() {
+                                return null;
+                            }
+
                             @Override
                             public Map<String, Object> getCustomAttributes() {
                                 return null;
