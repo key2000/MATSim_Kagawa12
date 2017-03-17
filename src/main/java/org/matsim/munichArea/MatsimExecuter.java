@@ -58,7 +58,7 @@ public class MatsimExecuter {
         if (createNetwork) CreateNetwork.createNetwork();
 
         //read centroids and get list of locations
-        CentroidsToLocations centroidsToLocations = new CentroidsToLocations();
+        CentroidsToLocations centroidsToLocations = new CentroidsToLocations(rb);
         ArrayList<Location> locationList = centroidsToLocations.readCentroidList();
 
         //to make test reduce the size

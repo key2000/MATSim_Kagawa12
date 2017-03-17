@@ -179,6 +179,8 @@ public class ReadSyntheticPopulation {
     private boolean chooseAv(boolean useAvs, float penetrationRate) {
         boolean automated = false;
 
+        if (Math.random() < penetrationRate) automated = true;
+
         return automated;
 
     }
@@ -189,7 +191,7 @@ public class ReadSyntheticPopulation {
         Location origLoc = locationMap.get(Integer.parseInt(row[12]));
         Location destLoc = locationMap.get(Integer.parseInt(row[7]));
 
-        if (mode == 0 & !automatedVehicle) {
+        if (mode == 0) {
 
             if (Math.random() < scalingFactor) {
 
@@ -203,7 +205,12 @@ public class ReadSyntheticPopulation {
                 double time = 8 * 60 * 60 + rnd.nextGaussian() * 60 * 60;
                 activity1.setEndTime(Math.max(4 * 60 * 60, Math.min(time, 12 * 60 * 60)));
                 matsimPlan.addActivity(activity1);
-                matsimPlan.addLeg(matsimPopulationFactory.createLeg(TransportMode.car));
+
+                if (automatedVehicle) {
+                    matsimPlan.addLeg(matsimPopulationFactory.createLeg("taxi"));
+                } else {
+                    matsimPlan.addLeg(matsimPopulationFactory.createLeg(TransportMode.car));
+                }
 
                 Coord workCoordinates = new Coord(destLoc.getX() + destLoc.getSize() * (Math.random() - 0.5), destLoc.getY() + destLoc.getSize() * (Math.random() - 0.5));
                 Activity activity2 = matsimPopulationFactory.createActivityFromCoord("work", workCoordinates);

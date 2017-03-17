@@ -16,7 +16,8 @@ import java.util.Map;
 /**
  * Created by carlloga on 3/2/17.
  */
-public class ODTripAnalyzer implements ActivityEndEventHandler, ActivityStartEventHandler, PersonEntersVehicleEventHandler, PersonLeavesVehicleEventHandler {
+public class ODTripAnalyzer implements ActivityEndEventHandler, ActivityStartEventHandler, PersonEntersVehicleEventHandler,
+        PersonLeavesVehicleEventHandler {
 
     private Map<Id, PtSyntheticTraveller> ptSyntheticTravellerMap;
 

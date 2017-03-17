@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 import static org.matsim.munichArea.MatsimExecuter.rb;
 
@@ -13,7 +14,10 @@ import static org.matsim.munichArea.MatsimExecuter.rb;
  */
 public class CentroidsToLocations {
 
-    public CentroidsToLocations() {
+    ResourceBundle rb;
+
+    public CentroidsToLocations(ResourceBundle rb) {
+        this.rb = rb;
     }
 
     public ArrayList<Location> readCentroidList() {
@@ -30,7 +34,6 @@ public class CentroidsToLocations {
             String line;
             bufferReader = new BufferedReader(new FileReader(fileName));
 
-            // How to read file in java line by line?
 
             while ((line = bufferReader.readLine()) != null ) {
                 Location location = CSVtoLocation(line);
