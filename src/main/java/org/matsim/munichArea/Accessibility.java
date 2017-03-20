@@ -12,6 +12,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 import static java.lang.System.exit;
 import static org.matsim.munichArea.MatsimExecuter.rb;
@@ -21,13 +22,15 @@ import static org.matsim.munichArea.MatsimExecuter.rb;
  */
 public class Accessibility {
 
+    private ResourceBundle rb;
     private Matrix autoTravelTime;
     private String skimFileName;
     private String matrixName;
 
-    public Accessibility(String skimFileName, String matrixName) {
+    public Accessibility(String skimFileName, String matrixName, ResourceBundle rb) {
         this.skimFileName = skimFileName;
         this.matrixName = matrixName;
+        this.rb = rb;
     }
 
     public void calculateTravelTimesToZone(ArrayList<Location> locationList, int destinationId) {
@@ -75,7 +78,8 @@ public class Accessibility {
 
     }
 
-    public static void printAccessibility(ArrayList<Location> locationList) {
+    public void printAccessibility(ArrayList<Location> locationList) {
+
         BufferedWriter bw = IOUtils.getBufferedWriter(rb.getString("output.accessibility.file"));
         try {
             bw.write("ID, X, Y, access, timeToZone");
@@ -98,6 +102,7 @@ public class Accessibility {
         OmxMatrix timeOmxSkimAutos = hSkim.getMatrix(matrixName);
 
         autoTravelTime = convertOmxToMatrix(timeOmxSkimAutos);
+
 
 //        OmxLookup omxLookUp = hSkim.getLookup("lookup1");
 //        int[] externalNumbers = (int[]) omxLookUp.getLookup();

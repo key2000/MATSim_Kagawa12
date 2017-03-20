@@ -14,7 +14,7 @@ public class RunAVExample {
         createAVDemand.createAVDemand(0.05F);
 
         CreateAVs createAVs = new CreateAVs();
-        createAVs.createAVs(5000);
+        createAVs.createAVs(50000);
 
         String configFileName = "cottbus_robotaxi/config.xml";
         RunRobotaxiExample.run(configFileName, false);

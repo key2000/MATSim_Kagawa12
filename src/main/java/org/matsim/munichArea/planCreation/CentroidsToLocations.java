@@ -61,6 +61,7 @@ public class CentroidsToLocations {
         long emp;
         float size;
         String[] splitData = csvLine.split("\\s*,\\s*");
+        //String[] splitData = csvLine.split(",");
         id = Integer.parseInt(splitData[0]);
         x =Double.parseDouble(splitData[1]);
         y =Double.parseDouble(splitData[2]);

@@ -114,7 +114,7 @@ public class MatsimPopulationCreator {
 
         int personId = 0;
 
-        Accessibility acc = new Accessibility(rb.getString("base.skim.file"), "mat1");
+        Accessibility acc = new Accessibility(rb.getString("base.skim.file"), "mat1", rb);
         acc.readSkim();
         Matrix autoTravelTime = acc.getAutoTravelTimeMatrix();
 
