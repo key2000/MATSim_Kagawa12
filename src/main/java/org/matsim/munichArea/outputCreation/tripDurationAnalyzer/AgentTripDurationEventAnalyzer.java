@@ -49,7 +49,8 @@ public class AgentTripDurationEventAnalyzer {
 
         for (Id id : tripMap.keySet()){
             double tripDuration = tripMap.get(id).getDuration();
-            bw.write(id.toString() + "," + tripDuration);
+            double waitingTimeBefore = tripMap.get(id).getWaitingTimeBefore();
+            bw.write(id.toString() + "," + tripDuration + "," + waitingTimeBefore);
             bw.newLine();
         }
 

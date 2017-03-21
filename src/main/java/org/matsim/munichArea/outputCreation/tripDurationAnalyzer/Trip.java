@@ -8,6 +8,7 @@ import org.matsim.api.core.v01.Id;
 public class Trip {
     private double departureTime;
     private double arrivalTime;
+    private double vehicleStartTime;
     private Id id;
 
     public Trip(Id id, double departureTime) {
@@ -27,5 +28,14 @@ public class Trip {
 
     public void setArrivalTime(double arrivalTime) {
         this.arrivalTime = arrivalTime;
+    }
+
+    public void setVehicleStartTime(double vehicleStartTime) {
+        this.vehicleStartTime = vehicleStartTime;
+    }
+
+    public double getWaitingTimeBefore(){
+        return (vehicleStartTime - departureTime);
+
     }
 }

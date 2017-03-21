@@ -119,13 +119,13 @@ public class MatsimRunFromJava {
 
         StrategyConfigGroup.StrategySettings strategySettings2 = new StrategyConfigGroup.StrategySettings();
         strategySettings2.setStrategyName("ReRoute");
-        strategySettings2.setWeight(0.5);//originally 0.2
+        strategySettings2.setWeight(1);//originally 0.2
         strategySettings2.setDisableAfter((int) (numberOfIterations * 0.7));
         config.strategy().addStrategySettings(strategySettings2);
 
         StrategyConfigGroup.StrategySettings strategySettings3 = new StrategyConfigGroup.StrategySettings();
         strategySettings3.setStrategyName("TimeAllocationMutator");
-        strategySettings3.setWeight(0.5); //originally 0
+        strategySettings3.setWeight(3); //originally 0
         strategySettings3.setDisableAfter((int) (numberOfIterations * 0.7));
         config.strategy().addStrategySettings(strategySettings3);
 
@@ -139,14 +139,15 @@ public class MatsimRunFromJava {
 
         config.strategy().setMaxAgentPlanMemorySize(4);
 
+
         // Plan Scoring (planCalcScore)
         PlanCalcScoreConfigGroup.ActivityParams homeActivity = new PlanCalcScoreConfigGroup.ActivityParams("home");
-        homeActivity.setTypicalDuration(12 * 60 * 60);
+        homeActivity.setTypicalDuration(5 * 60 * 60);
+        homeActivity.setPriority(2);
         config.planCalcScore().addActivityParams(homeActivity);
 
         PlanCalcScoreConfigGroup.ActivityParams workActivity = new PlanCalcScoreConfigGroup.ActivityParams("work");
         workActivity.setTypicalDuration(8 * 60 * 60);
-        workActivity.setOpeningTime(4*60*60);
         config.planCalcScore().addActivityParams(workActivity);
 
         PlanCalcScoreConfigGroup.ActivityParams newActivity = new PlanCalcScoreConfigGroup.ActivityParams("airport");

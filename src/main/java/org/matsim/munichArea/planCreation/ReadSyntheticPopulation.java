@@ -69,6 +69,8 @@ public class ReadSyntheticPopulation {
 
     public void demandFromSyntheticPopulation(boolean useAvs, float avPenetrationRate, float scalingFactor, String plansFileName) {
 
+        //todo remove useAvs variable from this class
+
         String fileName = rb.getString("syn.pop.file");
         String cvsSplitBy = ",";
         BufferedReader br = null;
@@ -87,14 +89,10 @@ public class ReadSyntheticPopulation {
                     if (!row[7].equals("0")) {
                         //create a person
                         org.matsim.api.core.v01.population.Person matsimPerson = addPersonToMatsim(row);
-
-
-                        //select mode from O to D
+                        //select mode from O to 3
                         int mode = selectMode(row);
                         boolean automatedVehicle = chooseAv(useAvs, avPenetrationRate);
-
                         //create trips
-
                         createMatsimTrip(row, mode, automatedVehicle, matsimPerson, scalingFactor);
                     }
                 }
@@ -165,11 +163,11 @@ public class ReadSyntheticPopulation {
         double[] utilities = new double[alternatives.length];
 
 
-        double beta = -0.21584D;
-        utilities[0] = Math.exp(-1.38909 * Math.exp(beta * travelDistance / 1000));
-        utilities[1] = Math.exp(-4.17149 + 9.02347 * Math.exp(beta * travelDistance / 1000));
-        utilities[2] = Math.exp(-1.59275 + 0.457998 * Math.exp(beta * travelDistance / 1000));
-        utilities[3] = Math.exp(-1.27256 + 1.134298 * Math.exp(beta * travelDistance / 1000));
+        //0: car, 1: walk, 2: bicycle: 3: transit
+        utilities[0] = Math.exp(-23.4564 * Math.exp(-0.05 * travelDistance / 1000));
+        utilities[1] = Math.exp(-51.896 + 89.47667 * Math.exp(-0.2 * travelDistance / 1000));
+        utilities[2] = Math.exp(-6.03105 -18.3921 * Math.exp(-0.07 * travelDistance / 1000));
+        utilities[3] = Math.exp(-1.30203 -22.8496 * Math.exp(-0.05 * travelDistance / 1000));
 
         return utilities;
 
@@ -195,15 +193,37 @@ public class ReadSyntheticPopulation {
 
             if (Math.random() < scalingFactor) {
 
+                //simple time of day selection based on jobtype
+                double avg=0;
+                double min=0;
+                double max=0;
+                double sd=0;
+                switch (row[16]){
+                    case "1": {avg = 7; min = 5; max = 9; sd = 0.5; break;}
+                    case "2": {avg = 7; min = 5; max = 9; sd = 0.5;break;}
+                    case "3": {avg = 7; min = 5; max = 9; sd = 0.5;break;}
+                    case "4": {avg = 7; min = 6; max = 8; sd = 0.3;break;}
+                    case "5": {avg = 8; min = 5; max = 11; sd = 1;break;}
+                    case "6": {avg = 8; min = 5; max = 11; sd = 1;break;}
+                    case "7": {avg = 8.5; min = 7; max = 10; sd = 0.5;break;}
+                    case "8": {avg = 8.5; min = 7; max = 10; sd = 0.5;break;}
+                    case "9": {avg = 8.5; min = 7; max = 10; sd = 0.5;break;}
+                    case "10": {avg = 8.5; min = 7; max = 10; sd = 0.5;break;}
+
+                };
+
+
                 Plan matsimPlan = matsimPopulationFactory.createPlan();
                 matsimPerson.addPlan(matsimPlan);
 
                 Coord homeCoordinates = new Coord(origLoc.getX() + origLoc.getSize() * (Math.random() - 0.5), origLoc.getY() + origLoc.getSize() * (Math.random() - 0.5));
 
                 Activity activity1 = matsimPopulationFactory.createActivityFromCoord("home", homeCoordinates);
-                //randomly between 4 and 12 AM centered at 8
-                double time = 8 * 60 * 60 + rnd.nextGaussian() * 60 * 60;
-                activity1.setEndTime(Math.max(4 * 60 * 60, Math.min(time, 12 * 60 * 60)));
+
+                double time = avg * 60 * 60 + sd*rnd.nextGaussian() * 60 * 60;
+                time = Math.max(min * 60 * 60, Math.min(time, max * 60 * 60));
+
+                activity1.setEndTime(time - 1.2*Float.parseFloat(row[14])*60);
                 matsimPlan.addActivity(activity1);
 
                 if (automatedVehicle) {
@@ -214,7 +234,9 @@ public class ReadSyntheticPopulation {
 
                 Coord workCoordinates = new Coord(destLoc.getX() + destLoc.getSize() * (Math.random() - 0.5), destLoc.getY() + destLoc.getSize() * (Math.random() - 0.5));
                 Activity activity2 = matsimPopulationFactory.createActivityFromCoord("work", workCoordinates);
+                activity2.setStartTime(time);
                 matsimPlan.addActivity(activity2);
+
 
                 matsimPopulation.addPerson(matsimPerson);
 

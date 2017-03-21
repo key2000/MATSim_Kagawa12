@@ -20,7 +20,7 @@ public class AllModesTripAnalyzer {
         AgentTripDurationEventAnalyzer analyzer = new AgentTripDurationEventAnalyzer(rb);
 
         //String eventsFileName = "C:/models/munich/outputTF0,05CF0,05SF0,11IT20TestAVNoAV/TestAV_2016.output_events.xml.gz";
-        String eventsFileName = "C:/models/munich/cottbus_robotaxi/output/robotaxi_munich_10000/output_events.xml.gz";
+        String eventsFileName = "C:/models/munich/cottbus_robotaxi/output/robotaxi_munich_50000/output_events.xml.gz";
         analyzer.runAgentTripDurationAnalyzer(eventsFileName);
         analyzer.writeListTripDurations(eventsFileName);
 

@@ -19,7 +19,7 @@ public class CreateAVDemand {
     public CreateAVDemand() {
     }
 
-    public void createAVDemand( float tripScalingFactor){
+    public void createAVDemand( float tripScalingFactor, float avPenetrationRate, String plansFileName){
 
         File propFile = new File("munich.properties");
         rb = ResourceUtil.getPropertyBundle(propFile);
@@ -28,7 +28,7 @@ public class CreateAVDemand {
         ArrayList<Location> locationList = centroidsToLocations.readCentroidList();
 
         ReadSyntheticPopulation readSp = new ReadSyntheticPopulation(rb, locationList);
-        readSp.demandFromSyntheticPopulation(false, 1, tripScalingFactor, "./cottbus_robotaxi/plans.xml");
+        readSp.demandFromSyntheticPopulation(false, avPenetrationRate, tripScalingFactor, plansFileName);
 
 
     }
