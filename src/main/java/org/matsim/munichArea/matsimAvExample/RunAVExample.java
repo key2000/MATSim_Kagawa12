@@ -31,10 +31,21 @@ public class RunAVExample {
 //        createAVs.createAVs(7950);
 //        createAVs.createAVs(10600);
 
-        String configFileName = "cottbus_robotaxi/config4.xml";
+
+
+        String configFileName = "cottbus_robotaxi/config2.xml";
+        RunRobotaxiExample.run(configFileName, false);
+
+        configFileName = "cottbus_robotaxi/config4.xml";
+        RunRobotaxiExample.run(configFileName, false);
+
+        configFileName = "cottbus_robotaxi/config6.xml";
         RunRobotaxiExample.run(configFileName, false);
 
         configFileName = "cottbus_robotaxi/config8.xml";
+        RunRobotaxiExample.run(configFileName, false);
+
+        configFileName = "cottbus_robotaxi/config10.xml";
         RunRobotaxiExample.run(configFileName, false);
 
         configFileName = "cottbus_robotaxi/config12.xml";

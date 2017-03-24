@@ -44,14 +44,22 @@ public class AgentTripDurationEventAnalyzer {
         BufferedWriter bw = IOUtils.getBufferedWriter(eventsFile + ".csv");
         try {
 
-            bw.write("id, tripDuration");
+            bw.write("id,mode,departure,arrival,tripDuration,waitingTime");
             bw.newLine();
 
         for (Id id : tripMap.keySet()){
             double tripDuration = tripMap.get(id).getDuration();
             double waitingTimeBefore = tripMap.get(id).getWaitingTimeBefore();
-            bw.write(id.toString() + "," + tripDuration + "," + waitingTimeBefore);
-            bw.newLine();
+
+            if(!id.toString().contains("taxi")) {
+                bw.write(id.toString() + "," +
+                        tripMap.get(id).getMode() + "," +
+                        tripMap.get(id).getDepartureTime() + "," +
+                        tripMap.get(id).getArrivalTime() + "," +
+                        tripDuration + "," +
+                        waitingTimeBefore);
+                bw.newLine();
+            }
         }
 
             bw.flush();

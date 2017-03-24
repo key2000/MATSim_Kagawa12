@@ -93,9 +93,11 @@ public class MatsimExecuter {
         if (runMatsim) {
             for (int iterations : lastIterationVector) //loop iteration vector
                 for (double tripScalingFactor : tripScalingFactorVector) {  //loop trip Scaling
-                    double flowCapacityFactor = tripScalingFactor;
+
+                    //TODO check capacity factor!!!!
+                    double flowCapacityFactor = tripScalingFactor*2;
                     System.out.println("Starting MATSim simulation. Sampling factor = " + tripScalingFactor);
-                    double storageCapacityFactor = Math.pow(tripScalingFactor,0.75);
+                    double storageCapacityFactor = Math.pow(flowCapacityFactor,0.75);
                     //TODO check stroage factor power
                     //update simulation name
                     String singleRunName = String.format("TF%.2fCF%.2fSF%.2fIT%d", tripScalingFactor, flowCapacityFactor, storageCapacityFactor, iterations) + simulationName;
@@ -138,6 +140,7 @@ public class MatsimExecuter {
                             readSp.demandFromSyntheticPopulation(false, 0, (float) tripScalingFactor, "sp/plans.xml");
                             matsimPopulation = readSp.getMatsimPopulation();
                             readSp.printHistogram();
+                            readSp.printSyntheticPlansList("./sp/plans.csv");
                         } else{
                             MatsimPopulationCreator matsimPopulationCreator = new MatsimPopulationCreator();
                             matsimPopulationCreator.createMatsimPopulation(locationList, 2013, true, tripScalingFactor);

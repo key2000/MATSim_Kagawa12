@@ -10,16 +10,40 @@ public class Trip {
     private double arrivalTime;
     private double vehicleStartTime;
     private Id id;
+    private String mode;
+    private boolean atWorkPlace;
 
-    public Trip(Id id, double departureTime) {
+    public Trip(Id id) {
         this.id = id;
-        this.departureTime = departureTime;
+        atWorkPlace = false;
     }
 
+    public String getMode() {
+        return mode;
+    }
 
+    public void setMode(String mode) {
+        this.mode = mode;
+    }
 
     public void setDepartureTime(double departureTime) {
         this.departureTime = departureTime;
+    }
+
+    public double getDepartureTime() {
+        return departureTime;
+    }
+
+    public boolean isAtWorkPlace() {
+        return atWorkPlace;
+    }
+
+    public void setAtWorkPlace(boolean atWorkPlace) {
+        this.atWorkPlace = atWorkPlace;
+    }
+
+    public double getArrivalTime() {
+        return arrivalTime;
     }
 
     public double getDuration() {

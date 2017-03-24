@@ -38,6 +38,8 @@ public class ReadSyntheticPopulation {
     private int[] classes = new int[60];
     private int[][] frequencies = new int[60][4];
 
+    private Map<Integer, Double > jobStartTimeMap = new HashMap<>();
+    private Map<Integer, Double > departureFromHomeMap = new HashMap<>();
 
     Random rnd = new Random();
 
@@ -97,6 +99,7 @@ public class ReadSyntheticPopulation {
                     }
                 }
                 lines++;
+
             }
 
             System.out.println("Read " + lines + "lines from the SP csv file");
@@ -223,7 +226,10 @@ public class ReadSyntheticPopulation {
                 double time = avg * 60 * 60 + sd*rnd.nextGaussian() * 60 * 60;
                 time = Math.max(min * 60 * 60, Math.min(time, max * 60 * 60));
 
-                activity1.setEndTime(time - 1.2*Float.parseFloat(row[14])*60);
+                jobStartTimeMap.put(Integer.parseInt(matsimPerson.getId().toString()),time);
+                departureFromHomeMap.put(Integer.parseInt(matsimPerson.getId().toString()),time - 1.25 * Float.parseFloat(row[14])*60 );
+
+                activity1.setEndTime(time - 1.25 * Float.parseFloat(row[14])*60);
                 matsimPlan.addActivity(activity1);
 
                 if (automatedVehicle) {
@@ -258,6 +264,25 @@ public class ReadSyntheticPopulation {
             bw.newLine();
             for (int i = 0; i < classes.length; i++) {
                 bw.write(classes[i] + "," + frequencies[i][0]+ "," + frequencies[i][1] + "," + frequencies[i][2] + "," + frequencies[i][3]);
+                bw.newLine();
+            }
+            bw.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+
+    public void printSyntheticPlansList(String fileName) {
+
+        BufferedWriter bw = IOUtils.getBufferedWriter(fileName);
+        try {
+            bw.write("id,departs,arrives");
+            bw.newLine();
+            for (int id : departureFromHomeMap.keySet()) {
+                bw.write(id + "," + departureFromHomeMap.get(id) + "," + jobStartTimeMap.get(id));
                 bw.newLine();
             }
             bw.flush();
