@@ -18,38 +18,17 @@ public class RunAVExample {
 //        createAVDemand.createAVDemand(0.05F, 0.2F, "./cottbus_robotaxi/plans2.xml");
 //        createAVDemand.createAVDemand(0.05F, 0.3F, "./cottbus_robotaxi/plans3.xml");
 //        createAVDemand.createAVDemand(0.05F, 0.4F, "./cottbus_robotaxi/plans4.xml");
-//
+////
 //        CreateAVs createAVs = new CreateAVs();
-//        createAVs.createAVs(530);
-//        createAVs.createAVs(1060);
-//        createAVs.createAVs(1590);
-//        createAVs.createAVs(2120);
 //        createAVs.createAVs(3180);
+//        createAVs.createAVs(6360);
 //        createAVs.createAVs(4240);
-//        createAVs.createAVs(2650);
-//        createAVs.createAVs(5300);
-//        createAVs.createAVs(7950);
-//        createAVs.createAVs(10600);
+//        createAVs.createAVs(8480);
 
+        for (String configFileName : args){
 
-
-        String configFileName = "cottbus_robotaxi/config2.xml";
-        RunRobotaxiExample.run(configFileName, false);
-
-        configFileName = "cottbus_robotaxi/config4.xml";
-        RunRobotaxiExample.run(configFileName, false);
-
-        configFileName = "cottbus_robotaxi/config6.xml";
-        RunRobotaxiExample.run(configFileName, false);
-
-        configFileName = "cottbus_robotaxi/config8.xml";
-        RunRobotaxiExample.run(configFileName, false);
-
-        configFileName = "cottbus_robotaxi/config10.xml";
-        RunRobotaxiExample.run(configFileName, false);
-
-        configFileName = "cottbus_robotaxi/config12.xml";
-        RunRobotaxiExample.run(configFileName, false);
+            RunRobotaxiExample.run(configFileName, false);
+        }
 
     }
 

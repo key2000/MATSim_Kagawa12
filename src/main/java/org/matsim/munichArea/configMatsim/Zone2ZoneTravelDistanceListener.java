@@ -81,14 +81,10 @@ public class Zone2ZoneTravelDistanceListener implements IterationEndsListener {
             TravelDisutility travelDisutility = controler.getTravelDisutilityFactory().createTravelDisutility(travelTime);
             //TravelDisutility travelTimeAsTravelDisutility = new MyTravelTimeDisutility(controler.getLinkTravelTimes());
 
-            LeastCostPathTree leastCoastPathTree = new LeastCostPathTree(travelTime, travelDisutility);
+            //LeastCostPathTree leastCoastPathTree = new LeastCostPathTree(travelTime, travelDisutility);
 
 
             autoTravelDistance = new Matrix(locationList.size(), locationList.size());
-
-
-
-
 
             //Map to assign a node to each zone
             Map<Integer, Node> zoneCalculationNodesMap = new HashMap<>();
@@ -98,6 +94,9 @@ public class Zone2ZoneTravelDistanceListener implements IterationEndsListener {
             networkCleaner.run(network);
 
             Dijkstra dijkstra = new Dijkstra(network, travelDisutility, travelTime);
+            LeastCostPathCalculator.Path path;
+
+
 
             for (Location loc : locationList) {
                 Coord originCoord = new Coord(loc.getX(), loc.getY());
@@ -106,20 +105,20 @@ public class Zone2ZoneTravelDistanceListener implements IterationEndsListener {
                 zoneCalculationNodesMap.put(loc.getId(), originNode);
             }
 
-            int counter = 0;
+            //int counter = 0;
 
             long startTime = System.currentTimeMillis();
 
             for (Location originZone : locationList) { // going over all origin zones
 
                 Node originNode = zoneCalculationNodesMap.get(originZone.getId());
-                leastCoastPathTree.calculate(network, originNode, departureTime);
+                //leastCoaptPathTree.calculate(network, originNode, departureTime);
 
 
                 //Map<Id<Node>, LeastCostPathTree.NodeData> tree = leastCoastPathTree.getTree();
 
                 //locationList.parallelStream().forEach((Location destinationZone) -> {
-                    for (Location destinationZone : locationList) { // going over all destination zones
+                for (Location destinationZone : locationList) { // going over all destination zones
                     //nex line to fill only half matrix and use half time
                     if (originZone.getId() <= destinationZone.getId()) {
                         //alternative 1
@@ -186,12 +185,12 @@ public class Zone2ZoneTravelDistanceListener implements IterationEndsListener {
 //                    double arrivalTime = leastCoastPathTree.getTree().get(zoneCalculationNodesMap.get(destinationZone.getId()).getId()).getTime();
                         Node destinationNode = zoneCalculationNodesMap.get(destinationZone.getId());
 
-
+                        //with the next if tense it is possible to limit the distance calculation to certain threshold, over it --> eucl.dist.
                         float euclideanDistance = euclideanDistanceCalculator.getDistanceFrom(originZone, destinationZone);
-                        if ( euclideanDistance < 10000) {
+                        if ( euclideanDistance < 1e6) {
 
 
-                            LeastCostPathCalculator.Path path = dijkstra.calcLeastCostPath(originNode, destinationNode, departureTime, person, vehicle);
+                            path = dijkstra.calcLeastCostPath(originNode, destinationNode, departureTime, person, vehicle);
                             float distance = 0;
                             for (Link link : path.links) {
                                 distance += link.getLength();
@@ -214,12 +213,12 @@ public class Zone2ZoneTravelDistanceListener implements IterationEndsListener {
                         }else {
                             autoTravelDistance.setValueAt(originZone.getId(), destinationZone.getId(), euclideanDistance);
                             //if only done half matrix need to add next line
-                            autoTravelDistance.setValueAt(destinationZone.getId(), originZone.getId(), euclideanDistance );
+                            autoTravelDistance.setValueAt(destinationZone.getId(), originZone.getId(), euclideanDistance);
                         }
                     }
 
                     }
-               // });
+                //});
                 log.info("Completed origin zone: " + originZone.getId());
            }
 

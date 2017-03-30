@@ -11,8 +11,8 @@ import org.matsim.munichArea.configMatsim.MatsimRunFromJava;
 import org.matsim.munichArea.configMatsim.createDemand.PtSyntheticTraveller;
 import org.matsim.munichArea.configMatsim.createDemand.ReadZonesServedByTransit;
 import org.matsim.munichArea.outputCreation.EuclideanDistanceCalculator;
-import org.matsim.munichArea.outputCreation.PtEventHandler;
-import org.matsim.munichArea.outputCreation.TransitSkimPostProcessing;
+import org.matsim.munichArea.outputCreation.transitSkim.PtEventHandler;
+import org.matsim.munichArea.outputCreation.transitSkim.TransitSkimPostProcessing;
 import org.matsim.munichArea.planCreation.CentroidsToLocations;
 import org.matsim.munichArea.planCreation.Location;
 import org.matsim.munichArea.outputCreation.TravelTimeMatrix;
@@ -190,8 +190,8 @@ public class MatsimExecuter {
                             transitInTime = ptEH.ptInTransitTime(ptSyntheticTravellerMap, transitInTime);
                             transitTransfers = ptEH.ptTransfers(ptSyntheticTravellerMap, transitTransfers);
                             inVehicleTime = ptEH.inVehicleTt(ptSyntheticTravellerMap, inVehicleTime);
-                            transitAccessTt = ptEH.inVehicleTt(ptSyntheticTravellerMap, transitAccessTt);
-                            transitEgressTt = ptEH.inVehicleTt(ptSyntheticTravellerMap, transitEgressTt);
+                            transitAccessTt = ptEH.transitAccessTt(ptSyntheticTravellerMap, transitAccessTt);
+                            transitEgressTt = ptEH.transitEgressTt(ptSyntheticTravellerMap, transitEgressTt);
                         }
 
                     }
@@ -232,14 +232,30 @@ public class MatsimExecuter {
         }
 
         if (Boolean.parseBoolean(rb.getString("skim.postprocess"))){
+
             TransitSkimPostProcessing postProcess = new TransitSkimPostProcessing(rb, locationList, servedZoneList);
             postProcess.postProcessTransitSkims();
-            Matrix completeTotalPtTime = postProcess.getInTransitCompleteMatrix();
 
-            //todo add postprocessing of the rest of matrices
+            Matrix completeTotalPtTime = postProcess.getTotalTimeCompleteMatrix();
+            Matrix inTransitTotalPtTime = postProcess.getInTransitCompleteMatrix();
+            Matrix accesTimePtTime = postProcess.getAccessTimeCompleteMatrix();
+            Matrix egressTimePtTime = postProcess.getEgressTimeCompleteMatrix();
+            Matrix transfersPtTime = postProcess.getTransfersCompleteMatrix();
 
             String omxPtFileName = rb.getString("pt.total.skim.file") + simulationName + "Complete.omx";
             TravelTimeMatrix.createOmxSkimMatrix(completeTotalPtTime, locationList, omxPtFileName, "mat1");
+
+            omxPtFileName = rb.getString("pt.in.skim.file") + simulationName + "Complete.omx";
+            TravelTimeMatrix.createOmxSkimMatrix(inTransitTotalPtTime, locationList, omxPtFileName, "mat1");
+
+            omxPtFileName = rb.getString("pt.access.skim.file") + simulationName + "Complete.omx";
+            TravelTimeMatrix.createOmxSkimMatrix(accesTimePtTime, locationList, omxPtFileName, "mat1");
+
+            omxPtFileName = rb.getString("pt.egress.skim.file") + simulationName + "Complete.omx";
+            TravelTimeMatrix.createOmxSkimMatrix(egressTimePtTime, locationList, omxPtFileName, "mat1");
+
+            omxPtFileName = rb.getString("pt.transfer.skim.file") + simulationName + "Complete.omx";
+            TravelTimeMatrix.createOmxSkimMatrix(transfersPtTime, locationList, omxPtFileName, "mat1");
         }
 
 

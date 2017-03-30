@@ -1,4 +1,4 @@
-package org.matsim.munichArea.outputCreation;
+package org.matsim.munichArea.outputCreation.transitSkim;
 
 
 import org.matsim.api.core.v01.Id;

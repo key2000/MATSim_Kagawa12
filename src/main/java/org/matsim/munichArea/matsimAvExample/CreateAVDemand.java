@@ -16,8 +16,7 @@ public class CreateAVDemand {
 
     private ResourceBundle rb;
 
-    public CreateAVDemand() {
-    }
+
 
     public void createAVDemand( float tripScalingFactor, float avPenetrationRate, String plansFileName){
 
@@ -26,6 +25,9 @@ public class CreateAVDemand {
 
         CentroidsToLocations centroidsToLocations = new CentroidsToLocations(rb);
         ArrayList<Location> locationList = centroidsToLocations.readCentroidList();
+
+
+
 
         ReadSyntheticPopulation readSp = new ReadSyntheticPopulation(rb, locationList);
         readSp.demandFromSyntheticPopulation(false, avPenetrationRate, tripScalingFactor, plansFileName);

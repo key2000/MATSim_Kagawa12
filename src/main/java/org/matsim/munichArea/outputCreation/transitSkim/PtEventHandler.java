@@ -1,4 +1,4 @@
-package org.matsim.munichArea.outputCreation;
+package org.matsim.munichArea.outputCreation.transitSkim;
 
 import com.pb.common.matrix.Matrix;
 import org.matsim.api.core.v01.Id;
@@ -29,6 +29,9 @@ public class PtEventHandler {
         System.out.println("Number of PT synthetic trips: " + ptSyntheticTravellerMap.size());
         for (PtSyntheticTraveller ptst : ptSyntheticTravellerMap.values()){
             float tt = (float) (( ptst.getArrivalTime() - ptst.getDepartureTime())/60);
+
+            if (tt > 300) tt=-1F;
+
             //System.out.println(ptst.getOrigLoc().getId() + "-" + tt);
             transitTravelTime.setValueAt(ptst.getOrigLoc().getId(), ptst.getDestLoc().getId(), tt);
             transitTravelTime.setValueAt(ptst.getDestLoc().getId(), ptst.getOrigLoc().getId(), tt);
@@ -53,6 +56,8 @@ public class PtEventHandler {
                 double start = ptst.getBoardingMap().get(0);
 
                 float tt = (float) ((end - start)/60);
+
+                if (tt > 300) tt=-1F;
 
                 transitTravelTime.setValueAt(ptst.getOrigLoc().getId(), ptst.getDestLoc().getId(), tt);
                 transitTravelTime.setValueAt(ptst.getDestLoc().getId(), ptst.getOrigLoc().getId(), tt);

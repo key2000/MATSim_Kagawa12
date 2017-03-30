@@ -12,6 +12,9 @@ public class AllModesTripAnalyzer {
 
     private static ResourceBundle rb;
 
+
+    //filenames are passed to the application as args and as absolute paths
+
     public static void main (String[] args){
 
         File propFile = new File("munich.properties");
