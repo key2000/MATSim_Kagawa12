@@ -18,6 +18,7 @@ public class TransitSkimPostProcessing {
     private Matrix accessTimeCompleteMatrix;
     private Matrix egressTimeCompleteMatrix;
     private Matrix transfersCompleteMatrix;
+    private Matrix inVehicleTimeCompleteMatrix;
     private ArrayList<Location> locationList;
     private ArrayList<Location> servedZoneList;
 
@@ -27,6 +28,7 @@ public class TransitSkimPostProcessing {
     private Matrix egressTime;
     private Matrix transfers;
     private Matrix autoTravelDistance;
+    private Matrix inVehicle;
 
 
     public TransitSkimPostProcessing(ResourceBundle munich, ArrayList<Location> locationList, ArrayList<Location> servedZoneList) {
@@ -44,6 +46,7 @@ public class TransitSkimPostProcessing {
         accessTime = skimReader.readSkim(munich.getString("pt.access.skim.file") + "SkimsPt.omx", "mat1");
         egressTime = skimReader.readSkim(munich.getString("pt.egress.skim.file") + "SkimsPt.omx", "mat1");
         transfers = skimReader.readSkim(munich.getString("pt.transfer.skim.file") + "SkimsPt.omx", "mat1");
+        inVehicle = skimReader.readSkim(munich.getString("pt.in.vehicle.skim.file") + "SkimsPt.omx", "mat1");
         //read the distances
         autoTravelDistance = skimReader.readSkim(munich.getString("out.skim.auto.dist") + "Test.omx", "mat1");
         //fill in the locations without access by transit
@@ -59,6 +62,7 @@ public class TransitSkimPostProcessing {
         accessTimeCompleteMatrix = accessTime;
         egressTimeCompleteMatrix = egressTime;
         transfersCompleteMatrix = transfers;
+        inVehicleTimeCompleteMatrix = inVehicle;
 
         locationList.parallelStream().forEach((Location origLoc) -> {
             int i = origLoc.getId();
@@ -114,6 +118,9 @@ public class TransitSkimPostProcessing {
                         transfersCompleteMatrix.setValueAt(i,j,transfers.getValueAt(startZoneIndex, finalZoneIndex));
                         transfersCompleteMatrix.setValueAt(j,i,transfers.getValueAt(startZoneIndex, finalZoneIndex));
 
+                        inVehicleTimeCompleteMatrix.setValueAt(i,j,inVehicle.getValueAt(startZoneIndex, finalZoneIndex));
+                        inVehicleTimeCompleteMatrix.setValueAt(j,i,inVehicle.getValueAt(startZoneIndex, finalZoneIndex));
+
                         totalTimeCompleteMatrix.setValueAt(i, j, tt);
                         totalTimeCompleteMatrix.setValueAt(j, i, tt);
                         }
@@ -147,5 +154,9 @@ public class TransitSkimPostProcessing {
 
     public Matrix getTransfersCompleteMatrix() {
         return transfersCompleteMatrix;
+    }
+
+    public Matrix getInVehicleTimeCompleteMatrix() {
+        return inVehicleTimeCompleteMatrix;
     }
 }

@@ -90,11 +90,11 @@ public class Zone2ZoneTravelDistanceListener implements IterationEndsListener {
             Map<Integer, Node> zoneCalculationNodesMap = new HashMap<>();
 
             //TODO re-clean the network will remove all pt links and will make possible getting auto travel times
-            NetworkCleaner networkCleaner = new NetworkCleaner();
-            networkCleaner.run(network);
+            //NetworkCleaner networkCleaner = new NetworkCleaner();
+            //networkCleaner.run(network);
 
-            Dijkstra dijkstra = new Dijkstra(network, travelDisutility, travelTime);
-            LeastCostPathCalculator.Path path;
+
+            ;
 
 
 
@@ -117,8 +117,10 @@ public class Zone2ZoneTravelDistanceListener implements IterationEndsListener {
 
                 //Map<Id<Node>, LeastCostPathTree.NodeData> tree = leastCoastPathTree.getTree();
 
-                //locationList.parallelStream().forEach((Location destinationZone) -> {
-                for (Location destinationZone : locationList) { // going over all destination zones
+                locationList.parallelStream().forEach((Location destinationZone) -> {
+                    Dijkstra dijkstra = new Dijkstra(network, travelDisutility, travelTime);
+
+                //for (Location destinationZone : locationList) { // going over all destination zones
                     //nex line to fill only half matrix and use half time
                     if (originZone.getId() <= destinationZone.getId()) {
                         //alternative 1
@@ -190,7 +192,7 @@ public class Zone2ZoneTravelDistanceListener implements IterationEndsListener {
                         if ( euclideanDistance < 1e6) {
 
 
-                            path = dijkstra.calcLeastCostPath(originNode, destinationNode, departureTime, person, vehicle);
+                            LeastCostPathCalculator.Path path  = dijkstra.calcLeastCostPath(originNode, destinationNode, departureTime, person, vehicle);
                             float distance = 0;
                             for (Link link : path.links) {
                                 distance += link.getLength();
@@ -217,8 +219,8 @@ public class Zone2ZoneTravelDistanceListener implements IterationEndsListener {
                         }
                     }
 
-                    }
-                //});
+                //    }
+                });
                 log.info("Completed origin zone: " + originZone.getId());
            }
 

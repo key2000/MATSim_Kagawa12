@@ -57,7 +57,7 @@ public class PtEventHandler {
 
                 float tt = (float) ((end - start)/60);
 
-                if (tt > 300) tt=-1F;
+                if (tt > 300) {tt=-1F;}
 
                 transitTravelTime.setValueAt(ptst.getOrigLoc().getId(), ptst.getDestLoc().getId(), tt);
                 transitTravelTime.setValueAt(ptst.getDestLoc().getId(), ptst.getOrigLoc().getId(), tt);

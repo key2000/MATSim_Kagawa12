@@ -95,9 +95,9 @@ public class MatsimExecuter {
                 for (double tripScalingFactor : tripScalingFactorVector) {  //loop trip Scaling
 
                     //TODO check capacity factor!!!!
-                    double flowCapacityFactor = tripScalingFactor*2;
+                    double flowCapacityFactor = tripScalingFactor;
                     System.out.println("Starting MATSim simulation. Sampling factor = " + tripScalingFactor);
-                    double storageCapacityFactor = Math.pow(flowCapacityFactor,0.75);
+                    double storageCapacityFactor = Math.pow(flowCapacityFactor,1);
                     //TODO check stroage factor power
                     //update simulation name
                     String singleRunName = String.format("TF%.2fCF%.2fSF%.2fIT%d", tripScalingFactor, flowCapacityFactor, storageCapacityFactor, iterations) + simulationName;
@@ -110,8 +110,8 @@ public class MatsimExecuter {
                     //start new loop
                     if (ptSkimsFromEvents) {
                         maxSubRuns = Integer.parseInt(rb.getString("number.submatrices"));
-
                     }
+
                     for (int subRun = 0; subRun < maxSubRuns; subRun++) {
 
                         min = max;
@@ -153,7 +153,6 @@ public class MatsimExecuter {
 
 
                         //get travel times and run Matsim
-                        //TODO need to improve this part of the code
                         MatsimRunFromJava matsimRunner = new MatsimRunFromJava(rb);
                         matsimRunner.runMatsim(hourOfDay * 60 * 60, 1,
                                 networkFile, matsimPopulation, year,
@@ -186,6 +185,7 @@ public class MatsimExecuter {
                             PtEventHandler ptEH = new PtEventHandler();
 
                             ptEH.runPtEventAnalyzer(eventFile, ptSyntheticTravellerMap);
+
                             transitTotalTime = ptEH.ptTotalTime(ptSyntheticTravellerMap, transitTotalTime);
                             transitInTime = ptEH.ptInTransitTime(ptSyntheticTravellerMap, transitInTime);
                             transitTransfers = ptEH.ptTransfers(ptSyntheticTravellerMap, transitTransfers);
@@ -216,14 +216,19 @@ public class MatsimExecuter {
                     if (ptSkimsFromEvents) {
                         String omxPtFileName = rb.getString("pt.total.skim.file") + simulationName + ".omx";
                         TravelTimeMatrix.createOmxSkimMatrix(transitTotalTime, locationList, omxPtFileName, "mat1");
+
                         omxPtFileName = rb.getString("pt.in.skim.file") + simulationName + ".omx";
                         TravelTimeMatrix.createOmxSkimMatrix(transitInTime, locationList, omxPtFileName, "mat1");
+
                         omxPtFileName = rb.getString("pt.transfer.skim.file") + simulationName + ".omx";
                         TravelTimeMatrix.createOmxSkimMatrix(transitTransfers, locationList, omxPtFileName, "mat1");
+
                         omxPtFileName = rb.getString("pt.in.vehicle.skim.file") + simulationName + ".omx";
                         TravelTimeMatrix.createOmxSkimMatrix(inVehicleTime, locationList, omxPtFileName, "mat1");
+
                         omxPtFileName = rb.getString("pt.access.skim.file") + simulationName + ".omx";
                         TravelTimeMatrix.createOmxSkimMatrix(transitAccessTt, locationList, omxPtFileName, "mat1");
+
                         omxPtFileName = rb.getString("pt.egress.skim.file") + simulationName + ".omx";
                         TravelTimeMatrix.createOmxSkimMatrix(transitEgressTt, locationList, omxPtFileName, "mat1");
                     }
@@ -237,25 +242,29 @@ public class MatsimExecuter {
             postProcess.postProcessTransitSkims();
 
             Matrix completeTotalPtTime = postProcess.getTotalTimeCompleteMatrix();
-            Matrix inTransitTotalPtTime = postProcess.getInTransitCompleteMatrix();
-            Matrix accesTimePtTime = postProcess.getAccessTimeCompleteMatrix();
-            Matrix egressTimePtTime = postProcess.getEgressTimeCompleteMatrix();
-            Matrix transfersPtTime = postProcess.getTransfersCompleteMatrix();
+            Matrix completeInTransitTotalPtTime = postProcess.getInTransitCompleteMatrix();
+            Matrix completeAccessTimePtTime = postProcess.getAccessTimeCompleteMatrix();
+            Matrix completeEgressTimePtTime = postProcess.getEgressTimeCompleteMatrix();
+            Matrix completeTransfersPtTime = postProcess.getTransfersCompleteMatrix();
+            Matrix completeInVehiclePtTime = postProcess.getInVehicleTimeCompleteMatrix();
 
             String omxPtFileName = rb.getString("pt.total.skim.file") + simulationName + "Complete.omx";
             TravelTimeMatrix.createOmxSkimMatrix(completeTotalPtTime, locationList, omxPtFileName, "mat1");
 
             omxPtFileName = rb.getString("pt.in.skim.file") + simulationName + "Complete.omx";
-            TravelTimeMatrix.createOmxSkimMatrix(inTransitTotalPtTime, locationList, omxPtFileName, "mat1");
+            TravelTimeMatrix.createOmxSkimMatrix(completeInTransitTotalPtTime, locationList, omxPtFileName, "mat1");
 
             omxPtFileName = rb.getString("pt.access.skim.file") + simulationName + "Complete.omx";
-            TravelTimeMatrix.createOmxSkimMatrix(accesTimePtTime, locationList, omxPtFileName, "mat1");
+            TravelTimeMatrix.createOmxSkimMatrix(completeAccessTimePtTime, locationList, omxPtFileName, "mat1");
 
             omxPtFileName = rb.getString("pt.egress.skim.file") + simulationName + "Complete.omx";
-            TravelTimeMatrix.createOmxSkimMatrix(egressTimePtTime, locationList, omxPtFileName, "mat1");
+            TravelTimeMatrix.createOmxSkimMatrix(completeEgressTimePtTime, locationList, omxPtFileName, "mat1");
 
             omxPtFileName = rb.getString("pt.transfer.skim.file") + simulationName + "Complete.omx";
-            TravelTimeMatrix.createOmxSkimMatrix(transfersPtTime, locationList, omxPtFileName, "mat1");
+            TravelTimeMatrix.createOmxSkimMatrix(completeTransfersPtTime, locationList, omxPtFileName, "mat1");
+
+            omxPtFileName = rb.getString("pt.in.vehicle.skim.file") + simulationName + "Complete.omx";
+            TravelTimeMatrix.createOmxSkimMatrix(completeInVehiclePtTime, locationList, omxPtFileName, "mat1");
         }
 
 

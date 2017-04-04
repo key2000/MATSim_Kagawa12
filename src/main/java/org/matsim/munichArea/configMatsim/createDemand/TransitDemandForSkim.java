@@ -30,7 +30,7 @@ public class TransitDemandForSkim {
 
             for (Location origLoc : shortServedZonesList) {
                 double time = 8 * 60 * 60;
-                for (Location destLoc : shortServedZonesList) {
+                for (Location destLoc : servedZonesList) {
 
 
 //                        Location origLoc = locationMap.get(i);

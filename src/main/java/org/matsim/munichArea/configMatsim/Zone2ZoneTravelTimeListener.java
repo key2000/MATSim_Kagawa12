@@ -89,8 +89,8 @@ public class Zone2ZoneTravelTimeListener implements IterationEndsListener {
             Map<Integer, Node> zoneCalculationNodesMap = new HashMap<>();
 
             //TODO re-clean the network will remove all pt links and will make possible getting auto travel times
-            NetworkCleaner networkCleaner = new NetworkCleaner();
-            networkCleaner.run(network);
+            //NetworkCleaner networkCleaner = new NetworkCleaner();
+            //networkCleaner.run(network);
 
             for (Location loc : locationList) {
                 Coord originCoord = new Coord(loc.getX(), loc.getY());

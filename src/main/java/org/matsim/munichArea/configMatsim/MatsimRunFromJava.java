@@ -70,7 +70,7 @@ public class MatsimRunFromJava {
         //public transport
         config.transit().setTransitScheduleFile(scheduleFile);
         config.transit().setVehiclesFile(vehicleFile);
-        config.transit().setUseTransit(Boolean.getBoolean(rb.getString("use.transit")));
+        config.transit().setUseTransit(Boolean.parseBoolean(rb.getString("use.transit")));
         Set<String> transitModes = new TreeSet<>();
         transitModes.add("pt");
         config.transit().setTransitModes(transitModes);
