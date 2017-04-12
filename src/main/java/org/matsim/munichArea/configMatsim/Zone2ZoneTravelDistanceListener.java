@@ -56,7 +56,7 @@ public class Zone2ZoneTravelDistanceListener implements IterationEndsListener {
 
     public Zone2ZoneTravelDistanceListener(Controler controler, Network network,
                                            int finalIteration, /*Map<Integer, SimpleFeature> zoneFeatureMap*/
-                                       ArrayList<Location> locationList,
+                                           ArrayList<Location> locationList,
                                            int timeOfDay,
                                            int numberOfCalcPoints) {
         this.controler = controler;
@@ -97,7 +97,6 @@ public class Zone2ZoneTravelDistanceListener implements IterationEndsListener {
             ;
 
 
-
             for (Location loc : locationList) {
                 Coord originCoord = new Coord(loc.getX(), loc.getY());
                 Link originLink = NetworkUtils.getNearestLink(network, originCoord);
@@ -106,6 +105,7 @@ public class Zone2ZoneTravelDistanceListener implements IterationEndsListener {
             }
 
             //int counter = 0;
+
 
             long startTime = System.currentTimeMillis();
 
@@ -118,9 +118,9 @@ public class Zone2ZoneTravelDistanceListener implements IterationEndsListener {
                 //Map<Id<Node>, LeastCostPathTree.NodeData> tree = leastCoastPathTree.getTree();
 
                 locationList.parallelStream().forEach((Location destinationZone) -> {
-                    Dijkstra dijkstra = new Dijkstra(network, travelDisutility, travelTime);
 
-                //for (Location destinationZone : locationList) { // going over all destination zones
+
+                    //for (Location destinationZone : locationList) { // going over all destination zones
                     //nex line to fill only half matrix and use half time
                     if (originZone.getId() <= destinationZone.getId()) {
                         //alternative 1
@@ -184,15 +184,15 @@ public class Zone2ZoneTravelDistanceListener implements IterationEndsListener {
                         };
 
                         //original
-//                    double arrivalTime = leastCoastPathTree.getTree().get(zoneCalculationNodesMap.get(destinationZone.getId()).getId()).getTime();
+//                      double arrivalTime = leastCoastPathTree.getTree().get(zoneCalculationNodesMap.get(destinationZone.getId()).getId()).getTime();
                         Node destinationNode = zoneCalculationNodesMap.get(destinationZone.getId());
 
                         //with the next if tense it is possible to limit the distance calculation to certain threshold, over it --> eucl.dist.
                         float euclideanDistance = euclideanDistanceCalculator.getDistanceFrom(originZone, destinationZone);
-                        if ( euclideanDistance < 1e6) {
+                        if (euclideanDistance < 1e6) {
 
-
-                            LeastCostPathCalculator.Path path  = dijkstra.calcLeastCostPath(originNode, destinationNode, departureTime, person, vehicle);
+                            Dijkstra dijkstra = new Dijkstra(network, travelDisutility, travelTime);
+                            LeastCostPathCalculator.Path path = dijkstra.calcLeastCostPath(originNode, destinationNode, departureTime, person, vehicle);
                             float distance = 0;
                             for (Link link : path.links) {
                                 distance += link.getLength();
@@ -212,20 +212,20 @@ public class Zone2ZoneTravelDistanceListener implements IterationEndsListener {
                             log.info("pairs already calculated = " + counter);
                         }*/
 
-                        }else {
+                        } else {
                             autoTravelDistance.setValueAt(originZone.getId(), destinationZone.getId(), euclideanDistance);
                             //if only done half matrix need to add next line
                             autoTravelDistance.setValueAt(destinationZone.getId(), originZone.getId(), euclideanDistance);
                         }
                     }
 
-                //    }
+                    //    }
                 });
                 log.info("Completed origin zone: " + originZone.getId());
-           }
+            }
 
 
-            long duration = (System.currentTimeMillis() - startTime)/1000;
+            long duration = (System.currentTimeMillis() - startTime) / 1000;
             log.info("Completed in: " + duration);
         }
     }
@@ -257,6 +257,6 @@ public class Zone2ZoneTravelDistanceListener implements IterationEndsListener {
     }
 
 /**
-     * @author dziemke
-     */
+ * @author dziemke
+ */
 }

@@ -113,9 +113,8 @@ public class PtSyntheticTraveller {
         for (int i =0; i< size; i++){
             vehicleInTime += alightingMap.get(i) - boardingMap.get(i);
         }
-        return vehicleInTime/60;
+        return vehicleInTime;
     }
-
 
     public double getAccessTimeByWalk() {
         double accessTime = -1;
@@ -125,7 +124,7 @@ public class PtSyntheticTraveller {
 
     public double getEgressTimeByWalk() {
         double egressTime = -1;
-        if (alightingMap.size()>0)  egressTime = alightingMap.get(alightingMap.size()-1)-departureTime;
+        if (alightingMap.size()>0)  egressTime = -alightingMap.get(alightingMap.size()-1)+arrivalTime;
         return  egressTime;
     }
 

@@ -137,7 +137,7 @@ public class MatsimExecuter {
                         //two alternative methods to create the demand, the second one allows the use of transit synt. travellers
                         if (useSpAv){
                             ReadSyntheticPopulation readSp = new ReadSyntheticPopulation(rb, locationList);
-                            readSp.demandFromSyntheticPopulation(false, 0, (float) tripScalingFactor, "sp/plans.xml");
+                            readSp.demandFromSyntheticPopulation(0, (float) tripScalingFactor, "sp/plans.xml");
                             matsimPopulation = readSp.getMatsimPopulation();
                             readSp.printHistogram();
                             readSp.printSyntheticPlansList("./sp/plans.csv");

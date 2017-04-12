@@ -96,10 +96,10 @@ public class PtEventHandler {
 
             //System.out.println(ptst.getOrigLoc().getId() + "-" + tt);
 
-            float inVehicleTt = (float) ptst.getInVehicleTime();
+            float time = (float) ptst.getInVehicleTime()/60;
 
-            ptInVehicleTt.setValueAt(ptst.getOrigLoc().getId(), ptst.getDestLoc().getId(), inVehicleTt);
-            ptInVehicleTt.setValueAt(ptst.getDestLoc().getId(), ptst.getOrigLoc().getId(), inVehicleTt);
+            ptInVehicleTt.setValueAt(ptst.getOrigLoc().getId(), ptst.getDestLoc().getId(), time);
+            ptInVehicleTt.setValueAt(ptst.getDestLoc().getId(), ptst.getOrigLoc().getId(), time);
 
         }
 
@@ -114,11 +114,17 @@ public class PtEventHandler {
         for (PtSyntheticTraveller ptst : ptSyntheticTravellerMap.values()){
 
             //System.out.println(ptst.getOrigLoc().getId() + "-" + tt);
+            float time;
+            if (ptst.getAccessTimeByWalk() != -1 ){
+                time = (float) ptst.getAccessTimeByWalk()/60;
+            } else {
+                time = -1;
+            }
 
-            float inVehicleTt = (float) ptst.getAccessTimeByWalk()/60;
 
-            transitAccessTt.setValueAt(ptst.getOrigLoc().getId(), ptst.getDestLoc().getId(), inVehicleTt);
-            transitAccessTt.setValueAt(ptst.getDestLoc().getId(), ptst.getOrigLoc().getId(), inVehicleTt);
+
+            transitAccessTt.setValueAt(ptst.getOrigLoc().getId(), ptst.getDestLoc().getId(), time);
+            transitAccessTt.setValueAt(ptst.getDestLoc().getId(), ptst.getOrigLoc().getId(), time);
 
         }
 
@@ -133,11 +139,15 @@ public class PtEventHandler {
         for (PtSyntheticTraveller ptst : ptSyntheticTravellerMap.values()){
 
             //System.out.println(ptst.getOrigLoc().getId() + "-" + tt);
+            float time;
+            if (ptst.getEgressTimeByWalk() != -1 ){
+                time = (float) ptst.getEgressTimeByWalk()/60;
+            } else {
+                time = -1;
+            }
 
-            float inVehicleTt = (float) ptst.getEgressTimeByWalk()/60;
-
-            transitEgressTt.setValueAt(ptst.getOrigLoc().getId(), ptst.getDestLoc().getId(), inVehicleTt);
-            transitEgressTt.setValueAt(ptst.getDestLoc().getId(), ptst.getOrigLoc().getId(), inVehicleTt);
+            transitEgressTt.setValueAt(ptst.getOrigLoc().getId(), ptst.getDestLoc().getId(), time);
+            transitEgressTt.setValueAt(ptst.getDestLoc().getId(), ptst.getOrigLoc().getId(), time);
 
         }
 

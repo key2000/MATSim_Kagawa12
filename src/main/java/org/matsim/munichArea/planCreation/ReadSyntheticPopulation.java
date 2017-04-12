@@ -69,7 +69,7 @@ public class ReadSyntheticPopulation {
 
     }
 
-    public void demandFromSyntheticPopulation(boolean useAvs, float avPenetrationRate, float scalingFactor, String plansFileName) {
+    public void demandFromSyntheticPopulation(float avPenetrationRate, float scalingFactor, String plansFileName) {
 
         //todo remove useAvs variable from this class
 
@@ -93,7 +93,7 @@ public class ReadSyntheticPopulation {
                         org.matsim.api.core.v01.population.Person matsimPerson = addPersonToMatsim(row);
                         //select mode from O to 3
                         int mode = selectMode(row);
-                        boolean automatedVehicle = chooseAv(useAvs, avPenetrationRate);
+                        boolean automatedVehicle = chooseAv(avPenetrationRate);
                         //create trips
                         createMatsimTrip(row, mode, automatedVehicle, matsimPerson, scalingFactor);
                     }
@@ -177,7 +177,7 @@ public class ReadSyntheticPopulation {
 
     }
 
-    private boolean chooseAv(boolean useAvs, float penetrationRate) {
+    private boolean chooseAv(float penetrationRate) {
         boolean automated = false;
 
         if (Math.random() < penetrationRate) automated = true;
