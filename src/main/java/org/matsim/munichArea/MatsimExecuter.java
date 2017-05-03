@@ -40,7 +40,8 @@ public class MatsimExecuter {
         boolean createNetwork = ResourceUtil.getBooleanProperty(rb, "create.network");
         boolean runMatsim = ResourceUtil.getBooleanProperty(rb, "run.matsim");
         boolean runGravityModel = ResourceUtil.getBooleanProperty(rb, "run.gravity.model");
-        boolean autoSkims = ResourceUtil.getBooleanProperty(rb, "skim.auto.times");
+        boolean autoTimeSkims = ResourceUtil.getBooleanProperty(rb, "skim.auto.times");
+        boolean autoDistSkims = ResourceUtil.getBooleanProperty(rb, "skim.auto.dist");
         boolean ptSkimsFromEvents = ResourceUtil.getBooleanProperty(rb, "skim.pt.events");
         boolean eucliddistSkims = ResourceUtil.getBooleanProperty(rb, "skim.eucliddist");
         boolean analyzeAccessibility = ResourceUtil.getBooleanProperty(rb, "analyze.accessibility");
@@ -52,7 +53,7 @@ public class MatsimExecuter {
         int year = Integer.parseInt(rb.getString("simulation.year"));
         int hourOfDay = Integer.parseInt(rb.getString("hour.of.day"));
 
-        boolean useSpAv = ResourceUtil.getBooleanProperty(rb, "use.sp.av");
+        boolean useSp = ResourceUtil.getBooleanProperty(rb, "use.sp.av");
 
         //create network from OSM file
         if (createNetwork) CreateNetwork.createNetwork();
@@ -94,11 +95,11 @@ public class MatsimExecuter {
             for (int iterations : lastIterationVector) //loop iteration vector
                 for (double tripScalingFactor : tripScalingFactorVector) {  //loop trip Scaling
 
-                    //TODO check capacity factor!!!!
-                    double flowCapacityFactor = tripScalingFactor;
+                    //TODO CHECK CF and SF
+                    double flowCapacityFactor =  Math.pow(tripScalingFactor,1);
                     System.out.println("Starting MATSim simulation. Sampling factor = " + tripScalingFactor);
-                    double storageCapacityFactor = Math.pow(flowCapacityFactor,1);
-                    //TODO check stroage factor power
+                    double storageCapacityFactor = Math.pow(tripScalingFactor,.75);
+
                     //update simulation name
                     String singleRunName = String.format("TF%.2fCF%.2fSF%.2fIT%d", tripScalingFactor, flowCapacityFactor, storageCapacityFactor, iterations) + simulationName;
                     String outputFolder = rb.getString("output.folder") + singleRunName;
@@ -135,7 +136,7 @@ public class MatsimExecuter {
                         Map<Id, PtSyntheticTraveller> ptSyntheticTravellerMap = new HashMap<>();
 
                         //two alternative methods to create the demand, the second one allows the use of transit synt. travellers
-                        if (useSpAv){
+                        if (useSp){
                             ReadSyntheticPopulation readSp = new ReadSyntheticPopulation(rb, locationList);
                             readSp.demandFromSyntheticPopulation(0, (float) tripScalingFactor, "sp/plans.xml");
                             matsimPopulation = readSp.getMatsimPopulation();
@@ -157,9 +158,9 @@ public class MatsimExecuter {
                         matsimRunner.runMatsim(hourOfDay * 60 * 60, 1,
                                 networkFile, matsimPopulation, year,
                                 TransformationFactory.WGS84, iterations, simulationName,
-                                outputFolder, flowCapacityFactor, storageCapacityFactor, locationList, autoSkims, scheduleFile, vehicleFile);
+                                outputFolder, flowCapacityFactor, storageCapacityFactor, locationList, autoTimeSkims, autoDistSkims, scheduleFile, vehicleFile);
 
-                        if (autoSkims){
+                        if (autoTimeSkims){
                             autoTravelTime = matsimRunner.getAutoTravelTime();
                             autoTravelDistance = matsimRunner.getAutoTravelDistance();
                         }
@@ -205,11 +206,13 @@ public class MatsimExecuter {
                     }
 
 
-                    if (autoSkims) {
+                    if (autoTimeSkims) {
                         String omxFileName = rb.getString("out.skim.auto.time") + simulationName + ".omx";
                         TravelTimeMatrix.createOmxSkimMatrix(autoTravelTime, locationList, omxFileName, "mat1");
 
-                        omxFileName = rb.getString("out.skim.auto.dist") + simulationName + ".omx";
+                    }
+                    if (autoDistSkims){
+                        String omxFileName = rb.getString("out.skim.auto.dist") + simulationName + ".omx";
                         TravelTimeMatrix.createOmxSkimMatrix(autoTravelDistance, locationList, omxFileName, "mat1");
                     }
 

@@ -44,15 +44,13 @@ public class MatsimRunFromJava {
 
     }
 
-
-
     public void runMatsim(
                                                                                    int timeOfDay, int numberOfCalcPoints /*, Map<Integer,SimpleFeature> zoneFeatureMap*/, //CoordinateTransformation ct,
                                                                                    String inputNetworkFile,
                                                                                    Population population, int year,
                                                                                    String crs, int numberOfIterations, String siloRunId, String outputDirectoryRoot,
                                                                                    double flowCapacityFactor, double storageCapacityFactor,
-                                                                                   ArrayList<Location> locationList, boolean autoSkims,
+                                                                                   ArrayList<Location> locationList, boolean autoTimeSkims, boolean autoDistSkims,
                                                                                    String scheduleFile, String vehicleFile) {
         // String populationFile, int year, String crs, int numberOfIterations) {
         final Config config = ConfigUtils.createConfig();
@@ -146,13 +144,11 @@ public class MatsimRunFromJava {
 
         PlanCalcScoreConfigGroup.ActivityParams workActivity = new PlanCalcScoreConfigGroup.ActivityParams("work");
         workActivity.setTypicalDuration(8 * 60 * 60);
-        workActivity.setOpeningTime(5*60*60);
         config.planCalcScore().addActivityParams(workActivity);
 
-        PlanCalcScoreConfigGroup.ActivityParams newActivity = new PlanCalcScoreConfigGroup.ActivityParams("airport");
-        newActivity.setTypicalDuration(3 * 60 * 60);
-        newActivity.setOpeningTime(4*60*60);
-        config.planCalcScore().addActivityParams(newActivity);
+        PlanCalcScoreConfigGroup.ActivityParams otherActivity = new PlanCalcScoreConfigGroup.ActivityParams("other");
+        otherActivity.setTypicalDuration(1 * 60 * 60);
+        config.planCalcScore().addActivityParams(otherActivity);
 
         config.qsim().setNumberOfThreads(16);
         config.global().setNumberOfThreads(16);
@@ -181,16 +177,17 @@ public class MatsimRunFromJava {
                 locationList, timeOfDay, numberOfCalcPoints);
 
         //      Add controller listener
-        if (autoSkims) {
+        if (autoDistSkims) {
             controler.addControlerListener(zone2ZoneTravelDistanceListener);
+        }
+
+        if (autoTimeSkims){
             controler.addControlerListener(zone2zoneTravelTimeListener);
             // yyyyyy feedback will not work without the above, will it?  kai, apr'16
         }
 
         // Run controller
         controler.run();
-
-
 
         autoTravelTime = zone2zoneTravelTimeListener.getAutoTravelTime();
         autoTravelDistance = zone2ZoneTravelDistanceListener.getAutoTravelDistance();
