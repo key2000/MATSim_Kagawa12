@@ -13,7 +13,7 @@ import org.matsim.contrib.av.robotaxi.scoring.TaxiFareHandler;
 import org.matsim.contrib.dvrp.data.FleetImpl;
 import org.matsim.contrib.taxi.run.TaxiConfigConsistencyChecker;
 import org.matsim.contrib.taxi.run.TaxiConfigGroup;
-import org.matsim.contrib.taxi.run.TaxiOptimizerModules;
+
 import org.matsim.contrib.taxi.run.TaxiOutputModule;
 import org.matsim.core.config.Config;
 import org.matsim.core.config.ConfigUtils;

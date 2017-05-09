@@ -43,6 +43,7 @@ public class ReadSyntheticPopulation {
     private double[] departure2OProb;
     private double[] wDurationProb;
     private double[] oDurationProb;
+    private TableDataSet modeChoiceCoefs;
     private double oTripRatePerPerson;
     private TableDataSet oDistanceDistribution;
     private int[] oDistanceClasses;
@@ -72,6 +73,21 @@ public class ReadSyntheticPopulation {
 
     Random rnd = new Random();
 
+    private float b_auto;
+    private float b_walk;
+    private float b_bicycle;
+    private float b_transit;
+    private float alpha_auto;
+    private float alpha_walk;
+    private float alpha_bicycle;
+    private float alpha_transit;
+    private float beta_auto;
+    private float beta_walk;
+    private float beta_bicycle;
+    private float beta_transit;
+
+
+
     public ReadSyntheticPopulation(ResourceBundle rb, ArrayList<Location> locationList) {
 
         SkimMatrixReader skmReader1 = new SkimMatrixReader();
@@ -85,6 +101,10 @@ public class ReadSyntheticPopulation {
         matsimPopulation = matsimScenario.getPopulation();
         matsimPopulationFactory = matsimPopulation.getFactory();
 
+        modeChoiceCoefs = Util.readCSVfile(rb.getString("mode.choice.coefs"));
+        modeChoiceCoefs.buildStringIndex(1);
+        readModeChoiceCoefficients();
+
         timeOfDayDistributions = Util.readCSVfile(rb.getString("time.of.day.distr"));
         timeClasses = timeOfDayDistributions.getColumnAsInt("classes");
         departure2WProb = timeOfDayDistributions.getColumnAsDouble("H2W_departure");
@@ -96,10 +116,10 @@ public class ReadSyntheticPopulation {
         oDistanceClasses = oDistanceDistribution.getColumnAsInt("distanceClass");
         oDistanceProb = oDistanceDistribution.getColumnAsDouble("H20_length");
 
-        //todo as input?
-        oTripRatePerPerson = 1.977;
-        carOcccupancyO = 2.76;
-        carOcccupancyW = 1.13;
+
+        oTripRatePerPerson = Double.parseDouble(rb.getString("mid.other.trip.rate"));
+        carOcccupancyO = Double.parseDouble(rb.getString("mid.other.car.occup"));
+        carOcccupancyW = Double.parseDouble(rb.getString("mid.work.car.occup"));
 
         h2wTripCount = 0;
         h2oTripCount = 0;
@@ -283,19 +303,47 @@ public class ReadSyntheticPopulation {
         }
         frequencies[i][chosen]++;
 
+        //System.out.println(chosen);
         return chosen;
 
     }
+
+    public void readModeChoiceCoefficients(){
+        b_auto = modeChoiceCoefs.getStringIndexedValueAt("intercept","car");
+        b_walk = modeChoiceCoefs.getStringIndexedValueAt("intercept","walk");
+        b_bicycle = modeChoiceCoefs.getStringIndexedValueAt("intercept","bicycle");
+        b_transit = modeChoiceCoefs.getStringIndexedValueAt("intercept","transit");
+        alpha_auto = modeChoiceCoefs.getStringIndexedValueAt("alphaTD","car");
+        alpha_walk= modeChoiceCoefs.getStringIndexedValueAt("alphaTD","walk");
+        alpha_bicycle = modeChoiceCoefs.getStringIndexedValueAt("alphaTD","bicycle");
+        alpha_transit = modeChoiceCoefs.getStringIndexedValueAt("alphaTD","transit");
+        beta_auto = modeChoiceCoefs.getStringIndexedValueAt("betaTD","car");
+        beta_walk= modeChoiceCoefs.getStringIndexedValueAt("betaTD","walk");
+        beta_bicycle= modeChoiceCoefs.getStringIndexedValueAt("betaTD","bicycle");
+        beta_transit= modeChoiceCoefs.getStringIndexedValueAt("betaTD","transit");
+
+
+    }
+
 
     private double[] calculateUtilities(float travelDistance, int[] alternatives) {
 
         double[] utilities = new double[alternatives.length];
 
         //0: car, 1: walk, 2: bicycle: 3: transit
-        utilities[0] = Math.exp(-23.4564 * Math.exp(-0.05 * travelDistance / 1000));
-        utilities[1] = Math.exp(-51.896 + 89.47667 * Math.exp(-0.2 * travelDistance / 1000));
-        utilities[2] = Math.exp(-6.03105 - 18.3921 * Math.exp(-0.07 * travelDistance / 1000));
-        utilities[3] = Math.exp(-1.30203 - 22.8496 * Math.exp(-0.05 * travelDistance / 1000));
+//        utilities[0] = Math.exp(-23.4564 * Math.exp(-0.05 * travelDistance / 1000));
+//        utilities[1] = Math.exp(-51.896 + 89.47667 * Math.exp(-0.2 * travelDistance / 1000));
+//        utilities[2] = Math.exp(-6.03105 - 18.3921 * Math.exp(-0.07 * travelDistance / 1000));
+//        utilities[3] = Math.exp(-1.30203 - 22.8496 * Math.exp(-0.05 * travelDistance / 1000));
+
+
+        utilities[0] = Math.exp(b_auto + alpha_auto* Math.exp(beta_auto* travelDistance / 1000));
+
+        utilities[1] = Math.exp(b_walk + alpha_walk* Math.exp(beta_walk* travelDistance / 1000));
+
+        utilities[2] = Math.exp(b_bicycle + alpha_bicycle* Math.exp(beta_bicycle* travelDistance / 1000));
+
+        utilities[3] = Math.exp(b_transit + alpha_transit* Math.exp(beta_transit* travelDistance / 1000));
 
         return utilities;
 

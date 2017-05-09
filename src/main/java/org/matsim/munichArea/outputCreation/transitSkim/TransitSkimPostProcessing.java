@@ -79,7 +79,7 @@ public class TransitSkimPostProcessing {
                     int finalZoneIndex = 0;
                     for (Location k : servedZoneList) {
                         access = (float) (autoTravelDistance.getValueAt(i, k.getId()) / 1.4 / 60);
-                        if (access < 30) {
+                        if (access < 30 ) {
                             //there is a location k which one can get to transit by walk in less than 30 min
                             for (Location l : servedZoneList) {
                                 egress = (float) (autoTravelDistance.getValueAt(l.getId(), j) / 1.4 / 60);

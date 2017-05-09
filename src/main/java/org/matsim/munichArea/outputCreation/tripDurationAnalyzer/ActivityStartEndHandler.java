@@ -3,7 +3,6 @@ package org.matsim.munichArea.outputCreation.tripDurationAnalyzer;
 import org.matsim.api.core.v01.Id;
 import org.matsim.api.core.v01.events.*;
 import org.matsim.api.core.v01.events.handler.*;
-import org.matsim.munichArea.configMatsim.createDemand.PtSyntheticTraveller;
 
 import java.util.Map;
 
@@ -19,8 +18,10 @@ public class ActivityStartEndHandler implements ActivityEndEventHandler,
     private Map<Id, Trip> tripMap;
 
 
-    public ActivityStartEndHandler(Map<Id, Trip> tripMap) {
-        this.tripMap = tripMap;
+
+    public ActivityStartEndHandler(Map<Id, Trip> tripMapH2W) {
+        this.tripMap = tripMapH2W;
+
 
     }
 
@@ -44,7 +45,7 @@ public class ActivityStartEndHandler implements ActivityEndEventHandler,
         try {
         Trip t = tripMap.get(event.getPersonId());
         //only if not yet at work
-        if (!t.isAtWorkPlace()) {
+        if (t.isAtHome()) {
             t.setDepartureTime(event.getTime());
             t.setMode(event.getLegMode().toString());
         }
@@ -73,8 +74,8 @@ public class ActivityStartEndHandler implements ActivityEndEventHandler,
         //detects the event of arriving to work
         try {
         Trip t = tripMap.get(event.getPersonId());
-        //only if not yet at work
-        if (!t.isAtWorkPlace()) {
+        //only if coming from home
+        if (t.isAtHome()) {
             t.setArrivalTime(event.getTime());
         }
         }catch (Exception e){
@@ -89,7 +90,15 @@ public class ActivityStartEndHandler implements ActivityEndEventHandler,
         if (event.getActType().equals("work")){
             Trip t = tripMap.get(event.getPersonId());
             t.setAtWorkPlace(true);
+            t.setAtHome(false);
+            t.setPurpose('w');
+        } else if (event.getActType().equals("other")){
+            Trip t = tripMap.get(event.getPersonId());
+            t.setAtOther(true);
+            t.setAtHome(false);
+            t.setPurpose('o');
         }
+
         }catch (Exception e){
 
         }

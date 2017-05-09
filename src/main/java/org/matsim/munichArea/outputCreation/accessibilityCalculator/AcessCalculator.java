@@ -36,6 +36,8 @@ public class AcessCalculator {
 
         Accessibility accessibility = new Accessibility(skimFileName, "mat1", rb);
         accessibility.calculateAccessibility(locationList);
+        //distance to marienplatz muenchen
+        accessibility.calculateTravelTimesToZone(locationList, Integer.parseInt(rb.getString("dest.zone")));
         accessibility.printAccessibility(locationList);
 
 

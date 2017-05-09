@@ -11,11 +11,17 @@ public class Trip {
     private double vehicleStartTime;
     private Id id;
     private String mode;
+    private boolean atHome;
     private boolean atWorkPlace;
+    private boolean atOther;
+    private char purpose;
+
 
     public Trip(Id id) {
         this.id = id;
         atWorkPlace = false;
+        atHome = true;
+        atOther = false;
     }
 
     public String getMode() {
@@ -61,5 +67,29 @@ public class Trip {
     public double getWaitingTimeBefore(){
         return (vehicleStartTime - departureTime);
 
+    }
+
+    public char getPurpose() {
+        return purpose;
+    }
+
+    public void setPurpose(char purpose) {
+        this.purpose = purpose;
+    }
+
+    public boolean isAtHome() {
+        return atHome;
+    }
+
+    public void setAtHome(boolean atHome) {
+        this.atHome = atHome;
+    }
+
+    public boolean isAtOther() {
+        return atOther;
+    }
+
+    public void setAtOther(boolean atOther) {
+        this.atOther = atOther;
     }
 }

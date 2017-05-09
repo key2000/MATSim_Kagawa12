@@ -12,8 +12,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import static org.matsim.munichArea.MatsimExecuter.rb;
-
 /**
  * Created by carlloga on 17.03.2017.
  */
@@ -44,7 +42,7 @@ public class AgentTripDurationEventAnalyzer {
         BufferedWriter bw = IOUtils.getBufferedWriter(eventsFile + ".csv");
         try {
 
-            bw.write("id,mode,departure,arrival,tripDuration,waitingTime");
+            bw.write("id,mode,departure,arrival,tripDuration,waitingTime,purpose");
             bw.newLine();
 
         for (Id id : tripMap.keySet()){
@@ -57,9 +55,12 @@ public class AgentTripDurationEventAnalyzer {
                         tripMap.get(id).getDepartureTime() + "," +
                         tripMap.get(id).getArrivalTime() + "," +
                         tripDuration + "," +
-                        waitingTimeBefore);
-                bw.newLine();
+                        waitingTimeBefore + "," +
+                        tripMap.get(id).getPurpose());
+                        bw.newLine();;
+
             }
+
         }
 
             bw.flush();
