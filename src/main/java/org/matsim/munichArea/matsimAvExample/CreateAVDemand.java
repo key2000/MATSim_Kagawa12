@@ -26,9 +26,6 @@ public class CreateAVDemand {
         CentroidsToLocations centroidsToLocations = new CentroidsToLocations(rb);
         ArrayList<Location> locationList = centroidsToLocations.readCentroidList();
 
-
-
-
         ReadSyntheticPopulation readSp = new ReadSyntheticPopulation(rb, locationList);
         readSp.demandFromSyntheticPopulation(avPenetrationRate, tripScalingFactor, plansFileName);
         readSp.printSyntheticPlansList(plansFileName + ".csv");

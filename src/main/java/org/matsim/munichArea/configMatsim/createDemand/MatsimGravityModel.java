@@ -25,7 +25,7 @@ import static org.matsim.munichArea.MatsimExecuter.rb;
 
 
 /**
- * @author dziemke
+ * discontinued
  */
 public class MatsimGravityModel {
 

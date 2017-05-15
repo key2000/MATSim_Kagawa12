@@ -45,6 +45,7 @@ public class ReadSyntheticPopulation {
     private double[] oDurationProb;
     private TableDataSet modeChoiceCoefs;
     private double oTripRatePerPerson;
+    private double oTripRateDispersion;
     private TableDataSet oDistanceDistribution;
     private int[] oDistanceClasses;
     private double[] oDistanceProb;
@@ -86,6 +87,8 @@ public class ReadSyntheticPopulation {
     private float beta_bicycle;
     private float beta_transit;
 
+    private int selectedMode;
+
 
 
     public ReadSyntheticPopulation(ResourceBundle rb, ArrayList<Location> locationList) {
@@ -118,12 +121,16 @@ public class ReadSyntheticPopulation {
 
 
         oTripRatePerPerson = Double.parseDouble(rb.getString("mid.other.trip.rate"));
+        oTripRateDispersion = 0; //this parameter is needed to set to 0 the number of H2O trips
         carOcccupancyO = Double.parseDouble(rb.getString("mid.other.car.occup"));
         carOcccupancyW = Double.parseDouble(rb.getString("mid.work.car.occup"));
 
         h2wTripCount = 0;
+
         h2oTripCount = 0;
         travelerCount = 0;
+
+        selectedMode = 0; //this variable defines the mode to create trips, in general is equal to 0 --> generate auto trips
 
 
         //creates a map to look up locations from their ID
@@ -157,7 +164,8 @@ public class ReadSyntheticPopulation {
 
                     String[] row = line.split(cvsSplitBy);
 
-                    int origin = Integer.parseInt(row[12]);
+                    //int origin = Integer.parseInt(row[12]); //old version
+                    int origin = Integer.parseInt(row[11]); //new version
                     int destinationWork = Integer.parseInt(row[7]);
                     boolean occupation = destinationWork == 0? false : true;
 
@@ -178,13 +186,15 @@ public class ReadSyntheticPopulation {
                         jobDistances.put(Integer.parseInt(matsimPerson.getId().toString()), travelDistance);
                         int mode = selectMode(travelDistance);
                         boolean automatedVehicle = chooseAv(avPenetrationRate);
-                        //create trips applying SCALING FACTOR
-                        if (rnd.nextFloat() < scalingFactor/carOcccupancyW && mode == 0 && travelDistance < 80000) {
+                        //create trips applying SCALING FACTOR only by car
+
+
+
+                        if (rnd.nextFloat() < scalingFactor/carOcccupancyW && mode == selectedMode && travelDistance < 80000) {
                             time = new EnumeratedIntegerDistribution(timeClasses, departure2WProb).sample()*60
                                             + (rnd.nextDouble()-.5)*60*60;
+
                             jobDeparturesMap.put(Integer.parseInt(matsimPerson.getId().toString()), time);
-
-
 
                             Activity activity1 = matsimPopulationFactory.createActivityFromCoord("home", homeCoordinates);
                             activity1.setEndTime(time);
@@ -196,15 +206,16 @@ public class ReadSyntheticPopulation {
 
                             jobArrivalsMap.put(Integer.parseInt(matsimPerson.getId().toString()), time);
 
-
                             storePerson = true;
 
                         }
+
+                        //add something about other purposes
                     }
 
                     //generate H-2-O-2-
 
-                    for (int trip = 0; trip < Math.round(rnd.nextGaussian() + oTripRatePerPerson);trip++) {
+                    for (int trip = 0; trip < Math.round(oTripRateDispersion*rnd.nextGaussian() + oTripRatePerPerson);trip++) {
 
                         float travelDistance = selectDistanceOtherTrip();
                         int mode = selectMode(travelDistance);
@@ -490,6 +501,10 @@ public class ReadSyntheticPopulation {
                 matsimPlan.addLeg(matsimPopulationFactory.createLeg("taxi"));
             } else {
                 matsimPlan.addLeg(matsimPopulationFactory.createLeg(TransportMode.car));
+                //todo manually change of mode only for multimodal - tests
+//                matsimPlan.addLeg(matsimPopulationFactory.createLeg(TransportMode.bike));
+//                matsimPlan.addLeg(matsimPopulationFactory.createLeg(TransportMode.walk));
+                //matsimPlan.addLeg(matsimPopulationFactory.createLeg(TransportMode.pt));
             }
 
 
@@ -513,6 +528,10 @@ public class ReadSyntheticPopulation {
                 matsimPlan.addLeg(matsimPopulationFactory.createLeg("taxi"));
             } else {
                 matsimPlan.addLeg(matsimPopulationFactory.createLeg(TransportMode.car));
+                //todo manually change of mode only for multimodal - tests
+//                matsimPlan.addLeg(matsimPopulationFactory.createLeg(TransportMode.bike));
+//                matsimPlan.addLeg(matsimPopulationFactory.createLeg(TransportMode.walk));
+                //matsimPlan.addLeg(matsimPopulationFactory.createLeg(TransportMode.pt));
             }
 
 
@@ -532,7 +551,7 @@ public class ReadSyntheticPopulation {
 
     public void printHistogram() {
 
-        BufferedWriter bw = IOUtils.getBufferedWriter("sp/tripDistanceHistogram.csv");
+        BufferedWriter bw = IOUtils.getBufferedWriter(rb.getString("td.hist.file"));
         try {
             bw.write("distance, car, walk, bicycle, transit");
             bw.newLine();

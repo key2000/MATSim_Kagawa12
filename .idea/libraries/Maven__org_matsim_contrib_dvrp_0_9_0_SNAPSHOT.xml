@@ -1,13 +1,13 @@
 <component name="libraryTable">
   <library name="Maven: org.matsim.contrib:dvrp:0.9.0-SNAPSHOT">
     <CLASSES>
-      <root url="jar://$MAVEN_REPOSITORY$/org/matsim/contrib/dvrp/0.9.0-SNAPSHOT/dvrp-0.9.0-20170508.105945-1027.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/matsim/contrib/dvrp/0.9.0-SNAPSHOT/dvrp-0.9.0-20170512.101732-1039.jar!/" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$MAVEN_REPOSITORY$/org/matsim/contrib/dvrp/0.9.0-SNAPSHOT/dvrp-0.9.0-20170508.105945-1027-javadoc.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/matsim/contrib/dvrp/0.9.0-SNAPSHOT/dvrp-0.9.0-20170512.101732-1039-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$MAVEN_REPOSITORY$/org/matsim/contrib/dvrp/0.9.0-SNAPSHOT/dvrp-0.9.0-20170508.105945-1027-sources.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/matsim/contrib/dvrp/0.9.0-SNAPSHOT/dvrp-0.9.0-20170512.101732-1039-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

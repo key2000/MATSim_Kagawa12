@@ -4,6 +4,7 @@ package org.matsim.munichArea.planCreation;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.StreamCorruptedException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -37,7 +38,9 @@ public class CentroidsToLocations {
 
             while ((line = bufferReader.readLine()) != null ) {
                 Location location = CSVtoLocation(line);
-                locationList.add(location);
+                if (location!=null) {
+                    locationList.add(location);
+                }
             }
 
         } catch (IOException e) {
@@ -61,15 +64,20 @@ public class CentroidsToLocations {
         long emp;
         float size;
         String[] splitData = csvLine.split("\\s*,\\s*");
-        //String[] splitData = csvLine.split(",");
-        id = Integer.parseInt(splitData[0]);
-        x =Double.parseDouble(splitData[1]);
-        y =Double.parseDouble(splitData[2]);
-        pop =Long.parseLong(splitData[3]);
-        emp = Long.parseLong(splitData[4]);
-        size = Float.parseFloat(splitData[5]);
-        Location location = new Location(id,x,y, pop,emp, size);
-        return location;
+
+        try {
+            //String[] splitData = csvLine.split(",");
+            id = Integer.parseInt(splitData[0]);
+            x = Double.parseDouble(splitData[1]);
+            y = Double.parseDouble(splitData[2]);
+            pop = Long.parseLong(splitData[3]);
+            emp = Long.parseLong(splitData[4]);
+            size = Float.parseFloat(splitData[5]);
+            Location location = new Location(id, x, y, pop, emp, size);
+            return location;
+        } catch (Exception e){
+            return null;
+        }
     }
 
 
