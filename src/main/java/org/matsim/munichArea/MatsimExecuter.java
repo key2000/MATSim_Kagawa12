@@ -5,18 +5,19 @@ import com.pb.common.util.ResourceUtil;
 import org.matsim.api.core.v01.Id;
 import org.matsim.api.core.v01.population.Population;
 import org.matsim.core.utils.geometry.transformations.TransformationFactory;
-import org.matsim.munichArea.configMatsim.createDemand.MatsimGravityModel;
-import org.matsim.munichArea.configMatsim.createDemand.MatsimPopulationCreator;
+import org.matsim.munichArea.configMatsim.createDemandPt.MatsimGravityModel;
+import org.matsim.munichArea.configMatsim.createDemandPt.MatsimPopulationCreator;
 import org.matsim.munichArea.configMatsim.MatsimRunFromJava;
-import org.matsim.munichArea.configMatsim.createDemand.PtSyntheticTraveller;
-import org.matsim.munichArea.configMatsim.createDemand.ReadZonesServedByTransit;
+import org.matsim.munichArea.configMatsim.createDemandPt.PtSyntheticTraveller;
+import org.matsim.munichArea.configMatsim.createDemandPt.ReadZonesServedByTransit;
 import org.matsim.munichArea.outputCreation.EuclideanDistanceCalculator;
+import org.matsim.munichArea.outputCreation.accessibilityCalculator.Accessibility;
 import org.matsim.munichArea.outputCreation.transitSkim.PtEventHandler;
 import org.matsim.munichArea.outputCreation.transitSkim.TransitSkimPostProcessing;
-import org.matsim.munichArea.planCreation.CentroidsToLocations;
-import org.matsim.munichArea.planCreation.Location;
+import org.matsim.munichArea.configMatsim.planCreation.CentroidsToLocations;
+import org.matsim.munichArea.configMatsim.planCreation.Location;
 import org.matsim.munichArea.outputCreation.TravelTimeMatrix;
-import org.matsim.munichArea.planCreation.ReadSyntheticPopulation;
+import org.matsim.munichArea.configMatsim.planCreation.ReadSyntheticPopulation;
 
 
 import java.io.File;
@@ -160,10 +161,9 @@ public class MatsimExecuter {
                                 TransformationFactory.WGS84, iterations, simulationName,
                                 outputFolder, flowCapacityFactor, storageCapacityFactor, locationList, autoTimeSkims, autoDistSkims, scheduleFile, vehicleFile);
 
-                        if (autoTimeSkims){
-                            autoTravelTime = matsimRunner.getAutoTravelTime();
-                            autoTravelDistance = matsimRunner.getAutoTravelDistance();
-                        }
+                        if (autoTimeSkims) autoTravelTime = matsimRunner.getAutoTravelTime();
+                        if (autoDistSkims) autoTravelDistance = matsimRunner.getAutoTravelDistance();
+
 
 
 
