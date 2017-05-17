@@ -2,9 +2,7 @@ package org.matsim.munichArea.multimodal;
 
 import com.pb.common.util.ResourceUtil;
 import org.matsim.api.core.v01.Scenario;
-import org.matsim.api.core.v01.network.Network;
 import org.matsim.contrib.multimodal.ControlerDefaultsWithMultiModalModule;
-import org.matsim.contrib.multimodal.RunMultimodalExample;
 import org.matsim.contrib.multimodal.config.MultiModalConfigGroup;
 import org.matsim.contrib.multimodal.tools.PrepareMultiModalScenario;
 import org.matsim.core.config.Config;
@@ -13,10 +11,9 @@ import org.matsim.core.config.groups.StrategyConfigGroup;
 import org.matsim.core.controler.Controler;
 import org.matsim.core.controler.OutputDirectoryHierarchy;
 import org.matsim.core.scenario.ScenarioUtils;
-import org.matsim.munichArea.configMatsim.createDemand.MatsimPopulationCreator;
-import org.matsim.munichArea.planCreation.CentroidsToLocations;
-import org.matsim.munichArea.planCreation.Location;
-import org.matsim.munichArea.planCreation.ReadSyntheticPopulation;
+import org.matsim.munichArea.configMatsim.planCreation.CentroidsToLocations;
+import org.matsim.munichArea.configMatsim.planCreation.Location;
+import org.matsim.munichArea.configMatsim.planCreation.ReadSyntheticPopulation;
 
 import java.io.File;
 import java.util.ArrayList;

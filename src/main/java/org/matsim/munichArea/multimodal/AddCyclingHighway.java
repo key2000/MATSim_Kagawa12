@@ -1,5 +1,6 @@
 package org.matsim.munichArea.multimodal;
 
+import com.pb.common.datafile.TableDataSet;
 import org.matsim.api.core.v01.Coord;
 import org.matsim.api.core.v01.Id;
 import org.matsim.api.core.v01.Scenario;
@@ -13,6 +14,7 @@ import org.matsim.core.network.NetworkUtils;
 import org.matsim.core.network.io.MatsimNetworkReader;
 import org.matsim.core.scenario.ScenarioUtils;
 import org.matsim.core.utils.geometry.transformations.TransformationFactory;
+import org.matsim.munichArea.Util;
 import org.matsim.utils.objectattributes.attributable.Attributes;
 
 import java.util.*;
@@ -24,39 +26,55 @@ import static org.matsim.munichArea.MatsimExecuter.rb;
  */
 public class AddCyclingHighway {
     private ResourceBundle rb;
+    TableDataSet cyclingHighway;
+    int[] pointList;
 
     public AddCyclingHighway(ResourceBundle rb) {
         this.rb = rb;
     }
 
     public void addCyclingHighway() {
+
+        cyclingHighway = Util.readCSVfile(rb.getString("cycling.highway.points"));
+        cyclingHighway.buildIndex(1);
+        pointList = cyclingHighway.getColumnAsInt(1);
+
+
         Config config = ConfigUtils.createConfig();
         config.network().setInputFile(rb.getString("old.network.file"));
 
         Scenario scenario = ScenarioUtils.loadScenario(config);
-
-
-
         Network network = scenario.getNetwork();
 
-        //System.out.println(network.getLinks().size());
+        Coord fromCoord = new Coord(cyclingHighway.getIndexedValueAt(1, "x"), cyclingHighway.getIndexedValueAt(1, "y"));
+        Coord toCoord;
+        Node fromNode;
+        Node toNode;
+        Link link;
 
-        Coord fromCoord = new Coord(4470647.527249246, 5343666.593939311);
-        Coord toCoord = new Coord(4473369.175665694, 5344983.813056033);
+        for (int i=2; i< pointList.length - 1; i++) {
 
-       //todo complete the searh for nodes
-        Node fromNode = NetworkUtils.getNearestNode(network, fromCoord);
-        Node toNode = NetworkUtils.getNearestNode(network, toCoord);
+            toCoord = new Coord(cyclingHighway.getIndexedValueAt(i, "x"), cyclingHighway.getIndexedValueAt(i, "y"));
 
+            if (!fromCoord.equals(toCoord)){
+                fromNode = NetworkUtils.getNearestNode(network, fromCoord);
+                toNode = NetworkUtils.getNearestNode(network, toCoord);
+                link = NetworkUtils.createLink(Id.createLinkId("CH1_" + i),
+                        fromNode, toNode, network, NetworkUtils.getEuclideanDistance(fromCoord, toCoord),
+                        10, 500, 1);
+                network.addLink(link);
+                link = NetworkUtils.createLink(Id.createLinkId("CH2_" + i),
+                        toNode, fromNode, network, NetworkUtils.getEuclideanDistance(fromCoord, toCoord),
+                        10, 500, 1);
+                network.addLink(link);
 
-        //System.out.println(fromNode.getId().toString());
+                fromCoord = toCoord;
+            }
 
-        Link link =  NetworkUtils.createLink(Id.createLinkId("a1"), fromNode, toNode, network, 10, 10, 10000, 1);
-        network.addLink(link);
+//            link = NetworkUtils.createLink(Id.createLinkId("a2"), toNode, fromNode, network, 10, 10, 10000, 1);
+//            network.addLink(link);
 
-        link =  NetworkUtils.createLink(Id.createLinkId("a2"), toNode, fromNode, network, 10, 10, 10000, 1);
-        network.addLink(link);
-
+        }
 
         new NetworkWriter(network).write(rb.getString("new.network.file"));
     }
