@@ -1,8 +1,7 @@
-package org.matsim.munichArea.configMatsim.createDemand;
+package org.matsim.munichArea.configMatsim.createDemandPt;
 
-import com.sun.xml.internal.stream.events.LocationImpl;
 import org.matsim.api.core.v01.population.Person;
-import org.matsim.munichArea.planCreation.Location;
+import org.matsim.munichArea.configMatsim.planCreation.Location;
 
 import java.util.HashMap;
 

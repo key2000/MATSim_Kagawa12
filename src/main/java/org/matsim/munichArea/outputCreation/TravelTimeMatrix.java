@@ -3,7 +3,7 @@ package org.matsim.munichArea.outputCreation;
 import com.pb.common.matrix.Matrix;
 import omx.*;
 import omx.hdf5.*;
-import org.matsim.munichArea.planCreation.Location;
+import org.matsim.munichArea.configMatsim.planCreation.Location;
 
 
 import java.util.ArrayList;

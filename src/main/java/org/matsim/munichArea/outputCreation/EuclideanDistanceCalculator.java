@@ -1,8 +1,7 @@
 package org.matsim.munichArea.outputCreation;
 
 import com.pb.common.matrix.Matrix;
-import org.matsim.munichArea.configMatsim.MatsimRunFromJava;
-import org.matsim.munichArea.planCreation.Location;
+import org.matsim.munichArea.configMatsim.planCreation.Location;
 
 import java.util.ArrayList;
 

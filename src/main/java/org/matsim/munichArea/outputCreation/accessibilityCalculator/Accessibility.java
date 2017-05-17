@@ -1,11 +1,11 @@
-package org.matsim.munichArea;
+package org.matsim.munichArea.outputCreation.accessibilityCalculator;
 
 import com.pb.common.matrix.Matrix;
 import omx.OmxFile;
 import omx.OmxMatrix;
 import omx.hdf5.OmxHdf5Datatype;
 import org.matsim.core.utils.io.IOUtils;
-import org.matsim.munichArea.planCreation.Location;
+import org.matsim.munichArea.configMatsim.planCreation.Location;
 
 
 import java.io.BufferedWriter;
@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import static java.lang.System.exit;
-import static org.matsim.munichArea.MatsimExecuter.rb;
 
 /**
  * Created by carlloga on 9/15/2016.

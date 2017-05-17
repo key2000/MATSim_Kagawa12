@@ -1,6 +1,6 @@
-package org.matsim.munichArea.configMatsim.createDemand;
+package org.matsim.munichArea.configMatsim.createDemandPt;
 
-import org.matsim.munichArea.planCreation.Location;
+import org.matsim.munichArea.configMatsim.planCreation.Location;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

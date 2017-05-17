@@ -4,13 +4,8 @@ package org.matsim.munichArea.outputCreation.transitSkim;
 import org.matsim.api.core.v01.Id;
 import org.matsim.api.core.v01.events.*;
 import org.matsim.api.core.v01.events.handler.*;
-import org.matsim.api.core.v01.network.Network;
-import org.matsim.api.core.v01.population.Activity;
-import org.matsim.api.core.v01.population.Person;
-import org.matsim.core.api.internal.HasPersonId;
-import org.matsim.munichArea.configMatsim.createDemand.PtSyntheticTraveller;
+import org.matsim.munichArea.configMatsim.createDemandPt.PtSyntheticTraveller;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**

@@ -1,4 +1,4 @@
-package org.matsim.munichArea.planCreation;
+package org.matsim.munichArea.configMatsim.planCreation;
 
 
 import com.sun.xml.internal.txw2.output.IndentingXMLStreamWriter;

@@ -2,7 +2,7 @@ package org.matsim.munichArea.outputCreation.transitSkim;
 
 import com.pb.common.matrix.Matrix;
 import org.matsim.munichArea.SkimMatrixReader;
-import org.matsim.munichArea.planCreation.Location;
+import org.matsim.munichArea.configMatsim.planCreation.Location;
 
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -48,7 +48,7 @@ public class TransitSkimPostProcessing {
         transfers = skimReader.readSkim(munich.getString("pt.transfer.skim.file") + "SkimsPt.omx", "mat1");
         inVehicle = skimReader.readSkim(munich.getString("pt.in.vehicle.skim.file") + "SkimsPt.omx", "mat1");
         //read the distances
-        autoTravelDistance = skimReader.readSkim(munich.getString("out.skim.auto.dist") + "Test.omx", "mat1");
+        autoTravelDistance = skimReader.readSkim(munich.getString("out.skim.auto.dist.base") + "Test.omx", "mat1");
         //fill in the locations without access by transit
         fillTransitMatrix();
 

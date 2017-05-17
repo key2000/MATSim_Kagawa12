@@ -17,16 +17,12 @@ import org.matsim.core.controler.Controler;
 import org.matsim.core.controler.events.IterationEndsEvent;
 import org.matsim.core.controler.listener.IterationEndsListener;
 import org.matsim.core.network.NetworkUtils;
-import org.matsim.core.network.algorithms.NetworkCleaner;
-import org.matsim.core.router.AStarLandmarks;
 import org.matsim.core.router.Dijkstra;
-import org.matsim.core.router.FastDijkstra;
 import org.matsim.core.router.util.LeastCostPathCalculator;
 import org.matsim.core.router.util.TravelDisutility;
 import org.matsim.core.router.util.TravelTime;
 import org.matsim.munichArea.outputCreation.EuclideanDistanceCalculator;
-import org.matsim.munichArea.planCreation.Location;
-import org.matsim.utils.leastcostpathtree.LeastCostPathTree;
+import org.matsim.munichArea.configMatsim.planCreation.Location;
 import org.matsim.utils.objectattributes.attributable.Attributes;
 import org.matsim.vehicles.Vehicle;
 import org.matsim.vehicles.VehicleType;
@@ -189,7 +185,7 @@ public class Zone2ZoneTravelDistanceListener implements IterationEndsListener {
 
                         //with the next if tense it is possible to limit the distance calculation to certain threshold, over it --> eucl.dist.
                         float euclideanDistance = euclideanDistanceCalculator.getDistanceFrom(originZone, destinationZone);
-                        if (euclideanDistance < 1e6) {
+                        if (euclideanDistance < 5e3) {
 
                             Dijkstra dijkstra = new Dijkstra(network, travelDisutility, travelTime);
                             LeastCostPathCalculator.Path path = dijkstra.calcLeastCostPath(originNode, destinationNode, departureTime, person, vehicle);
@@ -213,9 +209,9 @@ public class Zone2ZoneTravelDistanceListener implements IterationEndsListener {
                         }*/
 
                         } else {
-                            autoTravelDistance.setValueAt(originZone.getId(), destinationZone.getId(), euclideanDistance);
+                            autoTravelDistance.setValueAt(originZone.getId(), destinationZone.getId(), -1);
                             //if only done half matrix need to add next line
-                            autoTravelDistance.setValueAt(destinationZone.getId(), originZone.getId(), euclideanDistance);
+                            autoTravelDistance.setValueAt(destinationZone.getId(), originZone.getId(), -1);
                         }
                     }
 

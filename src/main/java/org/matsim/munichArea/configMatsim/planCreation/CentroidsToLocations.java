@@ -1,14 +1,11 @@
-package org.matsim.munichArea.planCreation;
+package org.matsim.munichArea.configMatsim.planCreation;
 
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.StreamCorruptedException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
-import static org.matsim.munichArea.MatsimExecuter.rb;
 
 /**
  * Created by carlloga on 9/12/2016.

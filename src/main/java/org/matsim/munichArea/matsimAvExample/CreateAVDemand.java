@@ -1,9 +1,9 @@
 package org.matsim.munichArea.matsimAvExample;
 
 import com.pb.common.util.ResourceUtil;
-import org.matsim.munichArea.planCreation.CentroidsToLocations;
-import org.matsim.munichArea.planCreation.Location;
-import org.matsim.munichArea.planCreation.ReadSyntheticPopulation;
+import org.matsim.munichArea.configMatsim.planCreation.CentroidsToLocations;
+import org.matsim.munichArea.configMatsim.planCreation.Location;
+import org.matsim.munichArea.configMatsim.planCreation.ReadSyntheticPopulation;
 
 import java.io.File;
 import java.util.ArrayList;

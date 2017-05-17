@@ -1,4 +1,4 @@
-package org.matsim.munichArea.configMatsim.createDemand;
+package org.matsim.munichArea.configMatsim.createDemandPt;
 
 /**
  * Created by carlloga on 9/14/2016.
@@ -15,8 +15,8 @@ import org.matsim.api.core.v01.population.*;
 import org.matsim.core.config.Config;
 import org.matsim.core.config.ConfigUtils;
 import org.matsim.core.scenario.ScenarioUtils;
-import org.matsim.munichArea.Accessibility;
-import org.matsim.munichArea.planCreation.Location;
+import org.matsim.munichArea.outputCreation.accessibilityCalculator.Accessibility;
+import org.matsim.munichArea.configMatsim.planCreation.Location;
 
 import java.util.*;
 import java.util.Map.Entry;

@@ -1,4 +1,4 @@
-package org.matsim.munichArea.planCreation;
+package org.matsim.munichArea.configMatsim.planCreation;
 
 import com.pb.common.datafile.TableDataSet;
 import com.pb.common.matrix.Matrix;
@@ -143,7 +143,7 @@ public class ReadSyntheticPopulation {
         }
 
         SkimMatrixReader skmReader2 = new SkimMatrixReader();
-        travelDistances = skmReader2.readSkim(rb.getString("out.skim.auto.dist") + "Test.omx", "mat1");
+        travelDistances = skmReader2.readSkim(rb.getString("out.skim.auto.dist.base") + "Test.omx", "mat1");
 
     }
 
