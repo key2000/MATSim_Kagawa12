@@ -1,27 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a15e1a17-0473-40da-a7d8-a5224804c518" name="Default" comment="multimodal: added a tool to create cycling highways">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/Accessibility.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/outputCreation/accessibilityCalculator/Accessibility.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/configMatsim/createDemand/MatsimGravityModel.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/configMatsim/createDemandPt/MatsimGravityModel.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/configMatsim/createDemand/MatsimPopulationCreator.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/configMatsim/createDemandPt/MatsimPopulationCreator.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/configMatsim/createDemand/PtSyntheticTraveller.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/configMatsim/createDemandPt/PtSyntheticTraveller.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/configMatsim/createDemand/ReadZonesServedByTransit.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/configMatsim/createDemandPt/ReadZonesServedByTransit.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/configMatsim/createDemand/TransitDemandForSkim.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/configMatsim/createDemandPt/TransitDemandForSkim.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/planCreation/CentroidsToLocations.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/configMatsim/planCreation/CentroidsToLocations.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/planCreation/CreatePlanXmlStAX.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/configMatsim/planCreation/CreatePlanXmlStAX.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/planCreation/Location.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/configMatsim/planCreation/Location.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/planCreation/ReadSyntheticPopulation.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/configMatsim/planCreation/ReadSyntheticPopulation.java" />
+    <list default="true" id="a15e1a17-0473-40da-a7d8-a5224804c518" name="Default" comment="">
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/matsimAvExample/CreateAVDemand.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/automated/CreateAVDemand.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/matsimAvExample/CreateAVs.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/automated/CreateAVs.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/matsimAvExample/RunAVExample.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/automated/RunAVExample.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/configMatsim/Zone2ZoneTravelDistanceListener.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/configMatsim/Zone2ZoneTravelDistanceListener.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/configMatsim/Zone2ZoneTravelTimeListener.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/configMatsim/Zone2ZoneTravelTimeListener.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/matsimAvExample/CreateAVDemand.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/matsimAvExample/CreateAVDemand.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/outputCreation/EuclideanDistanceCalculator.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/outputCreation/EuclideanDistanceCalculator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/outputCreation/TravelTimeMatrix.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/outputCreation/TravelTimeMatrix.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/outputCreation/accessibilityCalculator/AcessCalculator.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/outputCreation/accessibilityCalculator/AcessCalculator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/outputCreation/transitSkim/ODTripAnalyzer.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/outputCreation/transitSkim/ODTripAnalyzer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/outputCreation/transitSkim/PtEventHandler.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/outputCreation/transitSkim/PtEventHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/outputCreation/transitSkim/TransitSkimPostProcessing.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/outputCreation/transitSkim/TransitSkimPostProcessing.java" />
     </list>
     <ignored path="MATSim.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -1735,7 +1719,7 @@
       <file leaf-file-name="MatsimExecuter.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/matsim/munichArea/MatsimExecuter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="274">
+            <state relative-caret-position="2414">
               <caret line="165" column="0" lean-forward="true" selection-start-line="165" selection-start-column="0" selection-end-line="165" selection-end-column="0" />
               <folding />
             </state>
@@ -2056,18 +2040,6 @@
               <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="test" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="munichArea" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -2092,66 +2064,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="munichArea" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="matsimMunichArea" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="matsimMunichArea" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="munichArea" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="multimodal" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="matsimMunichArea" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="matsimMunichArea" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="munichArea" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="configMatsim" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -2563,7 +2475,7 @@
     </configuration>
     <configuration default="false" name="RunAVExample" type="Application" factoryName="Application">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="org.matsim.munichArea.matsimAvExample.RunAVExample" />
+      <option name="MAIN_CLASS_NAME" value="org.matsim.munichArea.automated.RunAVExample" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="cottbus_robotaxi/config14.xml cottbus_robotaxi/config16.xml cottbus_robotaxi/config18.xml cottbus_robotaxi/config20.xml" />
       <option name="WORKING_DIRECTORY" value="file://C:/models/munich/" />
@@ -2954,7 +2866,14 @@
       <option name="project" value="LOCAL" />
       <updated>1495009417387</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00041" summary="re-structured packages">
+      <created>1495009444786</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1495009444786</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="TodoView">
@@ -3014,7 +2933,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added size of zones, added linkStats" />
     <MESSAGE value="included a first sbahn line" />
     <MESSAGE value="rename package" />
     <MESSAGE value="added pt + auto travel times compatibility&#10;set up TripModeChange strategy ON" />
@@ -3039,7 +2957,8 @@
     <MESSAGE value="multimodal now can read csv with header, first attempt to add manually links" />
     <MESSAGE value="multimodal: added a tool to create cycling highways" />
     <MESSAGE value="fail getautotraveldistance corrected" />
-    <option name="LAST_COMMIT_MESSAGE" value="fail getautotraveldistance corrected" />
+    <MESSAGE value="re-structured packages" />
+    <option name="LAST_COMMIT_MESSAGE" value="re-structured packages" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -3275,7 +3194,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/matsim/munichArea/matsimAvExample/RunAVExample.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/matsim/munichArea/automated/RunAVExample.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="425">
           <caret line="29" column="33" lean-forward="false" selection-start-line="29" selection-start-column="33" selection-end-line="29" selection-end-column="33" />
@@ -3299,7 +3218,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/matsim/munichArea/matsimAvExample/CreateAVDemand.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/matsim/munichArea/automated/CreateAVDemand.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
           <caret line="20" column="55" lean-forward="false" selection-start-line="20" selection-start-column="38" selection-end-line="20" selection-end-column="55" />
@@ -3452,7 +3371,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/matsim/munichArea/MatsimExecuter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="274">
+        <state relative-caret-position="2414">
           <caret line="165" column="0" lean-forward="true" selection-start-line="165" selection-start-column="0" selection-end-line="165" selection-end-column="0" />
           <folding />
         </state>

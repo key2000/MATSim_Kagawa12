@@ -1,7 +1,6 @@
-package org.matsim.munichArea.matsimAvExample;
+package org.matsim.munichArea.automated;
 
 import org.matsim.contrib.av.robotaxi.run.RunRobotaxiExample;
-import org.matsim.contrib.av.robotaxi.vehicles.CreateTaxiVehicles;
 
 /**
  * Created by carlloga on 16.03.2017.

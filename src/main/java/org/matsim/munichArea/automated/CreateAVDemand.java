@@ -1,4 +1,4 @@
-package org.matsim.munichArea.matsimAvExample;
+package org.matsim.munichArea.automated;
 
 import com.pb.common.util.ResourceUtil;
 import org.matsim.munichArea.configMatsim.planCreation.CentroidsToLocations;

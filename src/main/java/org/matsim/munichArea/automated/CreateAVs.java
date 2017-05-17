@@ -1,9 +1,8 @@
-package org.matsim.munichArea.matsimAvExample;
+package org.matsim.munichArea.automated;
 
 import org.matsim.api.core.v01.Id;
 import org.matsim.api.core.v01.Scenario;
 import org.matsim.api.core.v01.network.Link;
-import org.matsim.contrib.av.robotaxi.vehicles.CreateTaxiVehicles;
 import org.matsim.contrib.dvrp.data.Vehicle;
 import org.matsim.contrib.dvrp.data.VehicleImpl;
 import org.matsim.contrib.dvrp.data.file.VehicleWriter;
