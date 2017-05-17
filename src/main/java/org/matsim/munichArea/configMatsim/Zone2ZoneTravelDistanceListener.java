@@ -209,9 +209,9 @@ public class Zone2ZoneTravelDistanceListener implements IterationEndsListener {
                         }*/
 
                         } else {
-                            autoTravelDistance.setValueAt(originZone.getId(), destinationZone.getId(), -1);
+                            autoTravelDistance.setValueAt(originZone.getId(), destinationZone.getId(), euclideanDistance);
                             //if only done half matrix need to add next line
-                            autoTravelDistance.setValueAt(destinationZone.getId(), originZone.getId(), -1);
+                            autoTravelDistance.setValueAt(destinationZone.getId(), originZone.getId(), euclideanDistance);
                         }
                     }
 

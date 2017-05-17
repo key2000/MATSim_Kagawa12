@@ -52,6 +52,8 @@ public class AddCyclingHighway {
         Node toNode;
         Link link;
 
+        float speedFactor = Float.parseFloat(rb.getString("speed.factor"));
+
         for (int i=2; i< pointList.length - 1; i++) {
 
             toCoord = new Coord(cyclingHighway.getIndexedValueAt(i, "x"), cyclingHighway.getIndexedValueAt(i, "y"));
@@ -60,11 +62,11 @@ public class AddCyclingHighway {
                 fromNode = NetworkUtils.getNearestNode(network, fromCoord);
                 toNode = NetworkUtils.getNearestNode(network, toCoord);
                 link = NetworkUtils.createLink(Id.createLinkId("CH1_" + i),
-                        fromNode, toNode, network, NetworkUtils.getEuclideanDistance(fromCoord, toCoord),
+                        fromNode, toNode, network, NetworkUtils.getEuclideanDistance(fromCoord, toCoord)*speedFactor,
                         10, 500, 1);
                 network.addLink(link);
                 link = NetworkUtils.createLink(Id.createLinkId("CH2_" + i),
-                        toNode, fromNode, network, NetworkUtils.getEuclideanDistance(fromCoord, toCoord),
+                        toNode, fromNode, network, NetworkUtils.getEuclideanDistance(fromCoord, toCoord)*speedFactor,
                         10, 500, 1);
                 network.addLink(link);
 

@@ -70,7 +70,7 @@ public class MultiModalMATSim {
             config.controler().setOutputDirectory(rb.getString("out.folder"));
 
 
-
+            config.network().setInputFile(rb.getString("run.network.file"));
 
 
             config.plans().setInputFile(rb.getString("plan.file"));
