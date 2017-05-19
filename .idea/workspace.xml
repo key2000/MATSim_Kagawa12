@@ -2,19 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a15e1a17-0473-40da-a7d8-a5224804c518" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/NetworkCleaner.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/multimodal/CyclingHighwayAnalysis.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/MATSim.iml" afterPath="$PROJECT_DIR$/.idea/MATSim.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_matsim_contrib_av_0_9_0_SNAPSHOT.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_matsim_contrib_av_0_9_0_SNAPSHOT.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_matsim_contrib_dvrp_0_9_0_SNAPSHOT.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_matsim_contrib_dvrp_0_9_0_SNAPSHOT.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_matsim_contrib_locationchoice_0_9_0_SNAPSHOT.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_matsim_contrib_locationchoice_0_9_0_SNAPSHOT.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_matsim_contrib_networkEditor_0_9_0_SNAPSHOT.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_matsim_contrib_networkEditor_0_9_0_SNAPSHOT.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_matsim_contrib_otfvis_0_9_0_SNAPSHOT.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_matsim_contrib_otfvis_0_9_0_SNAPSHOT.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_matsim_contrib_taxi_0_9_0_SNAPSHOT.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_matsim_contrib_taxi_0_9_0_SNAPSHOT.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_matsim_matsim_0_9_0_SNAPSHOT.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_matsim_matsim_0_9_0_SNAPSHOT.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_matsim_contrib_matrixbasedptrouter_0_9_0_SNAPSHOT.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/MatsimExecuter.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/MatsimExecuter.java" />
     </list>
     <ignored path="MATSim.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -2873,7 +2862,14 @@
       <option name="project" value="LOCAL" />
       <updated>1495018731321</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="add a netowrk cleaner class&#10;improve properties to run multiple scaling scenarios&#10;add matrixbasedptrouter extension">
+      <created>1495190968200</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1495190968200</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="TodoView">
@@ -2932,7 +2928,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added pt + auto travel times compatibility&#10;set up TripModeChange strategy ON" />
     <MESSAGE value="basic implementation of event handler to obtain skims for transit by sending agents&#10;includes demand generation for a subset of zones in which a transit stop exists" />
     <MESSAGE value="store skim matrix for pt in omx - now door2door time" />
     <MESSAGE value="added a method to store point2point distances in an omx matrix" />
@@ -2957,7 +2952,8 @@
     <MESSAGE value="re-structured packages" />
     <MESSAGE value="rename package for AVs" />
     <MESSAGE value="refinement of multimodal example class" />
-    <option name="LAST_COMMIT_MESSAGE" value="refinement of multimodal example class" />
+    <MESSAGE value="add a netowrk cleaner class&#10;improve properties to run multiple scaling scenarios&#10;add matrixbasedptrouter extension" />
+    <option name="LAST_COMMIT_MESSAGE" value="add a netowrk cleaner class&#10;improve properties to run multiple scaling scenarios&#10;add matrixbasedptrouter extension" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -3284,6 +3280,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
           <caret line="5" column="35" lean-forward="false" selection-start-line="5" selection-start-column="35" selection-end-line="5" selection-end-column="35" />
+          <folding />
         </state>
       </provider>
     </entry>
