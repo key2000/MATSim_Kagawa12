@@ -96,7 +96,7 @@ public class MatsimExecuter {
             for (int iterations : lastIterationVector) //loop iteration vector
                 for (double tripScalingFactor : tripScalingFactorVector) {  //loop trip Scaling
 
-                    //TODO CHECK CF and SF
+
                     double flowCapacityExponent = Double.parseDouble(rb.getString("cf.exp"));
                     double stroageFactorExponent = Double.parseDouble(rb.getString("sf.exp"));
 
