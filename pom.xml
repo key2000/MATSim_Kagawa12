@@ -5,6 +5,7 @@
 	<groupId>com.github.cllorca1</groupId>
 	<artifactId>matsimMunichArea</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 
 	<name>MATSim example project</name>
 	<description>MATSim example project</description>
