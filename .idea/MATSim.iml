@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8" inherit-compiler-output="false">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
     <content url="file://$MODULE_DIR$">
@@ -469,6 +469,7 @@
     <orderEntry type="library" name="Maven: commons-lang:commons-lang:2.6" level="project" />
     <orderEntry type="library" name="Maven: org.matsim.contrib:multimodal:0.9.0-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.matsim.contrib:networkEditor:0.9.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.matsim.contrib:matrixbasedptrouter:0.9.0-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: com.google.maps:google-maps-services:0.1.15" level="project" />
     <orderEntry type="library" name="Maven: com.squareup.okhttp:okhttp:2.7.5" level="project" />
     <orderEntry type="library" name="Maven: com.squareup.okio:okio:1.6.0" level="project" />

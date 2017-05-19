@@ -54,7 +54,7 @@ public class MatsimExecuter {
         int year = Integer.parseInt(rb.getString("simulation.year"));
         int hourOfDay = Integer.parseInt(rb.getString("hour.of.day"));
 
-        boolean useSp = ResourceUtil.getBooleanProperty(rb, "use.sp.av");
+        boolean useSp = ResourceUtil.getBooleanProperty(rb, "use.sp");
 
         //create network from OSM file
         if (createNetwork) CreateNetwork.createNetwork();
@@ -97,9 +97,13 @@ public class MatsimExecuter {
                 for (double tripScalingFactor : tripScalingFactorVector) {  //loop trip Scaling
 
                     //TODO CHECK CF and SF
-                    double flowCapacityFactor =  Math.pow(tripScalingFactor,1);
+                    double flowCapacityExponent = Double.parseDouble(rb.getString("cf.exp"));
+                    double stroageFactorExponent = Double.parseDouble(rb.getString("sf.exp"));
+
+
+                    double flowCapacityFactor =  Math.pow(tripScalingFactor,flowCapacityExponent);
                     System.out.println("Starting MATSim simulation. Sampling factor = " + tripScalingFactor);
-                    double storageCapacityFactor = Math.pow(tripScalingFactor,.75);
+                    double storageCapacityFactor = Math.pow(tripScalingFactor,stroageFactorExponent);
 
                     //update simulation name
                     String singleRunName = String.format("TF%.2fCF%.2fSF%.2fIT%d", tripScalingFactor, flowCapacityFactor, storageCapacityFactor, iterations) + simulationName;
