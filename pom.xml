@@ -99,6 +99,12 @@
 			<version>0.0.3</version>
 		</dependency>
 
+		<dependency>
+			<groupId>omx</groupId>
+			<artifactId>omx</artifactId>
+			<version>2</version>
+		</dependency>
+
 
 	</dependencies>
 
