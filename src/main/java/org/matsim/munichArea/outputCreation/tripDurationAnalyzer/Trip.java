@@ -1,6 +1,9 @@
 package org.matsim.munichArea.outputCreation.tripDurationAnalyzer;
 
 import org.matsim.api.core.v01.Id;
+import org.matsim.api.core.v01.network.Link;
+
+import java.util.ArrayList;
 
 /**
  * Created by carlloga on 17.03.2017.
@@ -15,6 +18,7 @@ public class Trip {
     private boolean atWorkPlace;
     private boolean atOther;
     private char purpose;
+    private ArrayList<Id<Link>> listOfLinks;
 
 
     public Trip(Id id) {
@@ -22,6 +26,7 @@ public class Trip {
         atWorkPlace = false;
         atHome = true;
         atOther = false;
+        listOfLinks = new ArrayList<>();
     }
 
     public String getMode() {
@@ -91,5 +96,13 @@ public class Trip {
 
     public void setAtOther(boolean atOther) {
         this.atOther = atOther;
+    }
+
+    public ArrayList<Id<Link>> getListOfLinks() {
+        return listOfLinks;
+    }
+
+    public void addLinkToList(Id id) {
+        this.listOfLinks.add(id);
     }
 }

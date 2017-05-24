@@ -3,6 +3,9 @@ package org.matsim.munichArea.outputCreation.tripDurationAnalyzer;
 import org.matsim.api.core.v01.Id;
 import org.matsim.api.core.v01.events.*;
 import org.matsim.api.core.v01.events.handler.*;
+import org.matsim.api.core.v01.network.Link;
+import org.matsim.core.network.NetworkUtils;
+import sun.nio.ch.Net;
 
 import java.util.Map;
 
@@ -11,7 +14,8 @@ import java.util.Map;
  */
 
 public class ActivityStartEndHandler implements ActivityEndEventHandler,
-        ActivityStartEventHandler, PersonDepartureEventHandler, PersonArrivalEventHandler, PersonEntersVehicleEventHandler {
+        ActivityStartEventHandler, PersonDepartureEventHandler, PersonArrivalEventHandler, PersonEntersVehicleEventHandler, LinkEnterEventHandler {
+
 
 
 
@@ -102,6 +106,17 @@ public class ActivityStartEndHandler implements ActivityEndEventHandler,
         }catch (Exception e){
 
         }
+
+    }
+
+    @Override
+    public void handleEvent (LinkEnterEvent event){
+
+        //todo assumes that person id and vehicle id is the same !!!!!
+        try {
+            Trip t = tripMap.get(event.getVehicleId());
+            t.addLinkToList(event.getLinkId());
+        } catch (Exception e){}
 
     }
 

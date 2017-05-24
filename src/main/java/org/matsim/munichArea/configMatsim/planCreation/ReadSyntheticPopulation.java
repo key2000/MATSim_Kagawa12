@@ -395,7 +395,8 @@ public class ReadSyntheticPopulation {
             float distanceDiff = Math.abs(travelDistances.getValueAt(origin, i+1) - travelDistance);
             //System.out.println(distanceDiff);
             alternatives[i] = i + 1;
-            probabilities[i] = distanceDiff>0 ? 1 / distanceDiff : 1;
+            //TODO re-calibrate this parameter to get the most appropriate distance distribution
+            probabilities[i] = distanceDiff > 0 ? 1 / distanceDiff / distanceDiff : 1;
         }
 
         //selects a random destination of travelDistance +- 1 km
@@ -533,11 +534,6 @@ public class ReadSyntheticPopulation {
 //                matsimPlan.addLeg(matsimPopulationFactory.createLeg(TransportMode.walk));
                 //matsimPlan.addLeg(matsimPopulationFactory.createLeg(TransportMode.pt));
             }
-
-
-
-
-
 
             h2wTripCount++;
             //}
