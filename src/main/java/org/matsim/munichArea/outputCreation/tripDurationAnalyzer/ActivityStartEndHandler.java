@@ -114,8 +114,11 @@ public class ActivityStartEndHandler implements ActivityEndEventHandler,
 
         //todo assumes that person id and vehicle id is the same !!!!!
         try {
+
             Trip t = tripMap.get(event.getVehicleId());
-            t.addLinkToList(event.getLinkId());
+            if (t.isAtHome()){
+                t.addLinkToList(event.getLinkId());
+            }
         } catch (Exception e){}
 
     }
