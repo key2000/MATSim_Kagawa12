@@ -13,9 +13,9 @@ import org.matsim.core.scenario.ScenarioUtils;
 public class MatsimRunFromFile {
 
 
-    public static void matsimRunFromFile() {
+    public static void main(String[] args) {
 
-        String configFileName = "trips-config.xml";
+        String configFileName = args[0];
         Config config = ConfigUtils.loadConfig(configFileName);
 
         //modify configuration parameters
