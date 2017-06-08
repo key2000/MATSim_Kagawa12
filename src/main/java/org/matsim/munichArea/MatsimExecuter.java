@@ -211,7 +211,8 @@ public class MatsimExecuter {
 
 
                     if (autoTimeSkims) {
-                        String omxFileName = rb.getString("out.skim.auto.time") + simulationName + ".omx";
+//                        String omxFileName = rb.getString("out.skim.auto.time") + simulationName + ".omx";
+                        String omxFileName = rb.getString("out.skim.auto.time") + singleRunName + ".omx";
                         TravelTimeMatrix.createOmxSkimMatrix(autoTravelTime, locationList, omxFileName, "mat1");
 
                     }
