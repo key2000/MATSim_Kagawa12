@@ -52,6 +52,7 @@ public class NetworkCleaner {
 		 */
         Config config = ConfigUtils.createConfig();
         config.network().setInputFile("./input/FFB.xml.gz");
+//        config.network().setInputFile("./cottbus_robotaxi/FFBLight.xml");
 
         Scenario scenario = ScenarioUtils.loadScenario(config);
         Network network = scenario.getNetwork();
@@ -60,6 +61,7 @@ public class NetworkCleaner {
         new org.matsim.core.network.algorithms.NetworkCleaner().run(network);
 
         new NetworkWriter(network).write("./input/FFBClean.xml.gz");
+        //new NetworkWriter(network).write("./cottbus_robotaxi/FFBLightClean.xml");
 
         System.out.println("MATSIM network created");
 

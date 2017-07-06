@@ -11,8 +11,8 @@ public class RunAVExample {
 
         //manually edit as needed
 
-//        CreateAVDemand createAVDemand = new CreateAVDemand();
-//        createAVDemand.createAVDemand(0.05F, 0, "./cottbus_robotaxi/plans0.xml");
+//          CreateAVDemand createAVDemand = new CreateAVDemand();
+//          createAVDemand.createAVDemand(0.001F, 1, "./cottbus_robotaxi/plansOneTaxi.xml");
 //        createAVDemand.createAVDemand(0.05F, 0.1F, "./cottbus_robotaxi/plans1.xml");
 //        createAVDemand.createAVDemand(0.05F, 0.2F, "./cottbus_robotaxi/plans2.xml");
 //        createAVDemand.createAVDemand(0.05F, 0.3F, "./cottbus_robotaxi/plans3.xml");
