@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="a15e1a17-0473-40da-a7d8-a5224804c518" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/NetworkCleaner.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/NetworkCleaner.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/automated/RunAVExample.java" afterPath="$PROJECT_DIR$/src/main/java/org/matsim/munichArea/automated/RunAVExample.java" />
     </list>
     <ignored path="MATSim.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -2791,13 +2789,6 @@
       <option name="presentableId" value="Default" />
       <updated>1473665247616</updated>
     </task>
-    <task id="LOCAL-00006" summary="matrix to store travel times when creating omx files">
-      <created>1474375410734</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1474375410734</updated>
-    </task>
     <task id="LOCAL-00007" summary="matrix to store travel times when creating omx files">
       <created>1474375613343</created>
       <option name="number" value="00007" />
@@ -3134,7 +3125,14 @@
       <option name="project" value="LOCAL" />
       <updated>1496911793172</updated>
     </task>
-    <option name="localTasksCounter" value="55" />
+    <task id="LOCAL-00055" summary="backup commit">
+      <created>1499353223699</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1499353223700</updated>
+    </task>
+    <option name="localTasksCounter" value="56" />
     <servers />
   </component>
   <component name="TodoView">
@@ -3226,7 +3224,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="additional features for AV taxi simple simulation" />
     <MESSAGE value="added accessibility calculator application" />
     <MESSAGE value="improved event handler to account for travel time" />
     <MESSAGE value="eventAnalyzer fileNames as args" />
@@ -3251,7 +3248,8 @@
     <MESSAGE value="children don't travel + roundtrips not counted in event analyzer" />
     <MESSAGE value="java from file class" />
     <MESSAGE value="minor change in omx filename" />
-    <option name="LAST_COMMIT_MESSAGE" value="minor change in omx filename" />
+    <MESSAGE value="backup commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="backup commit" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
