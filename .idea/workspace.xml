@@ -2547,13 +2547,6 @@
       <option name="presentableId" value="Default" />
       <updated>1473665247616</updated>
     </task>
-    <task id="LOCAL-00008" summary="matrix times when creating omx files&#10;create artificial plans">
-      <created>1474453440535</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1474453440535</updated>
-    </task>
     <task id="LOCAL-00009" summary="added visualization in OTFVis">
       <created>1474552057824</created>
       <option name="number" value="00009" />
@@ -2890,7 +2883,14 @@
       <option name="project" value="LOCAL" />
       <updated>1502361866376</updated>
     </task>
-    <option name="localTasksCounter" value="57" />
+    <task id="LOCAL-00057" summary="backup commit">
+      <created>1502361877920</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1502361877920</updated>
+    </task>
+    <option name="localTasksCounter" value="58" />
     <servers />
   </component>
   <component name="TodoView">
