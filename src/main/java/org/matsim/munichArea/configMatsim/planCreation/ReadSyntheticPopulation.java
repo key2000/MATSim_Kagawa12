@@ -351,6 +351,7 @@ public class ReadSyntheticPopulation {
 //        utilities[1] = Math.exp(-51.896 + 89.47667 * Math.exp(-0.2 * travelDistance / 1000));
 //        utilities[2] = Math.exp(-6.03105 - 18.3921 * Math.exp(-0.07 * travelDistance / 1000));
 //        utilities[3] = Math.exp(-1.30203 - 22.8496 * Math.exp(-0.05 * travelDistance / 1000));
+        //why not to use travel time by mode? kii 2017.08.11
 
 
         utilities[0] = Math.exp(b_auto + alpha_auto* Math.exp(beta_auto* travelDistance / 1000));
