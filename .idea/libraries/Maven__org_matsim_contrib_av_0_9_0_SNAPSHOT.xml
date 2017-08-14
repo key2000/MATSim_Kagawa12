@@ -1,13 +1,13 @@
 <component name="libraryTable">
   <library name="Maven: org.matsim.contrib:av:0.9.0-SNAPSHOT">
     <CLASSES>
-      <root url="jar://$MAVEN_REPOSITORY$/org/matsim/contrib/av/0.9.0-SNAPSHOT/av-0.9.0-20170518.221721-703.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/matsim/contrib/av/0.9.0-SNAPSHOT/av-0.9.0-20170522.155704-710.jar!/" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$MAVEN_REPOSITORY$/org/matsim/contrib/av/0.9.0-SNAPSHOT/av-0.9.0-20170518.221721-703-javadoc.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/matsim/contrib/av/0.9.0-SNAPSHOT/av-0.9.0-20170522.155704-710-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$MAVEN_REPOSITORY$/org/matsim/contrib/av/0.9.0-SNAPSHOT/av-0.9.0-20170518.221721-703-sources.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/matsim/contrib/av/0.9.0-SNAPSHOT/av-0.9.0-20170522.155704-710-sources.jar!/" />
     </SOURCES>
   </library>
 </component>
