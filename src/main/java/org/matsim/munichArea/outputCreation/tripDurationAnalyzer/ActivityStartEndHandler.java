@@ -7,6 +7,7 @@ import org.matsim.api.core.v01.network.Link;
 import org.matsim.core.network.NetworkUtils;
 import sun.nio.ch.Net;
 
+import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -37,6 +38,7 @@ public class ActivityStartEndHandler implements ActivityEndEventHandler,
     @Override
     public void handleEvent(ActivityEndEvent event) {
         //detects end of activity home
+        //fails at the second activity we are collecting
         if (event.getActType().equals("home")){
             Trip t = new Trip(event.getPersonId());
             tripMap.put(event.getPersonId(), t);
@@ -48,6 +50,7 @@ public class ActivityStartEndHandler implements ActivityEndEventHandler,
         //detects the event of departing from home and assigns departure time and mode
         try {
         Trip t = tripMap.get(event.getPersonId());
+
         //only if not yet at work
         if (t.isAtHome()) {
             t.setDepartureTime(event.getTime());

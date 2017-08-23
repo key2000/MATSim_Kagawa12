@@ -1,13 +1,13 @@
 <component name="libraryTable">
   <library name="Maven: org.matsim.contrib:taxi:0.9.0-SNAPSHOT">
     <CLASSES>
-      <root url="jar://$MAVEN_REPOSITORY$/org/matsim/contrib/taxi/0.9.0-SNAPSHOT/taxi-0.9.0-20170518.221721-1059.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/matsim/contrib/taxi/0.9.0-SNAPSHOT/taxi-0.9.0-20170522.155704-1066.jar!/" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$MAVEN_REPOSITORY$/org/matsim/contrib/taxi/0.9.0-SNAPSHOT/taxi-0.9.0-20170518.221721-1059-javadoc.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/matsim/contrib/taxi/0.9.0-SNAPSHOT/taxi-0.9.0-20170522.155704-1066-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$MAVEN_REPOSITORY$/org/matsim/contrib/taxi/0.9.0-SNAPSHOT/taxi-0.9.0-20170518.221721-1059-sources.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/matsim/contrib/taxi/0.9.0-SNAPSHOT/taxi-0.9.0-20170522.155704-1066-sources.jar!/" />
     </SOURCES>
   </library>
 </component>
