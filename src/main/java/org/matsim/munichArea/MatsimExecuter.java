@@ -152,6 +152,9 @@ public class MatsimExecuter {
                             matsimPopulationCreator.createMatsimPopulation(locationList, 2013, true, tripScalingFactor);
                             matsimPopulation= matsimPopulationCreator.getMatsimPopulation();
                             if (ptSkimsFromEvents) {
+
+
+
                                 matsimPopulationCreator.createSyntheticPtPopulation(servedZoneList, shortServedZoneList);
                                 ptSyntheticTravellerMap = matsimPopulationCreator.getPtSyntheticTravellerMap();
                             }

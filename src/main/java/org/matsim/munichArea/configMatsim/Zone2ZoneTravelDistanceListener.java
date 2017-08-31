@@ -21,6 +21,7 @@ import org.matsim.core.router.Dijkstra;
 import org.matsim.core.router.util.LeastCostPathCalculator;
 import org.matsim.core.router.util.TravelDisutility;
 import org.matsim.core.router.util.TravelTime;
+import org.matsim.munichArea.NetworkCleaner2;
 import org.matsim.munichArea.outputCreation.EuclideanDistanceCalculator;
 import org.matsim.munichArea.configMatsim.planCreation.Location;
 import org.matsim.utils.objectattributes.attributable.Attributes;
@@ -88,9 +89,9 @@ public class Zone2ZoneTravelDistanceListener implements IterationEndsListener {
             //TODO re-clean the network will remove all pt links and will make possible getting auto travel times
             //NetworkCleaner networkCleaner = new NetworkCleaner();
             //networkCleaner.run(network);
+            new NetworkCleaner2().run(network);
 
-
-            ;
+            //;
 
 
             for (Location loc : locationList) {
