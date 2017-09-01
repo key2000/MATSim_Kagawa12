@@ -147,6 +147,8 @@ public class MatsimRunFromJava {
         MutableScenario scenario = (MutableScenario) ScenarioUtils.loadScenario(config);
 //        		PopulationReader populationReader = new PopulationReaderMatsimV5(scenario);
 //        		populationReader.readFile("./input/population_2013.xml");
+
+
         scenario.setPopulation(population);
 
         // Initialize controller

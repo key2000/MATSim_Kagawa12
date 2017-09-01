@@ -25,7 +25,8 @@ import org.matsim.core.router.util.TravelTime;
 import org.matsim.munichArea.configMatsim.planCreation.Location;
 import org.matsim.utils.leastcostpathtree.LeastCostPathTree;
 import org.matsim.vehicles.Vehicle;
-
+import org.matsim.munichArea.NetworkCleaner;
+import org.matsim.munichArea.NetworkCleaner2;
 
 /**
  * @author dziemke
@@ -83,6 +84,7 @@ public class Zone2ZoneTravelTimeListener implements IterationEndsListener {
             //TODO re-clean the network will remove all pt links and will make possible getting auto travel times
             //NetworkCleaner networkCleaner = new NetworkCleaner();
             //networkCleaner.run(network);
+            new NetworkCleaner2().run(network);
 
             for (Location loc : locationList) {
                 Coord originCoord = new Coord(loc.getX(), loc.getY());
