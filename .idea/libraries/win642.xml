@@ -1,9 +1,9 @@
 <component name="libraryTable">
-  <library name="win641">
+  <library name="win642">
     <CLASSES />
     <JAVADOC />
     <NATIVE>
-      <root url="file://$PROJECT_DIR$/../../lib/jhdf/win64" />
+      <root url="file://$PROJECT_DIR$/../../../lib/jhdf/win64" />
     </NATIVE>
     <SOURCES />
   </library>
