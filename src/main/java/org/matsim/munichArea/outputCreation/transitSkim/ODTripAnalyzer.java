@@ -47,6 +47,12 @@ public class ODTripAnalyzer implements ActivityEndEventHandler, ActivityStartEve
         try {
             PtSyntheticTraveller ptSyntheticTraveller = ptSyntheticTravellerMap.get(event.getPersonId());
             ptSyntheticTraveller.alights(event.getTime());
+
+            //person does not leave the vehicle, then this event does not happen.
+            if(ptSyntheticTraveller.getAlightingMap().get(ptSyntheticTraveller.getAlightingMap().keySet().size()-1)==null) {
+                System.out.println("alights event size is zero");
+            }
+
         } catch (Exception e) {}
     }
 

@@ -47,9 +47,20 @@ public class PtEventHandler {
         System.out.println("Number of PT synthetic trips: " + ptSyntheticTravellerMap.size());
         for (PtSyntheticTraveller ptst : ptSyntheticTravellerMap.values()){
 
-            //System.out.println(ptst.getOrigLoc().getId() + "-" + tt);
+            //<System.out.println(ptst.getOrigLoc().getId() + "-" + tt);
 
-            if(!ptst.getBoardingMap().isEmpty()) {
+            //if(!ptst.getBoardingMap().isEmpty()) {
+            //this is not essential solution, but just avoid the empty alighting travel
+            if((!ptst.getBoardingMap().isEmpty()) && (!ptst.getAlightingMap().isEmpty())) {
+
+                //a person on board does not alight the vehicle, then end time comes to be null
+                //i do not know why this happens
+
+/*
+                if(ptst.getAlightingMap().get(ptst.getAlightingMap().keySet().size() - 1) == null) {
+                    System.out.println("null pointer exception 01");
+                }
+*/
 
                 double end = ptst.getAlightingMap().get(ptst.getAlightingMap().keySet().size() - 1);
 
