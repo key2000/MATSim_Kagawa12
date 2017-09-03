@@ -74,7 +74,13 @@ public class TransitSkimPostProcessing {
         omxPtFileName = munich.getString("pt.in.vehicle.skim.file") + simulationName + ".omx";
         inVehicle = skimReader.readSkim(omxPtFileName , "mat1");
         //read the distances
-        autoTravelDistance = skimReader.readSkim(munich.getString("out.skim.auto.dist.base") + "Test.omx", "mat1");
+
+        String omxFileName = munich.getString("out.skim.auto.dist.base");
+        autoTravelDistance = skimReader.readSkim(omxFileName, "mat1");
+/*
+        String omxFileName = munich.getString("out.skim.auto.dist") + simulationName + ".omx";
+        autoTravelDistance = skimReader.readSkim(omxFileName, "mat1");
+*/
 
 
 
