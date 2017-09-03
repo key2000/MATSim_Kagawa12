@@ -250,7 +250,8 @@ public class MatsimExecuter {
         if (Boolean.parseBoolean(rb.getString("skim.postprocess"))){
 
             TransitSkimPostProcessing postProcess = new TransitSkimPostProcessing(rb, locationList, servedZoneList);
-            postProcess.postProcessTransitSkims();
+//            postProcess.postProcessTransitSkims();
+            postProcess.postProcessTransitSkims(simulationName);
 
             Matrix completeTotalPtTime = postProcess.getTotalTimeCompleteMatrix();
             Matrix completeInTransitTotalPtTime = postProcess.getInTransitCompleteMatrix();

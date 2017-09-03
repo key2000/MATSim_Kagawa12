@@ -389,20 +389,6 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="Maven: org.geotools:gt-main:14.0" level="project" />
-    <orderEntry type="library" name="Maven: org.geotools:gt-api:14.0" level="project" />
-    <orderEntry type="library" name="Maven: org.geotools:gt-referencing:14.0" level="project" />
-    <orderEntry type="library" name="Maven: com.googlecode.efficient-java-matrix-library:core:0.26" level="project" />
-    <orderEntry type="library" name="Maven: org.geotools:gt-metadata:14.0" level="project" />
-    <orderEntry type="library" name="Maven: org.geotools:gt-opengis:14.0" level="project" />
-    <orderEntry type="library" name="Maven: net.sf.geographiclib:GeographicLib-Java:1.44" level="project" />
-    <orderEntry type="library" name="Maven: org.geotools:gt-shapefile:14.0" level="project" />
-    <orderEntry type="library" name="Maven: org.geotools:gt-data:14.0" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: org.geotools:gt-epsg-hsql:14.0" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: org.hsqldb:hsqldb:2.3.0" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.commons:commons-math3:3.6.1" level="project" />
-    <orderEntry type="library" name="Maven: org.matsim.contrib:multimodal:0.9.0-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="win641" level="project" />
     <orderEntry type="library" name="Maven: org.matsim:matsim:0.9.0-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: log4j:log4j:1.2.15" level="project" />
     <orderEntry type="library" name="Maven: kml:kml:2.2.0" level="project" />

@@ -37,7 +37,7 @@ public class TransitSkimPostProcessing {
         this.servedZoneList = servedZoneList;
 
     }
-
+/*
     public void postProcessTransitSkims() {
         SkimMatrixReader skimReader = new SkimMatrixReader();
         //read original matrices
@@ -49,10 +49,41 @@ public class TransitSkimPostProcessing {
         inVehicle = skimReader.readSkim(munich.getString("pt.in.vehicle.skim.file") + "SkimsPt.omx", "mat1");
         //read the distances
         autoTravelDistance = skimReader.readSkim(munich.getString("out.skim.auto.dist.base") + "Test.omx", "mat1");
+
+        String omxPtFileName = rb.getString("pt.total.skim.file") + simulationName + ".omx";
+
+
+        //fill in the locations without access by transit
+        fillTransitMatrix();
+
+    }*/
+
+    public void postProcessTransitSkims(String simulationName) {
+        SkimMatrixReader skimReader = new SkimMatrixReader();
+        //read original matrices
+        String omxPtFileName = munich.getString("pt.in.skim.file") + simulationName + ".omx";
+        inTransit = skimReader.readSkim(omxPtFileName, "mat1");
+        omxPtFileName = munich.getString("pt.total.skim.file") + simulationName + ".omx";
+        totalTime = skimReader.readSkim(omxPtFileName, "mat1");
+        omxPtFileName = munich.getString("pt.access.skim.file") + simulationName + ".omx";
+        accessTime = skimReader.readSkim(omxPtFileName, "mat1");
+        omxPtFileName = munich.getString("pt.egress.skim.file") + simulationName + ".omx";
+        egressTime = skimReader.readSkim(omxPtFileName, "mat1");
+        omxPtFileName = munich.getString("pt.transfer.skim.file") + simulationName + ".omx";
+        transfers = skimReader.readSkim(omxPtFileName , "mat1");
+        omxPtFileName = munich.getString("pt.in.vehicle.skim.file") + simulationName + ".omx";
+        inVehicle = skimReader.readSkim(omxPtFileName , "mat1");
+        //read the distances
+        autoTravelDistance = skimReader.readSkim(munich.getString("out.skim.auto.dist.base") + "Test.omx", "mat1");
+
+
+
         //fill in the locations without access by transit
         fillTransitMatrix();
 
     }
+
+
 
     public void fillTransitMatrix() {
 
