@@ -107,10 +107,27 @@ public class PtSyntheticTraveller {
     }
 
     public double getInVehicleTime() {
-        int size = boardingMap.size();
+        int size_b = boardingMap.size();
+        int size_a = alightingMap.size();
+        int size = Math.min(size_b,size_a);
         double vehicleInTime = 0;
         for (int i =0; i< size; i++){
             vehicleInTime += alightingMap.get(i) - boardingMap.get(i);
+
+/*
+            try {
+                vehicleInTime += alightingMap.get(i) - boardingMap.get(i);
+            } catch (Exception e) {
+
+                if((!alightingMap.get(i).isNaN()))
+                throw new RuntimeException(e);
+            }
+*/
+/*
+            if((!alightingMap.get(i).isNaN()) && (!alightingMap.get(i).isInfinite()) && (!boardingMap.get(i).isNaN()) && (!boardingMap.get(i).isInfinite()) ) {
+                vehicleInTime += alightingMap.get(i) - boardingMap.get(i);
+            }
+*/
         }
         return vehicleInTime;
     }
