@@ -1,5 +1,4 @@
-package org.matsim.kagawaArea;
-
+package org.matsim.munichArea.outputCreation.otfvis4pt;
 /**
  * Created by key on 2017/07/03.
  */
@@ -18,9 +17,9 @@ import org.matsim.vis.otfvis.OTFVisConfigGroup;
 
 public class otfvis_test02 {
     public static void main(String[] args) {
-       OTFVisTest01();
+//       OTFVisTest01();
 //        OTFVisTest02();
-//        OTFVisTest03();
+        OTFVisTest03();
 
 //        visExample(args[0]);
     }
@@ -35,8 +34,9 @@ public class otfvis_test02 {
 //        org.matsim.contrib.otfvis.OTFVis.main(new String[] {"-convert", "./output/ITERS/it.10/10.events.xml.gz", "./output/output_network.xml.gz", "./output/MVI/10.visualization.mvi", "600"});
 //        org.matsim.contrib.otfvis.OTFVis.main(new String[] {"-convert", "./output/ITERS/it.10/10.events.xml.gz", "./output/output_network.xml.gz", "./output/MVI/10.visualization.mvi", "10"});
 //        OTFVis.main(new String[] {"-convert", "./output/output_events.xml.gz", "./output/output_network.xml.gz", "./output/MVI/event.visualization.mvi", "10"});
+        OTFVis.main(new String[] {"-convert", "./output/TF0.90CF0.90SF0.90IT50test1/test1_2010.output_events.xml.gz", "./output/TF0.90CF0.90SF0.90IT50test1/test1_2010.output_network.xml.gz", "./output/TF0.90CF0.90SF0.90IT50test1/MVI/event.visualization.mvi", "10"});
 //        OTFVis.main(new String[] {"./input/studyNetworkLight.xml"});
-        OTFVis.main(new String[] {"./input/KagawaNetworkDense.xml"});
+//        OTFVis.main(new String[] {"./input/KagawaNetworkDense.xml"});
 
 
         //        OTFVis("-convert", "./output/ITERS/it.10/10.events.xml.gz", "./output/output_network.xml.gz", "./output/MVI/10.visualization.mvi", "600");
@@ -51,7 +51,7 @@ public class otfvis_test02 {
 
     public static void OTFVisTest03() {
 //        org.matsim.contrib.otfvis.OTFVis.main(new String[] {"./output/MVI/10.visualization.mvi"});
-        org.matsim.contrib.otfvis.OTFVis.main(new String[] {"./output/MVI/event.visualization.mvi"});
+        org.matsim.contrib.otfvis.OTFVis.main(new String[] {"./output/TF0.90CF0.90SF0.90IT50test1/MVI/event.visualization.mvi"});
     }
 
 
