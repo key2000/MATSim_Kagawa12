@@ -187,8 +187,8 @@ public class Zone2ZoneTravelDistanceListener implements IterationEndsListener {
                         //with the next if tense it is possible to limit the distance calculation to certain threshold, over it --> eucl.dist.
                         float euclideanDistance = euclideanDistanceCalculator.getDistanceFrom(originZone, destinationZone);
                         //todo: change the threshold @170908
-//                        if (euclideanDistance < 5e3) {
-                        if (euclideanDistance < 5e5) {
+                        if (euclideanDistance < 5e3) {
+//                        if (euclideanDistance < 5e5) {
 
                             Dijkstra dijkstra = new Dijkstra(network, travelDisutility, travelTime);
                             LeastCostPathCalculator.Path path = dijkstra.calcLeastCostPath(originNode, destinationNode, departureTime, person, vehicle);
