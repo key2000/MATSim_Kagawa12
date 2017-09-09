@@ -35,6 +35,8 @@ public class otfvis_test02 {
 //        org.matsim.contrib.otfvis.OTFVis.main(new String[] {"-convert", "./output/ITERS/it.10/10.events.xml.gz", "./output/output_network.xml.gz", "./output/MVI/10.visualization.mvi", "10"});
 //        OTFVis.main(new String[] {"-convert", "./output/output_events.xml.gz", "./output/output_network.xml.gz", "./output/MVI/event.visualization.mvi", "10"});
         OTFVis.main(new String[] {"-convert", "./output/TF0.90CF0.90SF0.90IT50test1/test1_2010.output_events.xml.gz", "./output/TF0.90CF0.90SF0.90IT50test1/test1_2010.output_network.xml.gz", "./output/TF0.90CF0.90SF0.90IT50test1/MVI/event.visualization.mvi", "10"});
+        //takes about 20 minutes for kagawa case
+
 //        OTFVis.main(new String[] {"./input/studyNetworkLight.xml"});
 //        OTFVis.main(new String[] {"./input/KagawaNetworkDense.xml"});
 
