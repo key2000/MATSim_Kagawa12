@@ -143,7 +143,7 @@ public class ReadSyntheticPopulation {
         }
 
         SkimMatrixReader skmReader2 = new SkimMatrixReader();
-        travelDistances = skmReader2.readSkim(rb.getString("out.skim.auto.dist.base") + "Test.omx", "mat1");
+        travelDistances = skmReader2.readSkim(rb.getString("out.skim.auto.dist.base") + rb.getString("simulation.name")+".omx", "mat1");
 
     }
 
@@ -155,18 +155,30 @@ public class ReadSyntheticPopulation {
         String line = "";
 
         try {
-
             br = new BufferedReader(new FileReader(fileName));
 
             int lines = 0;
+
+            // to search the error sample @170919
+            //error does not repeat at same sample: probably due to random time or mode choice
+//            int startLine = 450000;
+//            //120000
+//            int endLine=900000;
+//            //150000
+//            lines = -startLine+2;
+//            for (int ii =1; ii<endLine; ii++){
+//                line = br.readLine();
+
             while ((line = br.readLine()) != null) {
+
+
                 if (lines > 0) {
 
                     String[] row = line.split(cvsSplitBy);
 
                     //int origin = Integer.parseInt(row[12]); //old version
                     int origin = Integer.parseInt(row[11]); //new version
-                    int destinationWork = Integer.parseInt(row[7]);
+                    int destinationWork = Integer.parseInt(row[12]);
                     int age = Integer.parseInt(row[2]);
                     boolean occupation = destinationWork == 0? false : true;
 
@@ -196,6 +208,9 @@ public class ReadSyntheticPopulation {
                             if (rnd.nextFloat() < scalingFactor / carOcccupancyW && mode == selectedMode && travelDistance < 80000) {
                                 time = new EnumeratedIntegerDistribution(timeClasses, departure2WProb).sample() * 60
                                         + (rnd.nextDouble() - .5) * 60 * 60;
+                                if(time <0) time=1;
+                                //assume departure time is before 23:30
+                                if(time > 84600) time=84600;
 
                                 jobDeparturesMap.put(Integer.parseInt(matsimPerson.getId().toString()), time);
 
@@ -217,6 +232,7 @@ public class ReadSyntheticPopulation {
                         }
 
                         //generate H-2-O-2- for all adults
+                        // todo: trip rate should reflect age class 170919
 
                         for (int trip = 0; trip < Math.round(oTripRateDispersion * rnd.nextGaussian() + oTripRatePerPerson); trip++) {
 
@@ -229,6 +245,9 @@ public class ReadSyntheticPopulation {
 
                                 time = Math.max(time, new EnumeratedIntegerDistribution(timeClasses, departure2OProb).sample() * 60 +
                                         (rnd.nextDouble() - 0.5) * 60 * 60);
+                                if(time <0) time=1;
+                                //assume departure time is before 23:30
+                                if(time > 84600) time=84600;
 
                                 otherDeparturesMap.put(Integer.parseInt(matsimPerson.getId().toString() + trip), time);
                                 otherDistances.put(Integer.parseInt(matsimPerson.getId().toString() + trip), travelDistances.getValueAt(origin, destinationOther));

@@ -478,5 +478,6 @@
     <orderEntry type="library" name="Maven: common-base:common-base:0.0.3" level="project" />
     <orderEntry type="library" name="Maven: omx:omx:2" level="project" />
     <orderEntry type="library" name="win642" level="project" />
+    <orderEntry type="library" name="win643" level="project" />
   </component>
 </module>
