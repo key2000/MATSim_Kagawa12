@@ -18,8 +18,9 @@ import org.matsim.vis.otfvis.OTFVisConfigGroup;
 
 public class otfvis_test02 {
     public static void main(String[] args) {
-       OTFVisTest01();
-//        OTFVisTest02();
+//       OTFVisTest01();
+        //test02: create dialog and show network
+        OTFVisTest02();
 //        OTFVisTest03();
 
 //        visExample(args[0]);
@@ -36,7 +37,8 @@ public class otfvis_test02 {
 //        org.matsim.contrib.otfvis.OTFVis.main(new String[] {"-convert", "./output/ITERS/it.10/10.events.xml.gz", "./output/output_network.xml.gz", "./output/MVI/10.visualization.mvi", "10"});
 //        OTFVis.main(new String[] {"-convert", "./output/output_events.xml.gz", "./output/output_network.xml.gz", "./output/MVI/event.visualization.mvi", "10"});
 //        OTFVis.main(new String[] {"./input/studyNetworkLight.xml"});
-        OTFVis.main(new String[] {"./input/KagawaNetworkDense.xml"});
+//        OTFVis.main(new String[] {"./input/KagawaNetworkDense.xml"});
+        OTFVis.main(new String[] {"./input/mergedAutoTransitNetwork.xml"});
 
 
         //        OTFVis("-convert", "./output/ITERS/it.10/10.events.xml.gz", "./output/output_network.xml.gz", "./output/MVI/10.visualization.mvi", "600");

@@ -46,8 +46,12 @@ public class CreateNetwork {
         /*CoordinateTransformation ct =
                 TransformationFactory.getCoordinateTransformation(TransformationFactory.WGS84, "EPSG:25832");*/
 
+        //todo: need convert to UTM47 for thailand
+//        CoordinateTransformation ct =
+//                TransformationFactory.getCoordinateTransformation(TransformationFactory.WGS84, TransformationFactory.DHDN_GK4);
+
         CoordinateTransformation ct =
-                TransformationFactory.getCoordinateTransformation(TransformationFactory.WGS84, TransformationFactory.DHDN_GK4);
+                TransformationFactory.getCoordinateTransformation(TransformationFactory.WGS84, "EPSG:32647");
 
 
         //31468 is the coordinate system DHDN_3 zone 4
